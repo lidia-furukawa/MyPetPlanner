@@ -14,8 +14,9 @@
 		0277384025EED78800510FF4 /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277383F25EED78800510FF4 /* ExpensesViewController.swift */; };
 		0277384225EFFF5200510FF4 /* DogAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277384125EFFF5200510FF4 /* DogAPIClient.swift */; };
 		0277384425F0002200510FF4 /* BreedsListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277384325F0002200510FF4 /* BreedsListResponse.swift */; };
+		0277384A25F03DCF00510FF4 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277384925F03DCF00510FF4 /* DataController.swift */; };
 		02DD19DC25D6F8DE00236A74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DD19DB25D6F8DE00236A74 /* AppDelegate.swift */; };
-		02DD19DE25D6F8DE00236A74 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DD19DD25D6F8DE00236A74 /* HomeViewController.swift */; };
+		02DD19DE25D6F8DE00236A74 /* MyPetsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DD19DD25D6F8DE00236A74 /* MyPetsViewController.swift */; };
 		02DD19E125D6F8DE00236A74 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02DD19DF25D6F8DE00236A74 /* Main.storyboard */; };
 		02DD19E425D6F8DE00236A74 /* MyPetPlanner.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 02DD19E225D6F8DE00236A74 /* MyPetPlanner.xcdatamodeld */; };
 		02DD19E925D6F8E300236A74 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02DD19E725D6F8E300236A74 /* LaunchScreen.storyboard */; };
@@ -51,9 +52,10 @@
 		0277383F25EED78800510FF4 /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
 		0277384125EFFF5200510FF4 /* DogAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogAPIClient.swift; sourceTree = "<group>"; };
 		0277384325F0002200510FF4 /* BreedsListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsListResponse.swift; sourceTree = "<group>"; };
+		0277384925F03DCF00510FF4 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		02DD19D825D6F8DE00236A74 /* MyPetPlanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPetPlanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		02DD19DB25D6F8DE00236A74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		02DD19DD25D6F8DE00236A74 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		02DD19DD25D6F8DE00236A74 /* MyPetsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPetsViewController.swift; sourceTree = "<group>"; };
 		02DD19E025D6F8DE00236A74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		02DD19E325D6F8DE00236A74 /* MyPetPlanner.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyPetPlanner.xcdatamodel; sourceTree = "<group>"; };
 		02DD19E825D6F8E300236A74 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -106,7 +108,7 @@
 		0277383025EE998B00510FF4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				02DD19DD25D6F8DE00236A74 /* HomeViewController.swift */,
+				02DD19DD25D6F8DE00236A74 /* MyPetsViewController.swift */,
 				0277383925EEC80B00510FF4 /* HealthViewController.swift */,
 				0277383B25EED70C00510FF4 /* VetCareViewController.swift */,
 				0277383D25EED72D00510FF4 /* CalendarViewController.swift */,
@@ -125,6 +127,7 @@
 		0277383225EE999F00510FF4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				0277384925F03DCF00510FF4 /* DataController.swift */,
 				0277383425EEB15400510FF4 /* API */,
 				0277383325EEB10E00510FF4 /* Data */,
 			);
@@ -468,8 +471,9 @@
 				0277383E25EED72D00510FF4 /* CalendarViewController.swift in Sources */,
 				0277384025EED78800510FF4 /* ExpensesViewController.swift in Sources */,
 				0277384425F0002200510FF4 /* BreedsListResponse.swift in Sources */,
-				02DD19DE25D6F8DE00236A74 /* HomeViewController.swift in Sources */,
+				02DD19DE25D6F8DE00236A74 /* MyPetsViewController.swift in Sources */,
 				0277384225EFFF5200510FF4 /* DogAPIClient.swift in Sources */,
+				0277384A25F03DCF00510FF4 /* DataController.swift in Sources */,
 				02DD19E425D6F8DE00236A74 /* MyPetPlanner.xcdatamodeld in Sources */,
 				0277383C25EED70C00510FF4 /* VetCareViewController.swift in Sources */,
 				0277383A25EEC80B00510FF4 /* HealthViewController.swift in Sources */,

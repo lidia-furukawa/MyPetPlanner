@@ -11,6 +11,8 @@ import CoreData
 
 class MyPetsViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+    
     var dataController: DataController!
     
     var fetchedResultsController: NSFetchedResultsController<Pet>!
@@ -47,4 +49,5 @@ class MyPetsViewController: UIViewController {
         }
     }
 }
+
 
