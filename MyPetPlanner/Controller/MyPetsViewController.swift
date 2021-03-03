@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  PetViewController.swift
 //  MyPetPlanner
 //
 //  Created by Lidia on 12/02/21.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class PetViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,4 +17,3 @@ class HomeViewController: UIViewController {
 
 
 }
-
