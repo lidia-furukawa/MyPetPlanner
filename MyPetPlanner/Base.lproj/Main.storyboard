@@ -1,24 +1,217 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="t8F-C0-uUu">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Health View Controller-->
+        <scene sceneID="Uuw-JV-TNr">
+            <objects>
+                <viewController id="VPn-1U-puX" customClass="HealthViewController" customModule="MyPetPlanner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bxo-gP-I9r">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="erZ-J2-XaN"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="GvM-yh-c6x"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mwg-Cq-8PG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="958" y="-681"/>
+        </scene>
+        <!--Home View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="HomeViewController" customModule="MyPetPlanner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <navigationItem key="navigationItem" id="wce-Uk-zKL"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="957.97101449275374" y="20.758928571428569"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="wts-xt-QQP">
+            <objects>
+                <tabBarController id="t8F-C0-uUu" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3xe-U9-gpZ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="ZVf-N9-0TI" kind="relationship" relationship="viewControllers" id="bzV-Rh-lfu"/>
+                        <segue destination="ImM-Ds-Gog" kind="relationship" relationship="viewControllers" id="Row-4c-4jk"/>
+                        <segue destination="dDh-5B-Ttv" kind="relationship" relationship="viewControllers" id="zZe-FI-jve"/>
+                        <segue destination="KOn-HP-HUu" kind="relationship" relationship="viewControllers" id="zSW-tt-eu8"/>
+                        <segue destination="ljq-sA-1xB" kind="relationship" relationship="viewControllers" id="BUr-x8-kd7"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bWT-8h-Pza" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1309" y="-1349"/>
+        </scene>
+        <!--Home-->
+        <scene sceneID="W6O-CN-BKJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZVf-N9-0TI" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Home" image="mypaw" id="i2B-fl-s4l"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KLA-71-RPM">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="JYN-SM-gno"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gHu-8d-IdH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="148" y="21"/>
+        </scene>
+        <!--Vet Care View Controller-->
+        <scene sceneID="3cW-oD-3hG">
+            <objects>
+                <viewController id="LE9-U7-VdR" customClass="VetCareViewController" customModule="MyPetPlanner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fnt-W2-YPz">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Fjy-2D-0Mi"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="xjH-3d-JFl"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VF2-EQ-C3D" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="958" y="-1376"/>
+        </scene>
+        <!--Health-->
+        <scene sceneID="jqc-Mv-Uzt">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ImM-Ds-Gog" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Health" image="heart.text.square" id="mrt-gJ-PdK"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="e5l-70-RrG">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="VPn-1U-puX" kind="relationship" relationship="rootViewController" id="Zsq-Jx-SnZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4HD-LO-FD8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="148" y="-681"/>
+        </scene>
+        <!--Calendar View Controller-->
+        <scene sceneID="Y9d-qp-BYm">
+            <objects>
+                <viewController id="KMt-zs-s3c" customClass="CalendarViewController" customModule="MyPetPlanner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KFB-ka-vV7">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="OvQ-3a-hGH"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="7FL-9q-ZeS"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eAq-GQ-8mo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="958" y="-2065"/>
+        </scene>
+        <!--Vet Care-->
+        <scene sceneID="Rke-H1-YzJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dDh-5B-Ttv" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Vet Care" image="stethoscope" id="7Qd-se-wdu"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="p7M-Ve-NpF">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="LE9-U7-VdR" kind="relationship" relationship="rootViewController" id="xbp-fz-Mlh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4PJ-LR-Y3A" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="131.8840579710145" y="-1376.1160714285713"/>
+        </scene>
+        <!--Expenses View Controller-->
+        <scene sceneID="dZQ-2S-G1l">
+            <objects>
+                <viewController id="rBu-I9-tKL" customClass="ExpensesViewController" customModule="MyPetPlanner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aOs-b9-1RD">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="uvc-5S-nK8"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="eIy-yM-gbe"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6L3-dO-6fv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="958" y="-2734"/>
+        </scene>
+        <!--Calendar-->
+        <scene sceneID="45d-l3-IIm">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KOn-HP-HUu" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Calendar" image="calendar" id="m95-4I-i5b"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vEJ-xc-IjV">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="KMt-zs-s3c" kind="relationship" relationship="rootViewController" id="SrB-f0-4Kh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w85-pN-O6N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="132" y="-2065"/>
+        </scene>
+        <!--Expenses-->
+        <scene sceneID="14T-lC-ohZ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ljq-sA-1xB" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Expenses" image="chart.bar.xaxis" id="COD-bF-aGK"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Dty-SC-tkr">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="rBu-I9-tKL" kind="relationship" relationship="rootViewController" id="jj9-3U-2bl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iV8-f7-ioM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="121.73913043478262" y="-2734.1517857142858"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="calendar" width="30.5" height="30.5"/>
+        <image name="chart.bar.xaxis" width="30.5" height="30.5"/>
+        <image name="heart.text.square" width="30.5" height="30.5"/>
+        <image name="mypaw" width="30" height="30"/>
+        <image name="stethoscope" width="30.5" height="30.5"/>
+    </resources>
 </document>
