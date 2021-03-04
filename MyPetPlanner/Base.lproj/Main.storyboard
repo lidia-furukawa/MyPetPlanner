@@ -108,7 +108,11 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                                 <items>
                                     <navigationItem title="New Pet" id="xGx-MT-pZk">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Vnc-4X-NTg"/>
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Vnc-4X-NTg">
+                                            <connections>
+                                                <action selector="cancelButton:" destination="tIS-fs-ZlZ" id="bf3-84-5V8"/>
+                                            </connections>
+                                        </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="0In-3z-RjI"/>
                                     </navigationItem>
                                 </items>
