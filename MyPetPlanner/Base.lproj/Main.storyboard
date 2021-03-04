@@ -113,7 +113,11 @@
                                                 <action selector="cancelButton:" destination="tIS-fs-ZlZ" id="bf3-84-5V8"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="0In-3z-RjI"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="0In-3z-RjI">
+                                            <connections>
+                                                <action selector="saveButton:" destination="tIS-fs-ZlZ" id="n1v-tk-2ps"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>

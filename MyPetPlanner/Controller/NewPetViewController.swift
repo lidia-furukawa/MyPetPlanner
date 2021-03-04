@@ -25,6 +25,10 @@ class NewPetViewController: UIViewController {
 
     }
     
+    @IBAction func saveButton(_ sender: Any) {
+        
+    }
+    
     @IBAction func cancelButton(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
