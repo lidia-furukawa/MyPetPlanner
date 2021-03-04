@@ -22,7 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         dataController.load()
         
         /// Inject data controller dependency
-        let navigationController = window?.rootViewController as! UINavigationController
+        let tabBarController = window?.rootViewController as! UITabBarController
+        let navigationController = tabBarController.viewControllers![0] as! UINavigationController
         let myPetsViewController = navigationController.topViewController as! MyPetsViewController
         myPetsViewController.dataController = dataController
         
