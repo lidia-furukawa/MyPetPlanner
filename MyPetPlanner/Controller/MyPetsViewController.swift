@@ -51,6 +51,42 @@ class MyPetsViewController: UIViewController {
 }
 
 // -----------------------------------------------------------------------------
+// MARK: - UITableViewDataSource, UITableViewDelegate
+
+extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let reuseIdentifier = "MyPetCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)!
+        
+        let aPet = fetchedResultsController.object(at: indexPath)
+
+        // Configure the cell
+        cell.textLabel?.text = aPet.name
+        
+        if let photoData = aPet.photo {
+            let image = UIImage(data: photoData)
+            cell.imageView?.image = image
+            cell.setNeedsLayout()
+        }
+        
+        // If the cell has a detail label, it will show the breed.
+        if let detailTextLabel = cell.detailTextLabel {
+            detailTextLabel.text = aPet.breed
+        }
+        
+        return cell
+    }
+}
+
+// -----------------------------------------------------------------------------
 // MARK: - NSFetchedResultsControllerDelegate
 
 extension MyPetsViewController: NSFetchedResultsControllerDelegate {
