@@ -294,6 +294,7 @@
                     <connections>
                         <outlet property="nameTextField" destination="qQK-LW-NtV" id="ZSC-DZ-k61"/>
                         <outlet property="photoImageView" destination="1ih-iJ-jFO" id="FWw-b6-y21"/>
+                        <outlet property="saveButton" destination="0In-3z-RjI" id="sI5-Z5-YBx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6i6-9U-e0O" userLabel="First Responder" sceneMemberID="firstResponder"/>
