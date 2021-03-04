@@ -50,7 +50,13 @@ class MyPetsViewController: UIViewController {
     }
     
     @IBAction func addNewPet(_ sender: Any) {
-        
+        performSegue(withIdentifier: "createNewPet", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? NewPetViewController {
+            vc.dataController = dataController
+        }
     }
 }
 
