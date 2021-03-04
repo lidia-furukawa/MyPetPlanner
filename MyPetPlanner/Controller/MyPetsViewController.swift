@@ -48,6 +48,10 @@ class MyPetsViewController: UIViewController {
             fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }
     }
+    
+    @IBAction func addNewPet(_ sender: Any) {
+        
+    }
 }
 
 // -----------------------------------------------------------------------------
