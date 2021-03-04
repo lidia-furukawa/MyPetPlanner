@@ -11,6 +11,9 @@ import CoreData
 
 class NewPetViewController: UIViewController {
 
+    @IBOutlet weak var photoImageView: UIImageView!
+    @IBOutlet weak var nameTextField: UITextField!
+   
     var dataController: DataController!
 
     /// The pet whose infos will be added
@@ -18,6 +21,7 @@ class NewPetViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
 
     }
 
