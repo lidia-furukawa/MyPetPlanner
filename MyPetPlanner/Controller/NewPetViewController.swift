@@ -36,6 +36,8 @@ class NewPetViewController: UIViewController {
     
     var dogBreeds: [String] = []
     
+    var catList: [CatResponse] = []
+    
     var catBreeds: [String] = []
     
     let dateFormatter = DateFormatter()
@@ -62,8 +64,9 @@ class NewPetViewController: UIViewController {
 
         pickerView.dataSource = self
         pickerView.delegate = self
-        DogAPIClient.getBreedsList(completion: handleBreedsListResponse(breeds:error:))
-
+        DogAPIClient.getBreedsList(completion: handleDogBreedsListResponse(breeds:error:))
+        CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
+        
         NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: nameTextField, queue: .main) { notif in
             if let text = self.nameTextField.text, !text.isEmpty {
                 self.saveButton.isEnabled = true
@@ -102,15 +105,15 @@ class NewPetViewController: UIViewController {
         birthdayTextField.text = dateFormatter.string(from: sender.date)
     }
     
-    func handleBreedsListResponse(breeds: [String], error: Error?) {
-        self.dogBreeds = breeds
-        DispatchQueue.main.async {
-            self.pickerView.reloadAllComponents()
-        }
+    func handleDogBreedsListResponse(breeds: [String], error: Error?) {
+        dogBreeds = breeds
     }
     
-    func updatePicker(){
-        self.pickerView.reloadAllComponents()
+    func handleCatResponse(cats: [CatResponse], error: Error?) {
+        catList = cats
+        for cat in catList {
+            catBreeds.append(cat.name)
+        }
     }
     
     @IBAction func saveButton(_ sender: Any) {
@@ -197,7 +200,7 @@ extension NewPetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if typeControl.isEnabledForSegment(at: 0) {
+        if typeControl.selectedSegmentIndex == 0 {
             return dogBreeds.count
         } else {
             return catBreeds.count
@@ -205,7 +208,7 @@ extension NewPetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if typeControl.isEnabledForSegment(at: 0) {
+        if typeControl.selectedSegmentIndex == 0 {
             return dogBreeds[row]
         } else {
             return catBreeds[row]
@@ -213,7 +216,7 @@ extension NewPetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if typeControl.isEnabledForSegment(at: 0) {
+        if typeControl.selectedSegmentIndex == 0 {
             breedTextField.text = dogBreeds[row]
         } else {
             breedTextField.text = catBreeds[row]
