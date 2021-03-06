@@ -84,7 +84,7 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         if let photoData = aPet.photo {
             let image = UIImage(data: photoData)
             cell.imageView?.image = image
-            cell.setNeedsLayout()
+            cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.height)!/2
         }
         
         // If the cell has a detail label, it will show the breed.
