@@ -1,5 +1,5 @@
 //
-//  NewPetViewController.swift
+//  PetViewController.swift
 //  MyPetPlanner
 //
 //  Created by Lidia on 04/03/21.
@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class NewPetViewController: UIViewController {
+class PetViewController: UIViewController {
 
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -26,6 +26,8 @@ class NewPetViewController: UIViewController {
     @IBOutlet weak var weightTextField: UITextField!
     @IBOutlet weak var heightTextField: UITextField!
     @IBOutlet var textFields: [UITextField]!
+    
+    var navigationBarTitle = String()
     
     var activeTextField = UITextField()
     
@@ -221,7 +223,7 @@ class NewPetViewController: UIViewController {
 // -----------------------------------------------------------------------------
 // MARK: - UITextFieldDelegate
 
-extension NewPetViewController: UITextFieldDelegate {
+extension PetViewController: UITextFieldDelegate {
     
     /// Make the next textField the first responder when the user taps the return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -273,7 +275,7 @@ extension NewPetViewController: UITextFieldDelegate {
 // -----------------------------------------------------------------------------
 // MARK: - UIPickerViewDataSource, UIPickerViewDelegate
 
-extension NewPetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
+extension PetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -306,7 +308,7 @@ extension NewPetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 // -----------------------------------------------------------------------------
 // MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
 
-extension NewPetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension PetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func openImagePickerWith(sourceType: UIImagePickerController.SourceType) {
         if UIImagePickerController.isSourceTypeAvailable(sourceType) {

@@ -96,10 +96,10 @@
             </objects>
             <point key="canvasLocation" x="957.97101449275374" y="20.758928571428569"/>
         </scene>
-        <!--New Pet View Controller-->
+        <!--Pet View Controller-->
         <scene sceneID="UbF-AC-JXq">
             <objects>
-                <viewController id="tIS-fs-ZlZ" customClass="NewPetViewController" customModule="MyPetPlanner" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="tIS-fs-ZlZ" customClass="PetViewController" customModule="MyPetPlanner" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pmy-T8-UKA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -113,7 +113,7 @@
                                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eeS-Lg-Cz5">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                                 <items>
-                                                    <navigationItem title="New Pet" id="xGx-MT-pZk">
+                                                    <navigationItem id="xGx-MT-pZk">
                                                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Vnc-4X-NTg">
                                                             <connections>
                                                                 <action selector="cancelButton:" destination="tIS-fs-ZlZ" id="bf3-84-5V8"/>

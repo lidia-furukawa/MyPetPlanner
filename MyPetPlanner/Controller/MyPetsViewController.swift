@@ -54,7 +54,7 @@ class MyPetsViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? NewPetViewController {
+        if let vc = segue.destination as? PetViewController {
             vc.dataController = dataController
         }
     }
