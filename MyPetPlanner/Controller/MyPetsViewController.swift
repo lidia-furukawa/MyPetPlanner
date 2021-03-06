@@ -49,6 +49,13 @@ class MyPetsViewController: UIViewController {
         }
     }
     
+    /// Delete a pet at the specified index path
+    func deletePet(at indexPath: IndexPath) {
+        let petToDelete = fetchedResultsController.object(at: indexPath)
+        dataController.viewContext.delete(petToDelete)
+        try? dataController.viewContext.save()
+    }
+    
     @IBAction func addNewPet(_ sender: Any) {
         performSegue(withIdentifier: "createNewPet", sender: nil)
     }
@@ -93,6 +100,13 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        switch editingStyle {
+        case .delete: deletePet(at: indexPath)
+        default: ()
+        }
     }
 }
 
