@@ -335,6 +335,7 @@
                         <outlet property="nameTextField" destination="qQK-LW-NtV" id="ZSC-DZ-k61"/>
                         <outlet property="photoImageView" destination="1ih-iJ-jFO" id="FWw-b6-y21"/>
                         <outlet property="saveButton" destination="0In-3z-RjI" id="sI5-Z5-YBx"/>
+                        <outlet property="scrollView" destination="5Ma-oi-DLq" id="VHk-2L-vfs"/>
                         <outlet property="typeControl" destination="fM3-th-U6W" id="AeR-LJ-MgC"/>
                         <outlet property="weightTextField" destination="7aV-Gm-qNV" id="ns2-Og-ywT"/>
                         <outletCollection property="textFields" destination="bJS-hB-R2u" collectionClass="NSMutableArray" id="Vik-l4-i3A"/>

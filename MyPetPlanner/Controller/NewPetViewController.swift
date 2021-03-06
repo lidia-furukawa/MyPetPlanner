@@ -11,6 +11,7 @@ import CoreData
 
 class NewPetViewController: UIViewController {
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var basicInformationLabel: UILabel!
@@ -24,6 +25,8 @@ class NewPetViewController: UIViewController {
     @IBOutlet weak var weightTextField: UITextField!
     @IBOutlet weak var heightTextField: UITextField!
     @IBOutlet var textFields: [UITextField]!
+    
+    var activeTextField = UITextField()
     
     var dataController: DataController!
 
@@ -78,12 +81,14 @@ class NewPetViewController: UIViewController {
         super.viewWillAppear(animated)
         
         setupFetchedResultsController()
+        subscribeToKeyboardNotifications()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
         fetchedResultsController = nil
+        unsubscribeFromKeyboardNotifications()
     }
     
     func setupFetchedResultsController() {
@@ -114,6 +119,45 @@ class NewPetViewController: UIViewController {
         for cat in catList {
             catBreeds.append(cat.name)
         }
+    }
+    
+    /// Sign up to be notified when an event is coming up
+    func subscribeToKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    /// Remove all the subscribed observers
+    func unsubscribeFromKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    /// Shift the scroll view's frame up
+    @objc func keyboardWillShow(_ notification:Notification) {
+        
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: getKeyboardHeight(notification), right: 0.0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+
+        // If the active text field is hidden by keyboard, scroll it so it's visible
+        var aRect = self.view.frame
+        aRect.size.height = -getKeyboardHeight(notification)
+        if !aRect.contains(activeTextField.frame.origin) {
+            scrollView.scrollRectToVisible(activeTextField.frame, animated: true)
+        }
+    }
+    
+    /// Move the scroll view back down
+    @objc func keyboardWillHide(_ notification:Notification) {
+        let contentInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+    }
+    
+    func getKeyboardHeight(_ notification:Notification) -> CGFloat {
+        let userInfo = notification.userInfo
+        let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
+        return keyboardSize.cgRectValue.height
     }
     
     @IBAction func saveButton(_ sender: Any) {
@@ -175,16 +219,26 @@ extension NewPetViewController: UITextFieldDelegate {
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
+        case nameTextField:
+            activeTextField = nameTextField
         case birthdayTextField:
+            activeTextField = birthdayTextField
             let datePickerView = UIDatePicker()
             datePickerView.datePickerMode = .date
             datePickerView.backgroundColor = .white
             birthdayTextField.inputView = datePickerView
             datePickerView.addTarget(self, action: #selector(handleDatePicker(_:)), for: .valueChanged)
         case breedTextField:
+            activeTextField = breedTextField
             pickerView.reloadAllComponents()
             pickerView.backgroundColor = .white
             breedTextField.inputView = pickerView
+        case colorTextField:
+            activeTextField = colorTextField
+        case weightTextField:
+            activeTextField = weightTextField
+        case heightTextField:
+            activeTextField = heightTextField
         default:
             break
         }
