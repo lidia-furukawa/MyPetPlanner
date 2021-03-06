@@ -14,6 +14,7 @@ class NewPetViewController: UIViewController {
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var photoImageView: UIImageView!
+    @IBOutlet weak var selectPhotoButton: UIButton!
     @IBOutlet weak var basicInformationLabel: UILabel!
     @IBOutlet weak var bodyMeasurementsLabel: UILabel!
     @IBOutlet weak var nameTextField: UITextField!
@@ -56,6 +57,9 @@ class NewPetViewController: UIViewController {
         setupFetchedResultsController()
         roundLabelEdges(label: basicInformationLabel, cornerRadius: 5)
         roundLabelEdges(label: bodyMeasurementsLabel, cornerRadius: 5)
+        
+        photoImageView.layer.masksToBounds = true
+        photoImageView.layer.cornerRadius = photoImageView.bounds.width/2
         
         dateFormatter.dateFormat = "MM-dd-yyyy"
         birthdayTextField.text = dateFormatter.string(from: Date())
@@ -160,8 +164,29 @@ class NewPetViewController: UIViewController {
         return keyboardSize.cgRectValue.height
     }
     
+    @IBAction func selectPhotoButton(_ sender: Any) {
+        let imagePickerPopup = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        imagePickerPopup.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
+            self.openImagePickerWith(sourceType: .camera)
+        }))
+        
+        imagePickerPopup.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
+            self.openImagePickerWith(sourceType: .photoLibrary)
+        }))
+        
+        imagePickerPopup.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(imagePickerPopup, animated: true, completion: nil)
+    }
+    
     @IBAction func saveButton(_ sender: Any) {
         let pet = Pet(context: dataController.viewContext)
+        
+        let photoImage = photoImageView.image
+        if let photoImageData = photoImage!.pngData() {
+            pet.photo = photoImageData
+        }
+        
         pet.name = nameTextField.text
         let selectedType = typeControl.selectedSegmentIndex
         pet.type = typeControl.titleForSegment(at: selectedType)
@@ -275,5 +300,36 @@ extension NewPetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         } else {
             breedTextField.text = catBreeds[row]
         }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - UIImagePickerControllerDelegate, UINavigationControllerDelegate
+
+extension NewPetViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func openImagePickerWith(sourceType: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = sourceType
+            present(imagePicker, animated: true, completion: nil)
+        } else {
+            let alert  = UIAlertController(title: "Warning", message: "Option not available", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController,
+                               didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            photoImageView.image = image
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
     }
 }
