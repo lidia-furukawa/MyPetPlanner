@@ -35,8 +35,8 @@ class PetViewController: UIViewController {
 
     var fetchedResultsController: NSFetchedResultsController<Pet>!
 
-    /// The pet whose infos will be added
-    var newPet: Pet!
+    /// The pet whose infos will be edited
+    var pet: Pet!
     
     let pickerView = UIPickerView()
     
@@ -56,15 +56,12 @@ class PetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupFetchedResultsController()
         roundLabelEdges(label: basicInformationLabel, cornerRadius: 5)
         roundLabelEdges(label: bodyMeasurementsLabel, cornerRadius: 5)
         
         photoImageView.layer.masksToBounds = true
         photoImageView.layer.cornerRadius = photoImageView.bounds.width/2
         
-        dateFormatter.dateFormat = "MM-dd-yyyy"
-        birthdayTextField.text = dateFormatter.string(from: Date())
         saveButton.isEnabled = false
         
         for textField in textFields {
@@ -73,6 +70,7 @@ class PetViewController: UIViewController {
 
         pickerView.dataSource = self
         pickerView.delegate = self
+        
         DogAPIClient.getBreedsList(completion: handleDogBreedsListResponse(breeds:error:))
         CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
         
@@ -80,6 +78,20 @@ class PetViewController: UIViewController {
             if let text = self.nameTextField.text, !text.isEmpty {
                 self.saveButton.isEnabled = true
             }
+        }
+        
+        setupFetchedResultsController()
+        let savedPet = fetchedResultsController.fetchedObjects
+        
+        if savedPet != nil && savedPet?.count != 0 {
+            print("Edit Pet")
+            reloadSavedPet()
+        } else {
+            print("Add New Pet")
+            // Set default fields values
+            photoImageView.image = UIImage(named: "photoPlaceholder")
+            dateFormatter.dateFormat = "MM-dd-yyyy"
+            birthdayTextField.text = dateFormatter.string(from: Date())
         }
     }
     
@@ -109,6 +121,43 @@ class PetViewController: UIViewController {
         } catch {
             fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }
+    }
+    
+    func reloadSavedPet() {
+        if let photoData = pet.photo {
+            photoImageView.image = UIImage(data: photoData)
+        }
+        
+        nameTextField.text = pet.name
+        
+        switch pet.type {
+        case "♂️":
+            typeControl.selectedSegmentIndex = 0
+        case "♀️":
+            typeControl.selectedSegmentIndex = 1
+        default:
+            break
+        }
+        
+        if let birthdayDate = pet.birthday {
+            dateFormatter.dateFormat = "MM-dd-yyyy"
+            birthdayTextField.text = dateFormatter.string(from: birthdayDate)
+        }
+        
+        breedTextField.text = pet.breed
+        colorTextField.text = pet.color
+        
+        switch pet.gender {
+        case "Dog":
+            genderControl.selectedSegmentIndex = 0
+        case "Cat":
+            genderControl.selectedSegmentIndex = 1
+        default:
+            break
+        }
+        
+        weightTextField.text = String(pet.weight)
+        heightTextField.text = String(pet.height)
     }
     
     @objc func handleDatePicker(_ sender: UIDatePicker!) {
