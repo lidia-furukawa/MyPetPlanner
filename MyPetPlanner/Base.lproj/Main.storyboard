@@ -90,6 +90,7 @@
                     <connections>
                         <outlet property="tableView" destination="EAR-EN-Nck" id="s9s-5W-j6Y"/>
                         <segue destination="tIS-fs-ZlZ" kind="presentation" identifier="createNewPet" modalPresentationStyle="pageSheet" id="wvM-K9-gt3"/>
+                        <segue destination="tIS-fs-ZlZ" kind="presentation" identifier="editPet" id="T9W-BG-B72"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -537,4 +538,7 @@
         <image name="photoPlaceholderFinal" width="200" height="180"/>
         <image name="stethoscope" width="30.5" height="30.5"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="wvM-K9-gt3"/>
+    </inferredMetricsTieBreakers>
 </document>
