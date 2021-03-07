@@ -61,8 +61,15 @@ class MyPetsViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? PetViewController {
+        if segue.identifier == "createNewPet" {
+            let vc = segue.destination as! PetViewController
             vc.dataController = dataController
+        } else if segue.identifier == "editPet" {
+            let vc = segue.destination as! PetViewController
+            if let indexPath = tableView.indexPathForSelectedRow {
+                vc.pet = fetchedResultsController.object(at: indexPath)
+                vc.dataController = dataController
+            }
         }
     }
 }
@@ -94,9 +101,9 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.height)!/2
         }
         
-        // If the cell has a detail label, it will show the breed.
+        // If the cell has a detail label, it will show the type (dog or cat)
         if let detailTextLabel = cell.detailTextLabel {
-            detailTextLabel.text = aPet.breed
+            detailTextLabel.text = aPet.type
         }
         
         return cell
@@ -107,6 +114,41 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         case .delete: deletePet(at: indexPath)
         default: ()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.accessoryType = .checkmark
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.accessoryType = .none
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let editRowAction = UIContextualAction(style: UIContextualAction.Style.normal, title: "Edit", handler: { (action, view, completion) in
+            self.performSegue(withIdentifier: "editPet", sender: nil)
+            completion(true)
+        })
+        
+        let deleteRowAction = UIContextualAction(style: UIContextualAction.Style.destructive, title: "Delete", handler: { (action, view, completion) in
+            self.deletePet(at: indexPath)
+            completion(true)
+        })
+        
+        editRowAction.backgroundColor = .green
+        deleteRowAction.backgroundColor = .red
+
+        let configuration = UISwipeActionsConfiguration(actions: [editRowAction, deleteRowAction])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
     }
 }
 
