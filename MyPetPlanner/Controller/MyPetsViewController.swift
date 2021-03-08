@@ -17,6 +17,8 @@ class MyPetsViewController: UIViewController {
     
     var fetchedResultsController: NSFetchedResultsController<Pet>!
 
+    var editedCellIndexPath = IndexPath()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +29,10 @@ class MyPetsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         setupFetchedResultsController()
+        tableView.reloadData()
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -66,10 +72,8 @@ class MyPetsViewController: UIViewController {
             vc.dataController = dataController
         } else if segue.identifier == "editPet" {
             let vc = segue.destination as! PetViewController
-            if let indexPath = tableView.indexPathForSelectedRow {
-                vc.pet = fetchedResultsController.object(at: indexPath)
-                vc.dataController = dataController
-            }
+            vc.pet = fetchedResultsController.object(at: editedCellIndexPath)
+            vc.dataController = dataController
         }
     }
 }
@@ -134,6 +138,7 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editRowAction = UIContextualAction(style: UIContextualAction.Style.normal, title: "Edit", handler: { (action, view, completion) in
+            self.editedCellIndexPath = indexPath
             self.performSegue(withIdentifier: "editPet", sender: nil)
             completion(true)
         })
