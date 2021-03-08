@@ -110,9 +110,9 @@ class PetViewController: UIViewController {
         nameTextField.text = pet.name
         
         switch pet.type {
-        case "♂️":
+        case "Dog":
             typeControl.selectedSegmentIndex = 0
-        case "♀️":
+        case "Cat":
             typeControl.selectedSegmentIndex = 1
         default:
             break
@@ -127,9 +127,9 @@ class PetViewController: UIViewController {
         colorTextField.text = pet.color
         
         switch pet.gender {
-        case "Dog":
+        case "♂️":
             genderControl.selectedSegmentIndex = 0
-        case "Cat":
+        case "♀️":
             genderControl.selectedSegmentIndex = 1
         default:
             break
