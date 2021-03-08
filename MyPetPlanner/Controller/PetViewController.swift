@@ -72,10 +72,9 @@ class PetViewController: UIViewController {
         DogAPIClient.getBreedsList(completion: handleDogBreedsListResponse(breeds:error:))
         CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
         
-        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: nameTextField, queue: .main) { notif in
-            if let text = self.nameTextField.text, !text.isEmpty {
-                self.saveButton.isEnabled = true
-            }
+        // Enable save button if any text field is changed
+        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: nil, queue: .main) { notif in
+            self.saveButton.isEnabled = true
         }
         
         if pet != nil {
@@ -87,6 +86,7 @@ class PetViewController: UIViewController {
             photoImageView.image = UIImage(named: "photoPlaceholder")
             dateFormatter.dateFormat = "MM-dd-yyyy"
             birthdayTextField.text = dateFormatter.string(from: Date())
+            addNewPet()
         }
     }
     
@@ -100,6 +100,12 @@ class PetViewController: UIViewController {
         super.viewDidDisappear(animated)
         
         unsubscribeFromKeyboardNotifications()
+    }
+    
+    func addNewPet() {
+        let newPet = Pet(context: dataController.viewContext)
+        try? dataController.viewContext.save()
+        pet = newPet
     }
     
     func reloadSavedPet() {
@@ -210,33 +216,31 @@ class PetViewController: UIViewController {
     }
     
     @IBAction func saveButton(_ sender: Any) {
-        let pet = Pet(context: dataController.viewContext)
-        
         let photoImage = photoImageView.image
         if let photoImageData = photoImage!.pngData() {
-            pet.photo = photoImageData
+            pet.setValue(photoImageData, forKey: "photo")
         }
-        
-        pet.name = nameTextField.text
-        let selectedType = typeControl.selectedSegmentIndex
-        pet.type = typeControl.titleForSegment(at: selectedType)
         
         if let birthdayText = birthdayTextField.text {
-            pet.birthday = dateFormatter.date(from: birthdayText)
+            pet.setValue(dateFormatter.date(from: birthdayText), forKey: "birthday")
         }
         
-        pet.breed = breedTextField.text
-        pet.color = colorTextField.text
-        
+        let selectedType = typeControl.selectedSegmentIndex
+        pet.setValue(typeControl.titleForSegment(at: selectedType), forKey: "type")
+
         let selectedGender = genderControl.selectedSegmentIndex
-        pet.gender = genderControl.titleForSegment(at: selectedGender)
+        pet.setValue(genderControl.titleForSegment(at: selectedGender), forKey: "gender")
+        
+        pet.setValue(nameTextField.text, forKey: "name")
+        pet.setValue(breedTextField.text, forKey: "breed")
+        pet.setValue(colorTextField.text, forKey: "color")
         
         if let weightText = weightTextField.text {
-            pet.weight = Double(weightText) ?? 0
+            pet.setValue(Double(weightText) ?? 0, forKey: "weight")
         }
         
         if let heightText = heightTextField.text {
-            pet.height = Double(heightText) ?? 0
+            pet.setValue(Double(heightText) ?? 0, forKey: "height")
         }
 
         try? dataController.viewContext.save()
