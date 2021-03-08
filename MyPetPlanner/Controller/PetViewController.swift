@@ -83,7 +83,7 @@ class PetViewController: UIViewController {
         } else {
             print("Add New Pet")
             // Set default fields values
-            photoImageView.image = UIImage(named: "photoPlaceholder")
+            photoImageView.image = UIImage(named: "placeholder")
             dateFormatter.dateFormat = "MM-dd-yyyy"
             birthdayTextField.text = dateFormatter.string(from: Date())
             addNewPet()

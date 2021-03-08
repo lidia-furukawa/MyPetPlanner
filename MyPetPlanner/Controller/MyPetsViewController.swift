@@ -30,9 +30,6 @@ class MyPetsViewController: UIViewController {
         
         setupFetchedResultsController()
         tableView.reloadData()
-        if let indexPath = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: indexPath, animated: false)
-        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -88,6 +85,10 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessoryType = .none
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
