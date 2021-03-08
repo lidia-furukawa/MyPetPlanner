@@ -33,8 +33,6 @@ class PetViewController: UIViewController {
     
     var dataController: DataController!
 
-    var fetchedResultsController: NSFetchedResultsController<Pet>!
-
     /// The pet whose infos will be edited
     var pet: Pet!
     
@@ -80,10 +78,7 @@ class PetViewController: UIViewController {
             }
         }
         
-        setupFetchedResultsController()
-        let savedPet = fetchedResultsController.fetchedObjects
-        
-        if savedPet != nil && savedPet?.count != 0 {
+        if pet != nil {
             print("Edit Pet")
             reloadSavedPet()
         } else {
@@ -98,29 +93,13 @@ class PetViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setupFetchedResultsController()
         subscribeToKeyboardNotifications()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        fetchedResultsController = nil
         unsubscribeFromKeyboardNotifications()
-    }
-    
-    func setupFetchedResultsController() {
-        let fetchRequest:NSFetchRequest<Pet> = Pet.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "name", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            fatalError("The fetch could not be performed: \(error.localizedDescription)")
-        }
     }
     
     func reloadSavedPet() {
@@ -261,6 +240,7 @@ class PetViewController: UIViewController {
         }
 
         try? dataController.viewContext.save()
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func cancelButton(_ sender: Any) {
