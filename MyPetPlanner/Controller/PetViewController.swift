@@ -303,6 +303,30 @@ extension PetViewController: UITextFieldDelegate {
             break
         }
     }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let oldText = textField.text! as NSString
+        let newText = oldText.replacingCharacters(in: range, with: string)
+        
+        switch textField {
+        case weightTextField, heightTextField:
+            let textArray = newText.components(separatedBy: ".")
+            
+            //Limit textfield entry to only one decimal place
+            if textArray.count > 2 {
+                return false
+            } else if textArray.count == 2 {
+                let lastString = textArray.last
+                if lastString!.count > 1 {
+                    return false
+                }
+            }
+        default:
+            break
+        }
+        return true
+    }
 }
 
 // -----------------------------------------------------------------------------
