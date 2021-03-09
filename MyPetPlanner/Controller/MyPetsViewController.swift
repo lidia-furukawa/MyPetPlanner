@@ -98,24 +98,21 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reuseIdentifier = "MyPetCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)!
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! PetCell
         
         let aPet = fetchedResultsController.object(at: indexPath)
 
         // Configure the cell
-        cell.textLabel?.text = aPet.name
+        cell.name?.text = aPet.name
+        cell.information?.text = "\(aPet.type ?? ""), \(aPet.breed ?? ""), \(aPet.gender ?? "")"
         
         if let photoData = aPet.photo {
             let image = UIImage(data: photoData)
-            cell.imageView?.image = image
-            cell.imageView?.layer.cornerRadius = (cell.imageView?.frame.height)!/2
+            cell.photo.image = image
+            cell.photo.layer.borderWidth = 0.5
+            cell.photo.layer.borderColor = UIColor.lightGray.cgColor
+            cell.photo.layer.cornerRadius = cell.photo.bounds.width/2
         }
-        
-        // If the cell has a detail label, it will show the type (dog or cat)
-        if let detailTextLabel = cell.detailTextLabel {
-            detailTextLabel.text = aPet.type
-        }
-        
         return cell
     }
     
