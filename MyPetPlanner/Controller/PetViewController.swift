@@ -26,8 +26,7 @@ class PetViewController: UIViewController {
     @IBOutlet weak var weightTextField: UITextField!
     @IBOutlet weak var heightTextField: UITextField!
     @IBOutlet var textFields: [UITextField]!
-    
-    var navigationBarTitle = String()
+    @IBOutlet weak var navigationBar: UINavigationBar!
     
     var activeTextField = UITextField()
     
@@ -78,11 +77,11 @@ class PetViewController: UIViewController {
         }
         
         if pet != nil {
-            print("Edit Pet")
+            navigationBar.topItem?.title = "Edit Pet"
             reloadSavedPet()
         } else {
-            print("Add New Pet")
             // Set default fields values
+            navigationBar.topItem?.title = "Add New Pet"
             photoImageView.image = UIImage(named: "placeholder")
             dateFormatter.dateFormat = "MM-dd-yyyy"
             birthdayTextField.text = dateFormatter.string(from: Date())
