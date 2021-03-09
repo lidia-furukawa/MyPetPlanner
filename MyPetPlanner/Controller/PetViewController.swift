@@ -85,7 +85,6 @@ class PetViewController: UIViewController {
             photoImageView.image = UIImage(named: "placeholder")
             dateFormatter.dateFormat = "MM-dd-yyyy"
             birthdayTextField.text = dateFormatter.string(from: Date())
-            addNewPet()
         }
     }
     
@@ -215,6 +214,10 @@ class PetViewController: UIViewController {
     }
     
     @IBAction func saveButton(_ sender: Any) {
+        if pet == nil {
+            addNewPet()
+        }
+        
         let photoImage = photoImageView.image
         if let photoImageData = photoImage!.pngData() {
             pet.setValue(photoImageData, forKey: "photo")
