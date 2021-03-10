@@ -23,7 +23,8 @@ class MyPetsViewController: UIViewController {
     var sectionNameKeyPath = "type"
     
     let tintColor = #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1)
-    
+    let backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.7176470588, blue: 0.8980392157, alpha: 1)
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -128,6 +129,11 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
         return fetchedResultsController.section(forSectionIndexTitle: title, at: index)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = backgroundColor
+//        (view as! UITableViewHeaderFooterView).textLabel?.textColor = UIColor.white
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
