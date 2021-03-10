@@ -27,6 +27,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let myPetsViewController = navigationController.topViewController as! MyPetsViewController
         myPetsViewController.dataController = dataController
         
+        /// Change the tab bar colors
+        UITabBar.appearance().tintColor = #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1)
+        
         return true
     }
 
