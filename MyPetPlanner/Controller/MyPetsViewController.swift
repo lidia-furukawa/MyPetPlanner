@@ -19,17 +19,20 @@ class MyPetsViewController: UIViewController {
 
     var editedCellIndexPath = IndexPath()
     
+    var keyPath = "type"
+    var sectionNameKeyPath = "type"
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupFetchedResultsController()
+        setupFetchedResultsController(keyPath, sectionNameKeyPath)
         tableView.tableFooterView = UIView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setupFetchedResultsController()
+        setupFetchedResultsController(keyPath, sectionNameKeyPath)
         tableView.reloadData()
     }
     
@@ -39,12 +42,12 @@ class MyPetsViewController: UIViewController {
         fetchedResultsController = nil
     }
     
-    func setupFetchedResultsController() {
+    func setupFetchedResultsController(_ keyPath: String, _ sectionNameKeyPath: String) {
         let fetchRequest:NSFetchRequest<Pet> = Pet.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "type", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: keyPath, ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: "type", cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: sectionNameKeyPath, cacheName: nil)
         
         do {
             try fetchedResultsController.performFetch()
@@ -64,6 +67,27 @@ class MyPetsViewController: UIViewController {
         performSegue(withIdentifier: "createNewPet", sender: nil)
     }
     
+    @IBAction func sortPets(_ sender: Any) {
+        let sortPopup = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        sortPopup.addAction(UIAlertAction(title: "Sort By Name (A - Z)", style: .default, handler: { _ in
+            self.keyPath = "name"
+            self.sectionNameKeyPath = "initialName"
+            self.setupFetchedResultsController(self.keyPath, self.sectionNameKeyPath)
+            self.tableView.reloadData()
+        }))
+        
+        sortPopup.addAction(UIAlertAction(title: "Sort By Type (Cat - Dog)", style: .default, handler: { _ in
+            self.keyPath = "type"
+            self.sectionNameKeyPath = "type"
+            self.setupFetchedResultsController(self.keyPath, self.sectionNameKeyPath)
+            self.tableView.reloadData()
+        }))
+        
+        sortPopup.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        
+        present(sortPopup, animated: true, completion: nil)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "createNewPet" {
             let vc = segue.destination as! PetViewController
@@ -81,7 +105,7 @@ class MyPetsViewController: UIViewController {
 
 extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 1
+        return fetchedResultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -90,6 +114,14 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return fetchedResultsController.sections?[section].name
+    }
+    
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        return fetchedResultsController.sectionIndexTitles
+    }
+
+    func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
+        return fetchedResultsController.section(forSectionIndexTitle: title, at: index)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

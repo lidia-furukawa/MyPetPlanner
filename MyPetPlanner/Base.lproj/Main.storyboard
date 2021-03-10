@@ -108,6 +108,11 @@
                                 <action selector="addNewPet:" destination="BYZ-38-t0r" id="ab2-pE-7rI"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="sort" id="4BV-Ub-Ijq">
+                            <connections>
+                                <action selector="sortPets:" destination="BYZ-38-t0r" id="3ED-PL-VIb"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -370,6 +375,7 @@
                         <outlet property="genderControl" destination="CuG-pl-rgy" id="VWt-lw-chc"/>
                         <outlet property="heightTextField" destination="jgH-Lu-U3O" id="w0h-hX-cuX"/>
                         <outlet property="nameTextField" destination="qQK-LW-NtV" id="ZSC-DZ-k61"/>
+                        <outlet property="navigationBar" destination="eeS-Lg-Cz5" id="x0u-EE-jpo"/>
                         <outlet property="photoImageView" destination="1ih-iJ-jFO" id="FWw-b6-y21"/>
                         <outlet property="saveButton" destination="0In-3z-RjI" id="sI5-Z5-YBx"/>
                         <outlet property="scrollView" destination="5Ma-oi-DLq" id="VHk-2L-vfs"/>
@@ -558,6 +564,7 @@
         <image name="chart.bar.xaxis" width="30.5" height="30.5"/>
         <image name="heart.text.square" width="30.5" height="30.5"/>
         <image name="mypaw" width="30" height="30"/>
+        <image name="sort" width="20.5" height="20.5"/>
         <image name="stethoscope" width="30.5" height="30.5"/>
     </resources>
     <inferredMetricsTieBreakers>

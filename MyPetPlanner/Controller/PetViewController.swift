@@ -234,6 +234,8 @@ class PetViewController: UIViewController {
         pet.setValue(genderControl.titleForSegment(at: selectedGender), forKey: "gender")
         
         pet.setValue(nameTextField.text, forKey: "name")
+        pet.setValue(String(nameTextField.text?.first ?? "#"), forKey: "initialName")
+        
         pet.setValue(breedTextField.text, forKey: "breed")
         pet.setValue(colorTextField.text, forKey: "color")
         

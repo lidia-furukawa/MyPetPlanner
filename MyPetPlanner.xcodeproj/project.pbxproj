@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0263B28725F821B2008E120C /* Pet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28625F821B2008E120C /* Pet+Extensions.swift */; };
 		0277383825EEC5DC00510FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0277383725EEC5DC00510FF4 /* Assets.xcassets */; };
 		0277383A25EEC80B00510FF4 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277383925EEC80B00510FF4 /* HealthViewController.swift */; };
 		0277383C25EED70C00510FF4 /* VetCareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277383B25EED70C00510FF4 /* VetCareViewController.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0263B28625F821B2008E120C /* Pet+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pet+Extensions.swift"; sourceTree = "<group>"; };
 		0277383725EEC5DC00510FF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0277383925EEC80B00510FF4 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
 		0277383B25EED70C00510FF4 /* VetCareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VetCareViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +115,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0263B28525F82163008E120C /* Managed Object Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				0263B28625F821B2008E120C /* Pet+Extensions.swift */,
+			);
+			path = "Managed Object Extensions";
+			sourceTree = "<group>";
+		};
 		0277383025EE998B00510FF4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +150,7 @@
 				0277384925F03DCF00510FF4 /* DataController.swift */,
 				0277383425EEB15400510FF4 /* API */,
 				0277383325EEB10E00510FF4 /* Data */,
+				0263B28525F82163008E120C /* Managed Object Extensions */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -480,6 +491,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0263B28725F821B2008E120C /* Pet+Extensions.swift in Sources */,
 				0277383E25EED72D00510FF4 /* CalendarViewController.swift in Sources */,
 				0277384025EED78800510FF4 /* ExpensesViewController.swift in Sources */,
 				0277384425F0002200510FF4 /* BreedsListResponse.swift in Sources */,
