@@ -367,6 +367,7 @@
                         <outlet property="birthdayTextField" destination="6io-cb-zhg" id="l9T-fz-Oyf"/>
                         <outlet property="bodyMeasurementsLabel" destination="TmI-8g-ZzY" id="d1f-YA-LIo"/>
                         <outlet property="breedTextField" destination="7Fj-aJ-Jlw" id="Ge4-0a-eee"/>
+                        <outlet property="cancelButton" destination="Vnc-4X-NTg" id="rNT-Ut-Erc"/>
                         <outlet property="colorTextField" destination="bJS-hB-R2u" id="Atp-4N-nd2"/>
                         <outlet property="genderControl" destination="CuG-pl-rgy" id="VWt-lw-chc"/>
                         <outlet property="heightTextField" destination="jgH-Lu-U3O" id="w0h-hX-cuX"/>
