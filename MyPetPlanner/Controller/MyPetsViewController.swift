@@ -148,7 +148,12 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
 
         // Configure the cell
         cell.name?.text = aPet.name
-        cell.information?.text = "\(aPet.type ?? ""), \(aPet.breed ?? ""), \(aPet.gender ?? "")"
+        
+        let ageInYears = Calendar.current.dateComponents([.year], from: aPet.birthday!, to: Date()).year!
+        let ageInMonths = Calendar.current.dateComponents([.month], from: aPet.birthday!, to: Date()).month!
+        let residualMonths = ageInMonths - 12 * ageInYears
+        
+        cell.information?.text = "\(aPet.type ?? ""), Age: \(ageInYears)yr \(residualMonths)mo, \(aPet.gender ?? "")"
         cell.textLabel?.text = aPet.name
         cell.textLabel?.isHidden = true
         
