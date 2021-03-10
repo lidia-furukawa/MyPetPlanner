@@ -12,6 +12,7 @@ import CoreData
 class PetViewController: UIViewController {
 
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var selectPhotoButton: UIButton!
@@ -52,11 +53,21 @@ class PetViewController: UIViewController {
         label.textColor = textColor
     }
     
+    fileprivate func changeControlsTintColor(tintColor: UIColor) {
+        saveButton.tintColor = tintColor
+        cancelButton.tintColor = tintColor
+        selectPhotoButton.tintColor = tintColor
+        typeControl.tintColor = tintColor
+        genderControl.tintColor = tintColor
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureLabel(basicInformationLabel, backgroundColor: #colorLiteral(red: 0.4941176471, green: 0.3529411765, blue: 0.6078431373, alpha: 1), textColor: UIColor.white, cornerRadius: 5)
+        configureLabel(basicInformationLabel, backgroundColor: #colorLiteral(red: 0.4941176471, green: 0.3529411765, blue: 0.6078431373, alpha: 1), textColor: UIColor.white, cornerRadius: 3)
         configureLabel(bodyMeasurementsLabel, backgroundColor: #colorLiteral(red: 0.4941176471, green: 0.3529411765, blue: 0.6078431373, alpha: 1), textColor: UIColor.white, cornerRadius: 5)
+        
+        changeControlsTintColor(tintColor: #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1))
         
         photoImageView.layer.masksToBounds = true
         photoImageView.layer.cornerRadius = photoImageView.bounds.width/2
