@@ -149,6 +149,8 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         // Configure the cell
         cell.name?.text = aPet.name
         cell.information?.text = "\(aPet.type ?? ""), \(aPet.breed ?? ""), \(aPet.gender ?? "")"
+        cell.textLabel?.text = aPet.name
+        cell.textLabel?.isHidden = true
         
         if let photoData = aPet.photo {
             let image = UIImage(data: photoData)
@@ -169,7 +171,10 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
+            cell.tintColor = tintColor
             cell.accessoryType = .checkmark
+            let petName = cell.textLabel?.text
+            navigationItem.title = "Pet: \(petName ?? "None")"
         }
     }
     
