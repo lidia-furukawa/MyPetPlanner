@@ -45,16 +45,18 @@ class PetViewController: UIViewController {
     
     let dateFormatter = DateFormatter()
     
-    fileprivate func roundLabelEdges(label: UILabel, cornerRadius: CGFloat) {
+    fileprivate func configureLabel(_ label: UILabel, backgroundColor: UIColor, textColor: UIColor, cornerRadius: CGFloat) {
         label.layer.masksToBounds = true
         label.layer.cornerRadius = cornerRadius
+        label.backgroundColor = backgroundColor
+        label.textColor = textColor
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        roundLabelEdges(label: basicInformationLabel, cornerRadius: 5)
-        roundLabelEdges(label: bodyMeasurementsLabel, cornerRadius: 5)
+        configureLabel(basicInformationLabel, backgroundColor: #colorLiteral(red: 0.4941176471, green: 0.3529411765, blue: 0.6078431373, alpha: 1), textColor: UIColor.white, cornerRadius: 5)
+        configureLabel(bodyMeasurementsLabel, backgroundColor: #colorLiteral(red: 0.4941176471, green: 0.3529411765, blue: 0.6078431373, alpha: 1), textColor: UIColor.white, cornerRadius: 5)
         
         photoImageView.layer.masksToBounds = true
         photoImageView.layer.cornerRadius = photoImageView.bounds.width/2

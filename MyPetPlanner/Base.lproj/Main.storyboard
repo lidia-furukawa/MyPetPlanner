@@ -180,9 +180,8 @@
                                                     </stackView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Basic Information" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XvN-Ca-3yP">
                                                         <rect key="frame" x="0.0" y="230" width="394" height="20.5"/>
-                                                        <color key="backgroundColor" red="0.49411764705882355" green="0.3529411764705882" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="bAG-wq-lGw">
@@ -217,7 +216,6 @@
                                                                     <segment title="Dog" width="40"/>
                                                                     <segment title="Cat" width="40"/>
                                                                 </segments>
-                                                                <color key="tintColor" red="0.4941176471" green="0.35294117650000001" blue="0.60784313729999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </segmentedControl>
                                                         </subviews>
                                                     </stackView>
@@ -253,7 +251,6 @@
                                                                     <segment title="♂️" width="40"/>
                                                                     <segment title="♀️" width="40"/>
                                                                 </segments>
-                                                                <color key="tintColor" red="0.49411764705882355" green="0.3529411764705882" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             </segmentedControl>
                                                         </subviews>
                                                     </stackView>
@@ -293,9 +290,8 @@
                                                     </stackView>
                                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body Measurements" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TmI-8g-ZzY">
                                                         <rect key="frame" x="0.0" y="458.5" width="394" height="20.5"/>
-                                                        <color key="backgroundColor" red="0.49411764705882355" green="0.3529411764705882" blue="0.60784313725490191" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="vSZ-ed-LKV">
