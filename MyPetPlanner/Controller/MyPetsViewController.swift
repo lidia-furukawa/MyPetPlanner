@@ -21,12 +21,17 @@ class MyPetsViewController: UIViewController {
     
     var keyPath = "type"
     var sectionNameKeyPath = "type"
-        
+    
+    let tintColor = #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupFetchedResultsController(keyPath, sectionNameKeyPath)
         tableView.tableFooterView = UIView()
+        tableView.sectionIndexColor = tintColor
+        navigationItem.leftBarButtonItem?.tintColor = tintColor
+        navigationItem.rightBarButtonItem?.tintColor = tintColor
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -84,6 +89,7 @@ class MyPetsViewController: UIViewController {
         }))
         
         sortPopup.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        sortPopup.view.tintColor = tintColor
         
         present(sortPopup, animated: true, completion: nil)
     }
