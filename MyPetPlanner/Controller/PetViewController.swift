@@ -268,6 +268,19 @@ class PetViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
+    /// Enable save button if any segmented control is changed
+    @IBAction func segmentedControlTapped(_ sender: UISegmentedControl) {
+        switch sender {
+        case typeControl:
+            typeControl.becomeFirstResponder()
+            saveButton.isEnabled = true
+        case genderControl:
+            genderControl.becomeFirstResponder()
+            saveButton.isEnabled = true
+        default:
+            break
+        }
+    }
 }
 
 // -----------------------------------------------------------------------------

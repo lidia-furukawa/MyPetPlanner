@@ -216,6 +216,9 @@
                                                                     <segment title="Dog" width="40"/>
                                                                     <segment title="Cat" width="40"/>
                                                                 </segments>
+                                                                <connections>
+                                                                    <action selector="segmentedControlTapped:" destination="tIS-fs-ZlZ" eventType="valueChanged" id="nNY-gS-3Z2"/>
+                                                                </connections>
                                                             </segmentedControl>
                                                         </subviews>
                                                     </stackView>
@@ -251,6 +254,9 @@
                                                                     <segment title="♂️" width="40"/>
                                                                     <segment title="♀️" width="40"/>
                                                                 </segments>
+                                                                <connections>
+                                                                    <action selector="segmentedControlTapped:" destination="tIS-fs-ZlZ" eventType="valueChanged" id="FkL-6s-2Ff"/>
+                                                                </connections>
                                                             </segmentedControl>
                                                         </subviews>
                                                     </stackView>
