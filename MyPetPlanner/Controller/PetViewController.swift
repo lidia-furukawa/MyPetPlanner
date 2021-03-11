@@ -316,6 +316,11 @@ extension PetViewController: UITextFieldDelegate {
             let datePickerView = UIDatePicker()
             datePickerView.datePickerMode = .date
             datePickerView.backgroundColor = .white
+            if pet != nil {
+                datePickerView.setDate(pet.birthday!, animated: false)
+            } else {
+                datePickerView.setDate(Date(), animated: false)
+            }
             birthdayTextField.inputView = datePickerView
             datePickerView.addTarget(self, action: #selector(handleDatePicker(_:)), for: .valueChanged)
         case breedTextField:
