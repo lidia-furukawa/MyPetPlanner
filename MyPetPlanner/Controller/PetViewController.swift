@@ -246,9 +246,15 @@ class PetViewController: UIViewController {
         let selectedGender = genderControl.selectedSegmentIndex
         pet.setValue(genderControl.titleForSegment(at: selectedGender), forKey: "gender")
         
-        pet.setValue(nameTextField.text, forKey: "name")
-        pet.setValue(String(nameTextField.text?.first ?? "#"), forKey: "initialName")
-        
+        if nameTextField.text!.isEmpty {
+            pet.setValue("#", forKey: "name")
+            pet.setValue("#", forKey: "initialName")
+        } else {
+            pet.setValue(nameTextField.text, forKey: "name")
+            let nameInitialLetter = nameTextField.text?.prefix(1)
+            pet.setValue(nameInitialLetter, forKey: "initialName")
+        }
+
         pet.setValue(breedTextField.text, forKey: "breed")
         pet.setValue(colorTextField.text, forKey: "color")
         
@@ -394,6 +400,7 @@ extension PetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         } else {
             breedTextField.text = catBreeds[row]
         }
+        saveButton.isEnabled = true
     }
 }
 
