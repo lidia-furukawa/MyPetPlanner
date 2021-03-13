@@ -33,7 +33,7 @@ class PetViewController: UIViewController {
     
     var dataController: DataController!
 
-    /// The pet whose infos will be edited
+    /// The pet either passed by `MyPetsViewController` or constructed when adding a new pet
     var pet: Pet!
     
     let pickerView = UIPickerView()
@@ -45,6 +45,53 @@ class PetViewController: UIViewController {
     var catBreeds: [String] = []
     
     let dateFormatter = DateFormatter()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        configureLabel(basicInformationLabel, backgroundColor: #colorLiteral(red: 0.4941176471, green: 0.3529411765, blue: 0.6078431373, alpha: 1), textColor: UIColor.white, cornerRadius: 3)
+        configureLabel(bodyMeasurementsLabel, backgroundColor: #colorLiteral(red: 0.4941176471, green: 0.3529411765, blue: 0.6078431373, alpha: 1), textColor: UIColor.white, cornerRadius: 5)
+        
+        changeControlsTintColor(tintColor: #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1))
+
+        configureImageView(photoImageView)
+        
+        saveButton.isEnabled = false
+        
+        for textField in textFields {
+            textField.delegate = self
+        }
+
+        pickerView.dataSource = self
+        pickerView.delegate = self
+        
+        DogAPIClient.getBreedsList(completion: handleDogBreedsListResponse(breeds:error:))
+        CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
+        
+        if pet != nil {
+            navigationBar.topItem?.title = "Edit Pet"
+            reloadSavedPet()
+        } else {
+            // Set fields default values
+            navigationBar.topItem?.title = "Add New Pet"
+            photoImageView.image = UIImage(named: "placeholder")
+            dateFormatter.dateFormat = "MM-dd-yyyy"
+            birthdayTextField.text = dateFormatter.string(from: Date())
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        subscribeToKeyboardNotifications()
+        subscribeToTextFieldsNotifications()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        unsubscribeFromNotifications()
+    }
     
     fileprivate func configureLabel(_ label: UILabel, backgroundColor: UIColor, textColor: UIColor, cornerRadius: CGFloat) {
         label.layer.masksToBounds = true
@@ -61,56 +108,16 @@ class PetViewController: UIViewController {
         genderControl.tintColor = tintColor
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        configureLabel(basicInformationLabel, backgroundColor: #colorLiteral(red: 0.4941176471, green: 0.3529411765, blue: 0.6078431373, alpha: 1), textColor: UIColor.white, cornerRadius: 3)
-        configureLabel(bodyMeasurementsLabel, backgroundColor: #colorLiteral(red: 0.4941176471, green: 0.3529411765, blue: 0.6078431373, alpha: 1), textColor: UIColor.white, cornerRadius: 5)
-        
-        changeControlsTintColor(tintColor: #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1))
-
-        photoImageView.layer.masksToBounds = true
-        photoImageView.layer.cornerRadius = photoImageView.bounds.width/2
-        
-        saveButton.isEnabled = false
-        
-        for textField in textFields {
-            textField.delegate = self
-        }
-
-        pickerView.dataSource = self
-        pickerView.delegate = self
-        
-        DogAPIClient.getBreedsList(completion: handleDogBreedsListResponse(breeds:error:))
-        CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
-        
-        // Enable save button if any text field is changed
+    fileprivate func configureImageView(_ imageView: UIImageView) {
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = imageView.bounds.width/2
+    }
+    
+    /// Enable save button if any text field is changed
+    fileprivate func subscribeToTextFieldsNotifications() {
         NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: nil, queue: .main) { notif in
             self.saveButton.isEnabled = true
         }
-        
-        if pet != nil {
-            navigationBar.topItem?.title = "Edit Pet"
-            reloadSavedPet()
-        } else {
-            // Set default fields values
-            navigationBar.topItem?.title = "Add New Pet"
-            photoImageView.image = UIImage(named: "placeholder")
-            dateFormatter.dateFormat = "MM-dd-yyyy"
-            birthdayTextField.text = dateFormatter.string(from: Date())
-        }
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        subscribeToKeyboardNotifications()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        unsubscribeFromKeyboardNotifications()
     }
     
     func addNewPet() {
@@ -172,20 +179,19 @@ class PetViewController: UIViewController {
         }
     }
     
-    /// Sign up to be notified when an event is coming up
+    /// Sign up to be notified when a keyboard event is coming up
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     /// Remove all the subscribed observers
-    func unsubscribeFromKeyboardNotifications() {
+    func unsubscribeFromNotifications() {
         NotificationCenter.default.removeObserver(self)
     }
     
     /// Shift the scroll view's frame up
     @objc func keyboardWillShow(_ notification:Notification) {
-        
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: getKeyboardHeight(notification), right: 0.0)
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
