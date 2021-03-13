@@ -179,7 +179,12 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.tintColor = tintColor
             cell.accessoryType = .checkmark
             let petName = cell.textLabel?.text
-            navigationItem.title = "Pet: \(petName ?? "None")"
+            navigationItem.title = "Selected Pet: \(petName ?? "None")"
+            
+            let healthTab = self.tabBarController?.viewControllers![1] as! UINavigationController
+            let healthViewController = healthTab.topViewController as! HealthViewController
+            healthViewController.pet = fetchedResultsController.object(at: indexPath)
+            healthViewController.dataController = dataController
         }
     }
     
