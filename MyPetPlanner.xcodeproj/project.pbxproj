@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0263B28725F821B2008E120C /* Pet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28625F821B2008E120C /* Pet+Extensions.swift */; };
+		0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28825FD6AAC008E120C /* HealthCell.swift */; };
 		0277383825EEC5DC00510FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0277383725EEC5DC00510FF4 /* Assets.xcassets */; };
 		0277383A25EEC80B00510FF4 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277383925EEC80B00510FF4 /* HealthViewController.swift */; };
 		0277383C25EED70C00510FF4 /* VetCareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277383B25EED70C00510FF4 /* VetCareViewController.swift */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		0263B28625F821B2008E120C /* Pet+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pet+Extensions.swift"; sourceTree = "<group>"; };
+		0263B28825FD6AAC008E120C /* HealthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCell.swift; sourceTree = "<group>"; };
 		0277383725EEC5DC00510FF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0277383925EEC80B00510FF4 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
 		0277383B25EED70C00510FF4 /* VetCareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VetCareViewController.swift; sourceTree = "<group>"; };
@@ -140,6 +142,7 @@
 			isa = PBXGroup;
 			children = (
 				02D30DB625F6EB4A007589BE /* PetCell.swift */,
+				0263B28825FD6AAC008E120C /* HealthCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0263B28725F821B2008E120C /* Pet+Extensions.swift in Sources */,
+				0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */,
 				0277383E25EED72D00510FF4 /* CalendarViewController.swift in Sources */,
 				0277384025EED78800510FF4 /* ExpensesViewController.swift in Sources */,
 				0277384425F0002200510FF4 /* BreedsListResponse.swift in Sources */,

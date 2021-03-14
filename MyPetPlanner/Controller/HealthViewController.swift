@@ -63,9 +63,12 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reuseIdentifier = "HealthCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)!
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! HealthCell
         
-        cell.textLabel?.text = sectionDataSource[indexPath.section][indexPath.row]
+        // Configure the cell
+        cell.titleLabel.text = sectionDataSource[indexPath.section][indexPath.row]
+        let image = UIImage(named: sectionTitles[indexPath.section])
+        cell.photoImageView.image = image
         return cell
     }
     
