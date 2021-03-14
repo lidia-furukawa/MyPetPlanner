@@ -19,7 +19,7 @@ class HealthViewController: UIViewController {
     var pet: Pet?
     
     let sectionTitles = ["Food", "Grooming", "Parasite Control", "Medication"]
-    let sectionDataSource = [["Kibble/Dry Food", "Fresh/Raw Food"], ["Bathing", "Brushing/Clipping", "Teeth", "Nails", "Ears"], ["Internal", "External"], ["Medication", "Supplements"]]
+    let sectionDataSource = [["Kibble or Dry Food", "Fresh or Raw Food"], ["Bathing", "Fur", "Teeth", "Nails", "Ears"], ["Internal", "External"], ["Medications", "Supplements"]]
     
     let tintColor = #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1)
     let backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.7176470588, blue: 0.8980392157, alpha: 1)
@@ -66,9 +66,11 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! HealthCell
         
         // Configure the cell
-        cell.titleLabel.text = sectionDataSource[indexPath.section][indexPath.row]
-        let image = UIImage(named: sectionTitles[indexPath.section])
-        cell.photoImageView.image = image
+        cell.titleLabel?.text = sectionDataSource[indexPath.section][indexPath.row]
+        let sectionImage = UIImage(named: cell.titleLabel.text!)
+        let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
+        cell.photoImageView.image = templateImage
+        cell.photoImageView.tintColor = tintColor
         return cell
     }
     
