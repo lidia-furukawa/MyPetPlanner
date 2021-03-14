@@ -483,11 +483,11 @@
             </objects>
             <point key="canvasLocation" x="-1309" y="-1349"/>
         </scene>
-        <!--Home-->
+        <!--My Pets-->
         <scene sceneID="W6O-CN-BKJ">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZVf-N9-0TI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="mypaw" id="i2B-fl-s4l"/>
+                    <tabBarItem key="tabBarItem" title="My Pets" image="house.fill" id="i2B-fl-s4l"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KLA-71-RPM">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -631,7 +631,7 @@
         <image name="calendar" width="30.5" height="30.5"/>
         <image name="chart.bar.xaxis" width="30.5" height="30.5"/>
         <image name="heart.text.square" width="30.5" height="30.5"/>
-        <image name="mypaw" width="30" height="30"/>
+        <image name="house.fill" width="30.5" height="30.5"/>
         <image name="sort" width="20.5" height="20.5"/>
         <image name="stethoscope" width="30.5" height="30.5"/>
     </resources>
