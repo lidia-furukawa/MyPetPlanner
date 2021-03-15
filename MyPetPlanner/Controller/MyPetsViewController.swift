@@ -31,6 +31,7 @@ class MyPetsViewController: UIViewController {
         setupFetchedResultsController(keyPath, sectionNameKeyPath)
         tableView.tableFooterView = UIView()
         tableView.sectionIndexColor = tintColor
+        tableView.sectionIndexBackgroundColor = UIColor.white
         navigationItem.leftBarButtonItem?.tintColor = tintColor
         navigationItem.rightBarButtonItem?.tintColor = tintColor
     }
@@ -207,8 +208,19 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         })
         
         let deleteRowAction = UIContextualAction(style: UIContextualAction.Style.destructive, title: "Delete", handler: { (action, view, completion) in
-            self.deletePet(at: indexPath)
-            completion(true)
+            // Delete confirmation dialog
+            let alert = UIAlertController(title: "Are you sure you want to delete this pet?", message: "This action cannot be undone", preferredStyle: .alert)
+            
+            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            
+            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
+                self.deletePet(at: indexPath)
+                completion(true)
+            })
+            
+            alert.addAction(cancelAction)
+            alert.addAction(deleteAction)
+            self.present(alert, animated: true, completion: nil)
         })
         
         editRowAction.backgroundColor = .green
