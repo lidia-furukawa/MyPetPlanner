@@ -233,6 +233,7 @@ class PetViewController: UIViewController {
     }
     
     @IBAction func saveButton(_ sender: Any) {
+        saving(true)
         if pet == nil {
             addNewPet()
         }
@@ -285,6 +286,24 @@ class PetViewController: UIViewController {
         self.view.endEditing(true)
         sender.becomeFirstResponder()
         saveButton.isEnabled = true
+    }
+    
+    /// Save Activity Indicator
+    func saving(_ isSaving: Bool) {
+        let savingView = UIView()
+        savingView.frame = view.bounds
+        savingView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        savingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.center = CGPoint(x: savingView.frame.size.width/2, y: savingView.frame.size.height/2)
+        activityIndicator.style = .gray
+        
+        savingView.addSubview(activityIndicator)
+        view.addSubview(savingView)
+        
+        isSaving ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+        saveButton.isEnabled = !isSaving
     }
 }
 
