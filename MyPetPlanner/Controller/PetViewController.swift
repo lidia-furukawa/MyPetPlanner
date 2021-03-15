@@ -444,6 +444,7 @@ extension PetViewController: UIImagePickerControllerDelegate, UINavigationContro
                                didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
             photoImageView.image = image
+            saveButton.isEnabled = true
         }
         dismiss(animated: true, completion: nil)
     }

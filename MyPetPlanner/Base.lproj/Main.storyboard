@@ -238,7 +238,7 @@
                                                                 <rect key="frame" x="153" y="190" width="88" height="30"/>
                                                                 <state key="normal" title="Select Photo"/>
                                                                 <connections>
-                                                                    <action selector="selectPhotoButton:" destination="tIS-fs-ZlZ" eventType="touchUpInside" id="7pM-QD-c6B"/>
+                                                                    <action selector="selectPhotoButton:" destination="tIS-fs-ZlZ" eventType="touchUpInside" id="b2Z-I1-iRk"/>
                                                                 </connections>
                                                             </button>
                                                         </subviews>
