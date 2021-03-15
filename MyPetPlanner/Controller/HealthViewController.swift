@@ -66,6 +66,7 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! HealthCell
         
         // Configure the cell
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         cell.titleLabel?.text = sectionDataSource[indexPath.section][indexPath.row]
         let sectionImage = UIImage(named: cell.titleLabel.text!)
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)

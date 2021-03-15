@@ -147,6 +147,7 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         let aPet = fetchedResultsController.object(at: indexPath)
 
         // Configure the cell
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         cell.name?.text = aPet.name
         
         let ageInYears = Calendar.current.dateComponents([.year], from: aPet.birthday!, to: Date()).year!
