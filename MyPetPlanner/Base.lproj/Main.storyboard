@@ -85,11 +85,56 @@
                     <navigationItem key="navigationItem" id="GvM-yh-c6x"/>
                     <connections>
                         <outlet property="tableView" destination="woa-Qe-pMY" id="ze4-CS-Gje"/>
+                        <segue destination="laX-sk-Q91" kind="show" identifier="showHealthSection" id="iym-sf-smE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mwg-Cq-8PG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="958" y="-681"/>
+        </scene>
+        <!--Health Section View Controller-->
+        <scene sceneID="vC2-xP-csX">
+            <objects>
+                <viewController id="laX-sk-Q91" customClass="HealthSectionViewController" customModule="MyPetPlanner" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="agk-Yv-eRi">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iSJ-LJ-cum">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SectionCell" id="JLi-o6-KFz">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JLi-o6-KFz" id="S8D-uN-ujL">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="laX-sk-Q91" id="YOa-d2-YqS"/>
+                                    <outlet property="delegate" destination="laX-sk-Q91" id="Znu-L7-Erw"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="iSJ-LJ-cum" firstAttribute="leading" secondItem="sbQ-Pm-8GM" secondAttribute="leading" id="G48-K3-9Wj"/>
+                            <constraint firstItem="iSJ-LJ-cum" firstAttribute="top" secondItem="sbQ-Pm-8GM" secondAttribute="top" id="QTO-C7-qZL"/>
+                            <constraint firstItem="sbQ-Pm-8GM" firstAttribute="trailing" secondItem="iSJ-LJ-cum" secondAttribute="trailing" id="bto-6m-hOA"/>
+                            <constraint firstItem="sbQ-Pm-8GM" firstAttribute="bottom" secondItem="iSJ-LJ-cum" secondAttribute="bottom" id="fcu-FR-zaj"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="sbQ-Pm-8GM"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="iSJ-LJ-cum" id="yKi-Ap-wOy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FUi-H0-qGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1784" y="-681"/>
         </scene>
         <!--My Pets-->
         <scene sceneID="tne-QT-ifu">
