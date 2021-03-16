@@ -33,6 +33,11 @@ class HealthViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationItem.title = "Selected Pet: \(pet?.name ?? "None")"
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! HealthSectionViewController
+        vc.dataController = dataController
+    }
 }
 
 // -----------------------------------------------------------------------------
@@ -76,7 +81,8 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        let selectedCellSection = sectionTitles[indexPath.section]
+        performSegue(withIdentifier: selectedCellSection, sender: nil)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

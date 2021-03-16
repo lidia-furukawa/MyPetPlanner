@@ -85,7 +85,7 @@
                     <navigationItem key="navigationItem" id="GvM-yh-c6x"/>
                     <connections>
                         <outlet property="tableView" destination="woa-Qe-pMY" id="ze4-CS-Gje"/>
-                        <segue destination="laX-sk-Q91" kind="show" identifier="showHealthSection" id="iym-sf-smE"/>
+                        <segue destination="laX-sk-Q91" kind="show" identifier="Food" id="iym-sf-smE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mwg-Cq-8PG" userLabel="First Responder" sceneMemberID="firstResponder"/>
