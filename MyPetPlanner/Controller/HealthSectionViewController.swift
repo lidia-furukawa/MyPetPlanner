@@ -14,12 +14,49 @@ class HealthSectionViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var dataController: DataController!
-
+    
+    /// The pet whose health section is being displayed
+    var pet: Pet?
+    
+    /// The health object whose section is being displayed
+    var selectedObjectName = String()
+    
+    var keyPath = String()
+    
+    var sectionNameKeyPath = String()
+    
+    lazy var fetchedResultsController: NSFetchedResultsController<NSManagedObject> = {
+        switch selectedObjectName {
+        case "Food":
+            let frc: NSFetchedResultsController<Food> = setupFetchedResultsController(keyPath, sectionNameKeyPath)!
+            return frc as! NSFetchedResultsController<NSManagedObject>
+        default:
+            return fatalError() as! NSFetchedResultsController<NSManagedObject>
+        }
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
 
+    /// Generic FetchedResultsController builder
+    func setupFetchedResultsController<T: NSManagedObject>(_ keyPath: String, _ sectionNameKeyPath: String) -> NSFetchedResultsController<T>? {
+        let fetchRequest = T.fetchRequest() as! NSFetchRequest<T>
+        let predicate = NSPredicate(format: "pet == %@", pet ?? "")
+        fetchRequest.predicate = predicate
+        let sortDescriptor = NSSortDescriptor(key: keyPath, ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        let fetchedResultsController = NSFetchedResultsController<T>(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: sectionNameKeyPath, cacheName: nil)
+        
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+        }
+        return fetchedResultsController
+    }
 }
 
 // -----------------------------------------------------------------------------
