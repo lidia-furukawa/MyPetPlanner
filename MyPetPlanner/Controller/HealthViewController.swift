@@ -37,6 +37,17 @@ class HealthViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! HealthSectionViewController
         vc.dataController = dataController
+        vc.pet = pet
+        vc.selectedObjectName = segue.identifier ?? "Error"
+        
+        switch segue.identifier {
+        case "Food":
+            vc.keyPath = "type"
+            vc.sectionNameKeyPath = "type"
+        default:
+            fatalError("Unindentified Segue")
+        }
+
     }
 }
 
