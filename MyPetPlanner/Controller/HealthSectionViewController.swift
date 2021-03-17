@@ -37,7 +37,9 @@ class HealthSectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let addObjectButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addObjectButton(_:)))
+        navigationItem.rightBarButtonItem = addObjectButton
+        navigationItem.title = selectedObjectName
     }
 
     /// Generic FetchedResultsController builder
@@ -56,6 +58,10 @@ class HealthSectionViewController: UIViewController {
             fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }
         return fetchedResultsController
+    }
+    
+    @objc func addObjectButton(_ sender: UIBarButtonItem) {
+        
     }
 }
 
