@@ -21,6 +21,8 @@ class HealthSectionViewController: UIViewController {
     /// The health object whose section is being displayed
     var selectedObjectName = String()
     
+    var selectedObjectSectionName = String()
+    
     var keyPath = String()
     
     var sectionNameKeyPath = String()
@@ -31,7 +33,7 @@ class HealthSectionViewController: UIViewController {
     let dateFormatter = DateFormatter()
 
     lazy var fetchedResultsController: NSFetchedResultsController<NSManagedObject> = {
-        switch selectedObjectName {
+        switch selectedObjectSectionName {
         case "Food":
             let frc: NSFetchedResultsController<Food> = setupFetchedResultsController(keyPath, sectionNameKeyPath)!
             return frc as! NSFetchedResultsController<NSManagedObject>
@@ -66,7 +68,7 @@ class HealthSectionViewController: UIViewController {
     }
     
     @objc func addObjectButton(_ sender: UIBarButtonItem) {
-        switch selectedObjectName {
+        switch selectedObjectSectionName {
         case "Food":
             performSegue(withIdentifier: "createNewFood", sender: nil)
         default:
@@ -77,6 +79,7 @@ class HealthSectionViewController: UIViewController {
         switch segue.identifier {
         case "createNewFood":
             let vc = segue.destination as! FoodViewController
+            vc.selectedObjectName = selectedObjectName
             vc.dataController = dataController
         default:
             fatalError("Unindentified Segue")
@@ -112,7 +115,7 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
         // Configure the cell
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
 
-        switch selectedObjectName {
+        switch selectedObjectSectionName {
         case "Food":
             let frc = fetchedResultsController as! NSFetchedResultsController<Food>
             let aFood = frc.object(at: indexPath)

@@ -24,6 +24,8 @@ class HealthViewController: UIViewController {
     let tintColor = #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1)
     let backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.7176470588, blue: 0.8980392157, alpha: 1)
     
+    var selectedObjectName = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
@@ -39,7 +41,8 @@ class HealthViewController: UIViewController {
         let vc = segue.destination as! HealthSectionViewController
         vc.dataController = dataController
         vc.pet = pet
-        vc.selectedObjectName = segue.identifier ?? "Error"
+        vc.selectedObjectName = selectedObjectName
+        vc.selectedObjectSectionName = segue.identifier ?? "Error"
         
         switch segue.identifier {
         case "Food":
@@ -93,6 +96,7 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedObjectName = sectionDataSource[indexPath.section][indexPath.row]
         let selectedCellSection = sectionTitles[indexPath.section]
         performSegue(withIdentifier: selectedCellSection, sender: nil)
     }
