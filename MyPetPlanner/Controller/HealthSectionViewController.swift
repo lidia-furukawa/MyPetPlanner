@@ -66,7 +66,21 @@ class HealthSectionViewController: UIViewController {
     }
     
     @objc func addObjectButton(_ sender: UIBarButtonItem) {
-        
+        switch selectedObjectName {
+        case "Food":
+            performSegue(withIdentifier: "createNewFood", sender: nil)
+        default:
+            fatalError("Unindentified Segue")
+        }
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+        case "createNewFood":
+            let vc = segue.destination as! FoodViewController
+            vc.dataController = dataController
+        default:
+            fatalError("Unindentified Segue")
+        }
     }
 }
 
