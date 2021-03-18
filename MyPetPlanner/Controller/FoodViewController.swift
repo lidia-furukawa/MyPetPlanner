@@ -114,6 +114,10 @@ class FoodViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func mealsStepper(_ sender: UIStepper) {
+        mealsTextField.text = Int(sender.value).description
+    }
+    
     @objc func handleDatePicker(_ sender: UIDatePicker) {
         dateFormatter.dateFormat = "MM-dd-yyyy"
         activeTextField.text = dateFormatter.string(from: sender.date)

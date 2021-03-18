@@ -828,8 +828,11 @@
                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                         <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
                                                                     </textField>
-                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Dxh-bL-TtD">
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Dxh-bL-TtD">
                                                                         <rect key="frame" x="103.5" y="0.0" width="94" height="29"/>
+                                                                        <connections>
+                                                                            <action selector="mealsStepper:" destination="T99-GB-ah0" eventType="valueChanged" id="T25-Uk-dDi"/>
+                                                                        </connections>
                                                                     </stepper>
                                                                 </subviews>
                                                             </stackView>
