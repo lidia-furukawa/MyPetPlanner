@@ -130,6 +130,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="iSJ-LJ-cum" id="yKi-Ap-wOy"/>
+                        <segue destination="T99-GB-ah0" kind="presentation" identifier="createNewFood" modalPresentationStyle="pageSheet" id="KVZ-N4-0Bk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FUi-H0-qGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -689,8 +690,16 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                                 <items>
                                                     <navigationItem id="hPN-lS-iWe">
-                                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Am1-0l-qzE"/>
-                                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="M0B-3M-bhD"/>
+                                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Am1-0l-qzE">
+                                                            <connections>
+                                                                <action selector="cancelButton:" destination="T99-GB-ah0" id="QA2-Ug-Cay"/>
+                                                            </connections>
+                                                        </barButtonItem>
+                                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="M0B-3M-bhD">
+                                                            <connections>
+                                                                <action selector="saveButton:" destination="T99-GB-ah0" id="mSz-YU-yVw"/>
+                                                            </connections>
+                                                        </barButtonItem>
                                                     </navigationItem>
                                                 </items>
                                             </navigationBar>
@@ -973,8 +982,25 @@
                         <viewLayoutGuide key="safeArea" id="1UY-Kv-HhE"/>
                     </view>
                     <connections>
-                        <outlet property="navigationBar" destination="RAd-9J-iZ4" id="o6G-Jp-Epp"/>
-                        <outlet property="scrollView" destination="WHj-3m-2vV" id="z2d-TL-XiZ"/>
+                        <outlet property="bagPriceTextField" destination="ePG-Mh-I97" id="uYw-iJ-Uws"/>
+                        <outlet property="bagWeightTextField" destination="dLs-hQ-kwE" id="afd-Lj-i9v"/>
+                        <outlet property="bagWeightUnitControl" destination="Z9C-eg-gxy" id="q1x-34-hWP"/>
+                        <outlet property="brandTextField" destination="muB-st-H3p" id="Rh8-vI-mFk"/>
+                        <outlet property="cancelButton" destination="Am1-0l-qzE" id="JKI-Nc-lhL"/>
+                        <outlet property="datesLabel" destination="rkd-1h-Jti" id="aKn-yw-hts"/>
+                        <outlet property="endDateTextField" destination="bzq-7J-VTE" id="4BV-sa-892"/>
+                        <outlet property="expensesLabel" destination="7XZ-Ve-oUT" id="OLJ-Rf-Gf2"/>
+                        <outlet property="foodImageView" destination="x4I-Lf-5Fu" id="8j8-fG-uuF"/>
+                        <outlet property="foodTypeLabel" destination="Cvd-u7-oEd" id="UC0-pI-0vh"/>
+                        <outlet property="mealsStepper" destination="Dxh-bL-TtD" id="ZnG-QO-uEZ"/>
+                        <outlet property="mealsTextField" destination="thc-eH-H9X" id="vhZ-ha-UTq"/>
+                        <outlet property="navigationBar" destination="RAd-9J-iZ4" id="7CE-VI-d67"/>
+                        <outlet property="quantityPerControl" destination="9n5-7j-9nq" id="WJ9-Bl-dZW"/>
+                        <outlet property="quantityTextField" destination="uRR-Od-18a" id="YKv-No-aX5"/>
+                        <outlet property="quantityUnitControl" destination="9NK-9z-pfe" id="o0d-uF-0oh"/>
+                        <outlet property="saveButton" destination="M0B-3M-bhD" id="Vs3-27-rFY"/>
+                        <outlet property="scrollView" destination="WHj-3m-2vV" id="pmf-A1-ygN"/>
+                        <outlet property="startDateTextField" destination="GSh-t9-E5Y" id="NHV-5p-arf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zwx-UK-qGT" userLabel="First Responder" sceneMemberID="firstResponder"/>
