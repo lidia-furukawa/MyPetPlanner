@@ -30,6 +30,7 @@ class FoodViewController: UIViewController {
     @IBOutlet weak var bagWeightTextField: UITextField!
     @IBOutlet weak var bagWeightUnitControl: UISegmentedControl!
     @IBOutlet weak var bagPriceTextField: UITextField!
+    @IBOutlet var textFields: [UITextField]!
     
     var dataController: DataController!
     
@@ -38,17 +39,27 @@ class FoodViewController: UIViewController {
     
     let dateFormatter = DateFormatter()
     
+    var activeTextField = UITextField()
+
+    var selectedObjectName = String()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        for textField in textFields {
+            textField.delegate = self
+        }
+        
         if food != nil {
             // Edit Food - TO DO
         } else {
             // Set fields default values
             navigationBar.topItem?.title = "Add New Food"
-            foodImageView.image = UIImage(named: "placeholder")
+            foodImageView.image = UIImage(named: selectedObjectName)
+            foodTypeLabel.text = selectedObjectName
             dateFormatter.dateFormat = "MM-dd-yyyy"
             startDateTextField.text = dateFormatter.string(from: Date())
+            endDateTextField.text = dateFormatter.string(from: Date())
         }
     }
     
@@ -62,6 +73,8 @@ class FoodViewController: UIViewController {
         if food == nil {
             addNewFood()
         }
+        
+        food.setValue(foodTypeLabel.text, forKey: "type")
         
         if brandTextField.text!.isEmpty {
             food.setValue("#", forKey: "brand")
@@ -99,5 +112,102 @@ class FoodViewController: UIViewController {
     
     @IBAction func cancelButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func handleDatePicker(_ sender: UIDatePicker) {
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        activeTextField.text = dateFormatter.string(from: sender.date)
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - UITextFieldDelegate
+
+extension FoodViewController: UITextFieldDelegate {
+    
+    /// Make the next textField the first responder when the user taps the return key
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case brandTextField:
+            mealsTextField.becomeFirstResponder()
+        case mealsTextField:
+            quantityTextField.becomeFirstResponder()
+        case quantityTextField:
+            startDateTextField.becomeFirstResponder()
+        case startDateTextField:
+            endDateTextField.becomeFirstResponder()
+        case endDateTextField:
+            bagWeightTextField.becomeFirstResponder()
+        case bagWeightTextField:
+            bagPriceTextField.becomeFirstResponder()
+        default:
+            bagPriceTextField.resignFirstResponder()
+        }
+        return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        switch textField {
+        case brandTextField:
+            activeTextField = brandTextField
+        case mealsTextField:
+            activeTextField = mealsTextField
+        case quantityTextField:
+            activeTextField = quantityTextField
+        case startDateTextField:
+            activeTextField = startDateTextField
+            let datePickerView = UIDatePicker()
+            datePickerView.datePickerMode = .date
+            datePickerView.backgroundColor = .white
+            if food != nil {
+                datePickerView.setDate(food.startDate!, animated: false)
+            } else {
+                datePickerView.setDate(Date(), animated: false)
+            }
+            startDateTextField.inputView = datePickerView
+            datePickerView.addTarget(self, action: #selector(handleDatePicker(_:)), for: .valueChanged)
+        case endDateTextField:
+            activeTextField = endDateTextField
+            let datePickerView = UIDatePicker()
+            datePickerView.datePickerMode = .date
+            datePickerView.backgroundColor = .white
+            if food != nil {
+                datePickerView.setDate(food.endDate!, animated: false)
+            } else {
+                datePickerView.setDate(Date(), animated: false)
+            }
+            startDateTextField.inputView = datePickerView
+            datePickerView.addTarget(self, action: #selector(handleDatePicker(_:)), for: .valueChanged)
+        case bagWeightTextField:
+            activeTextField = bagWeightTextField
+        case bagPriceTextField:
+            activeTextField = bagPriceTextField
+        default:
+            break
+        }
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let oldText = textField.text! as NSString
+        let newText = oldText.replacingCharacters(in: range, with: string)
+        
+        switch textField {
+        case bagWeightTextField, bagPriceTextField:
+            let textArray = newText.components(separatedBy: ".")
+            
+            //Limit textfield entry to 2 decimals place
+            if textArray.count > 2 {
+                return false
+            } else if textArray.count == 2 {
+                let lastString = textArray.last
+                if lastString!.count > 2 {
+                    return false
+                }
+            }
+        default:
+            break
+        }
+        return true
     }
 }
