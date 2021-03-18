@@ -25,6 +25,11 @@ class HealthSectionViewController: UIViewController {
     
     var sectionNameKeyPath = String()
     
+    let tintColor = #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1)
+    let backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.7176470588, blue: 0.8980392157, alpha: 1)
+    
+    let dateFormatter = DateFormatter()
+
     lazy var fetchedResultsController: NSFetchedResultsController<NSManagedObject> = {
         switch selectedObjectName {
         case "Food":
@@ -70,17 +75,46 @@ class HealthSectionViewController: UIViewController {
 
 extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return fetchedResultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = backgroundColor
+        //        (view as! UITableViewHeaderFooterView).textLabel?.textColor = UIColor.white
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let reuseIdentifier = "SectionCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)!
+        let reuseIdentifier = "HealthSectionCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! HealthSectionCell
         
+        // Configure the cell
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
+
+        switch selectedObjectName {
+        case "Food":
+            let frc = fetchedResultsController as! NSFetchedResultsController<Food>
+            let aFood = frc.object(at: indexPath)
+            cell.sectionNameLabel?.text = aFood.type
+            cell.sectionInfoLabel?.text = aFood.brand
+            dateFormatter.dateFormat = "MM-dd-yyyy"
+            cell.startDateLabel.text = dateFormatter.string(from: aFood.startDate!)
+            cell.endDateLabel.text = dateFormatter.string(from: aFood.endDate!)
+            
+            if let photoData = aFood.photo {
+                let image = UIImage(data: photoData)
+                cell.photoImageView.image = image
+            }
+        default:
+          fatalError()
+        }
         return cell
     }
 }
