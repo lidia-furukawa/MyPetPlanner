@@ -7,3 +7,14 @@
 //
 
 import Foundation
+import UIKit
+
+class HealthSectionCell: UITableViewCell {
+    
+    @IBOutlet var photoImageView: UIImageView!
+    @IBOutlet var sectionNameLabel: UILabel!
+    @IBOutlet var sectionInfoLabel: UILabel!
+    @IBOutlet var startDateLabel: UILabel!
+    @IBOutlet var endDateLabel: UILabel!
+    @IBOutlet var reminderSwitch: UISwitch!
+}
