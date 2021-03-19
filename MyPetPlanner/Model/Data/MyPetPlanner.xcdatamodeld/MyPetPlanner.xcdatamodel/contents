@@ -8,6 +8,8 @@
         <attribute name="meals" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="photo" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="quantity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="quantityPerMealOrDay" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="quantityUnit" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="totalCost" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
@@ -28,6 +30,6 @@
     </entity>
     <elements>
         <element name="Pet" positionX="-446.6171875" positionY="2258.0859375" width="128" height="208"/>
-        <element name="Food" positionX="-214.27734375" positionY="2259.97265625" width="128" height="208"/>
+        <element name="Food" positionX="-214.27734375" positionY="2259.97265625" width="128" height="238"/>
     </elements>
 </model>
