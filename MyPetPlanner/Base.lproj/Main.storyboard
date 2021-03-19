@@ -1067,7 +1067,7 @@
                         <outlet property="mealsStepper" destination="Dxh-bL-TtD" id="ZnG-QO-uEZ"/>
                         <outlet property="mealsTextField" destination="thc-eH-H9X" id="vhZ-ha-UTq"/>
                         <outlet property="navigationBar" destination="RAd-9J-iZ4" id="7CE-VI-d67"/>
-                        <outlet property="quantityPerControl" destination="9n5-7j-9nq" id="WJ9-Bl-dZW"/>
+                        <outlet property="quantityPerMealOrDayControl" destination="lSB-kJ-aIC" id="KuD-oI-vx9"/>
                         <outlet property="quantityTextField" destination="uRR-Od-18a" id="YKv-No-aX5"/>
                         <outlet property="quantityUnitControl" destination="9NK-9z-pfe" id="o0d-uF-0oh"/>
                         <outlet property="saveButton" destination="M0B-3M-bhD" id="Vs3-27-rFY"/>
