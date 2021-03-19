@@ -22,7 +22,7 @@ class FoodViewController: UIViewController {
     @IBOutlet weak var mealsStepper: UIStepper!
     @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var quantityUnitControl: UISegmentedControl!
-    @IBOutlet weak var quantityPerControl: UIStackView!
+    @IBOutlet weak var quantityPerMealOrDayControl: UISegmentedControl!
     @IBOutlet weak var datesLabel: UILabel!
     @IBOutlet weak var startDateTextField: UITextField!
     @IBOutlet weak var endDateTextField: UITextField!
@@ -86,6 +86,12 @@ class FoodViewController: UIViewController {
             food.setValue(Int(quantityText) ?? 0, forKey: "quantity")
         }
         
+        let quantityUnit = quantityUnitControl.selectedSegmentIndex
+        food.setValue(quantityUnitControl.titleForSegment(at: quantityUnit), forKey: "quantityUnit")
+        
+        let quantityPerMealOrDay = quantityPerMealOrDayControl.selectedSegmentIndex
+        food.setValue(quantityPerMealOrDayControl.titleForSegment(at: quantityPerMealOrDay), forKey: "quantityPerMealOrDay")
+        
         if let mealsText = mealsTextField.text {
             food.setValue(Int(mealsText) ?? 0, forKey: "meals")
         }
@@ -101,6 +107,9 @@ class FoodViewController: UIViewController {
         if let bagWeightText = bagWeightTextField.text {
             food.setValue(Double(bagWeightText) ?? 0, forKey: "costUnit")
         }
+        
+        let bagWeightUnit = bagWeightUnitControl.selectedSegmentIndex
+        food.setValue(bagWeightUnitControl.titleForSegment(at: bagWeightUnit), forKey: "quantityUnit")
         
         if let bagPriceText = bagPriceTextField.text {
             food.setValue(Double(bagPriceText) ?? 0, forKey: "totalCost")
