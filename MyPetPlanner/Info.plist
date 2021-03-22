@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSRemindersUsageDescription</key>
+	<string>This app requires reminder access to add your pet reminders.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app requires calendar access to add your pet events.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires photo library access to let you browse and select your pet photos.</string>
 	<key>NSCameraUsageDescription</key>
