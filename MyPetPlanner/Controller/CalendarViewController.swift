@@ -11,12 +11,13 @@ import EventKit
 
 class CalendarViewController: UIViewController {
 
+    @IBOutlet weak var tableView: UITableView!
+
     let eventStore = EKEventStore()
     var reminders: [EKReminder]?
     let calendarKey = "MyPetPlanner"
-
-    @IBOutlet weak var tableView: UITableView!
-
+    var selectedReminder: EKReminder?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         checkAuthorizationStatus(for: .reminder)
@@ -116,7 +117,7 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.text = reminder.title
             
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
+            dateFormatter.dateFormat = "MM-dd-yyyy"
             let dueDate = reminder.dueDateComponents?.date
             cell.detailTextLabel?.text = dateFormatter.string(from: dueDate!)
         } else {
@@ -126,4 +127,20 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        switch editingStyle {
+        case .delete:
+            if let reminders = self.reminders {
+                let reminder = reminders[indexPath.row]
+                do {
+                    try eventStore.remove(reminder, commit: true)
+                    self.reminders?.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+                } catch {
+                    fatalError("Error deleting the reminder")
+                }
+            }
+        default: ()
+        }
+    }
 }
