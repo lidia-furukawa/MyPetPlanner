@@ -49,10 +49,10 @@ class PetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureLabel(basicInformationLabel, backgroundColor: #colorLiteral(red: 0.4941176471, green: 0.3529411765, blue: 0.6078431373, alpha: 1), textColor: UIColor.white, cornerRadius: 3)
-        configureLabel(bodyMeasurementsLabel, backgroundColor: #colorLiteral(red: 0.4941176471, green: 0.3529411765, blue: 0.6078431373, alpha: 1), textColor: UIColor.white, cornerRadius: 5)
+        basicInformationLabel.configureLabel(backgroundColor: backgroundColor, textColor: UIColor.white, cornerRadius: 3)
+        bodyMeasurementsLabel.configureLabel(backgroundColor: backgroundColor, textColor: UIColor.white, cornerRadius: 3)
         
-        changeControlsTintColor(tintColor: #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1))
+        changeControlsTintColor(tintColor: tintColor)
 
         configureImageView(photoImageView)
         
@@ -92,14 +92,7 @@ class PetViewController: UIViewController {
         
         unsubscribeFromNotifications()
     }
-    
-    fileprivate func configureLabel(_ label: UILabel, backgroundColor: UIColor, textColor: UIColor, cornerRadius: CGFloat) {
-        label.layer.masksToBounds = true
-        label.layer.cornerRadius = cornerRadius
-        label.backgroundColor = backgroundColor
-        label.textColor = textColor
-    }
-    
+
     fileprivate func changeControlsTintColor(tintColor: UIColor) {
         saveButton.tintColor = tintColor
         cancelButton.tintColor = tintColor

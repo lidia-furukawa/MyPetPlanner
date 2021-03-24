@@ -54,6 +54,10 @@ class FoodViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        foodTypeLabel.configureLabel(backgroundColor: backgroundColor, textColor: UIColor.white, cornerRadius: 3)
+        datesLabel.configureLabel(backgroundColor: backgroundColor, textColor: UIColor.white, cornerRadius: 3)
+        expensesLabel.configureLabel(backgroundColor: backgroundColor, textColor: UIColor.white, cornerRadius: 3)
+        
         for textField in textFields {
             textField.delegate = self
         }
@@ -61,16 +65,19 @@ class FoodViewController: UIViewController {
         if food != nil {
             // Edit Food - TO DO
         } else {
-            // Set fields default values
-            navigationBar.topItem?.title = "Add New Food"
-            foodImageView.image = UIImage(named: selectedObjectName)
-            foodTypeLabel.text = selectedObjectName
-            dateFormatter.dateFormat = "MM-dd-yyyy"
-            startDateTextField.text = dateFormatter.string(from: Date())
-            endDateTextField.text = dateFormatter.string(from: Date())
+            setDefaultValues()
         }
     }
     
+    func setDefaultValues() {
+        navigationBar.topItem?.title = "Add New Food"
+        foodImageView.image = UIImage(named: selectedObjectName)
+        foodTypeLabel.text = selectedObjectName
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        startDateTextField.text = dateFormatter.string(from: Date())
+        endDateTextField.text = dateFormatter.string(from: Date())
+    }
+
     func addNewFood() {
         let newFood = Food(context: dataController.viewContext)
         newFood.pet = pet

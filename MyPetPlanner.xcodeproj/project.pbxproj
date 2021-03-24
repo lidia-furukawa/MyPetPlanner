@@ -32,6 +32,7 @@
 		02F66F052602531900B99D6A /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F042602531900B99D6A /* FoodViewController.swift */; };
 		02F66F072603CCE500B99D6A /* HealthSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F062603CCE500B99D6A /* HealthSectionCell.swift */; };
 		02F66F27260BA23A00B99D6A /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F26260BA23A00B99D6A /* UIViewController+Extension.swift */; };
+		02F66F29260BB79500B99D6A /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F28260BB79500B99D6A /* UILabel+Extension.swift */; };
 		73B6819DE3BC009A5D5AAFA7 /* Pods_MyPetPlannerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08F0B8607E1FD2CB31DBF08A /* Pods_MyPetPlannerTests.framework */; };
 		8419D1C9AC775680FB9DE2A5 /* Pods_MyPetPlanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D223A628C9731F9D4C8AE2C3 /* Pods_MyPetPlanner.framework */; };
 		8B85BA51E91C623C25C39B33 /* Pods_MyPetPlanner_MyPetPlannerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F220E7CD803857BC2465E0D7 /* Pods_MyPetPlanner_MyPetPlannerUITests.framework */; };
@@ -86,6 +87,7 @@
 		02F66F042602531900B99D6A /* FoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
 		02F66F062603CCE500B99D6A /* HealthSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSectionCell.swift; sourceTree = "<group>"; };
 		02F66F26260BA23A00B99D6A /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		02F66F28260BB79500B99D6A /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		08F0B8607E1FD2CB31DBF08A /* Pods_MyPetPlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPetPlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26DA4E0E64776BD06D4BAEA3 /* Pods-MyPetPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner.release.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner/Pods-MyPetPlanner.release.xcconfig"; sourceTree = "<group>"; };
 		456D38907334532E704C3A46 /* Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner-MyPetPlannerUITests/Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				0277383D25EED72D00510FF4 /* CalendarViewController.swift */,
 				0277383F25EED78800510FF4 /* ExpensesViewController.swift */,
 				02F66F26260BA23A00B99D6A /* UIViewController+Extension.swift */,
+				02F66F28260BB79500B99D6A /* UILabel+Extension.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -523,6 +526,7 @@
 				0277383C25EED70C00510FF4 /* VetCareViewController.swift in Sources */,
 				02D30DB325F27B5A007589BE /* CatResponse.swift in Sources */,
 				0277383A25EEC80B00510FF4 /* HealthViewController.swift in Sources */,
+				02F66F29260BB79500B99D6A /* UILabel+Extension.swift in Sources */,
 				02D30DB725F6EB4A007589BE /* PetCell.swift in Sources */,
 				02D30DB125F27AAA007589BE /* CatAPIClient.swift in Sources */,
 				02DD19DC25D6F8DE00236A74 /* AppDelegate.swift in Sources */,
