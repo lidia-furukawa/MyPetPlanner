@@ -70,7 +70,8 @@ class DogAPIClient {
                         breeds.append(breed.key)
                     }
                 }
-                completion(breeds.sorted(), nil)
+                let capitalizedBreeds = breeds.map { $0.capitalized }
+                completion(capitalizedBreeds.sorted(), nil)
             } else {
                 completion([], error)
             }
