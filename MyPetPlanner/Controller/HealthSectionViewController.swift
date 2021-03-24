@@ -27,9 +27,6 @@ class HealthSectionViewController: UIViewController {
     
     var sectionNameKeyPath = String()
     
-    let tintColor = #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1)
-    let backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.7176470588, blue: 0.8980392157, alpha: 1)
-    
     let dateFormatter = DateFormatter()
 
     lazy var fetchedResultsController: NSFetchedResultsController<NSManagedObject> = {
@@ -75,11 +72,13 @@ class HealthSectionViewController: UIViewController {
             fatalError("Unindentified Segue")
         }
     }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case "createNewFood":
             let vc = segue.destination as! FoodViewController
             vc.selectedObjectName = selectedObjectName
+            vc.pet = pet
             vc.dataController = dataController
         default:
             fatalError("Unindentified Segue")
