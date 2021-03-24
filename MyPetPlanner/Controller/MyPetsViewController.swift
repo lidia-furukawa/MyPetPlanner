@@ -17,30 +17,42 @@ class MyPetsViewController: UIViewController {
     
     var fetchedResultsController: NSFetchedResultsController<Pet>!
 
-    var editedCellIndexPath = IndexPath()
+    var selectedIndexPath = IndexPath()
     
     var keyPath = "type"
     var sectionNameKeyPath = "type"
-    
-    let tintColor = #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1)
-    let backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.7176470588, blue: 0.8980392157, alpha: 1)
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupFetchedResultsController(keyPath, sectionNameKeyPath)
+        initializeView()
+    }
+
+    private func initializeView() {
         tableView.tableFooterView = UIView()
         tableView.sectionIndexColor = tintColor
         tableView.sectionIndexBackgroundColor = UIColor.white
         navigationItem.leftBarButtonItem?.tintColor = tintColor
         navigationItem.rightBarButtonItem?.tintColor = tintColor
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         setupFetchedResultsController(keyPath, sectionNameKeyPath)
-        tableView.reloadData()
+
+        if let indexPathData = UserDefaults.standard.data(forKey: "selectedIndexPath") {
+            print("Selected pet")
+            selectedIndexPath = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(indexPathData) as! IndexPath
+            tableView.reloadData()
+            tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .top)
+            configureCellAcessory(selectedIndexPath)
+            passSelectedPetToHealthVC(selectedIndexPath)
+        } else {
+            print("No selected pet")
+            tableView.reloadData()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -61,6 +73,21 @@ class MyPetsViewController: UIViewController {
         } catch {
             fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }
+    }
+    
+    func configureCellAcessory(_ indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.tintColor = tintColor
+            cell.accessoryType = .checkmark
+            navigationItem.title = "Pet: \(cell.textLabel?.text ?? "None")"
+        }
+    }
+    
+    func passSelectedPetToHealthVC(_ indexPath: IndexPath) {
+        let healthTab = self.tabBarController?.viewControllers![1] as! UINavigationController
+        let healthViewController = healthTab.topViewController as! HealthViewController
+        healthViewController.pet = fetchedResultsController.object(at: indexPath)
+        healthViewController.dataController = dataController
     }
     
     /// Delete a pet at the specified index path
@@ -102,7 +129,7 @@ class MyPetsViewController: UIViewController {
             vc.dataController = dataController
         } else if segue.identifier == "editPet" {
             let vc = segue.destination as! PetViewController
-            vc.pet = fetchedResultsController.object(at: editedCellIndexPath)
+            vc.pet = fetchedResultsController.object(at: selectedIndexPath)
             vc.dataController = dataController
         }
     }
@@ -169,25 +196,16 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        switch editingStyle {
-        case .delete: deletePet(at: indexPath)
-        default: ()
-        }
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            cell.tintColor = tintColor
-            cell.accessoryType = .checkmark
-            let petName = cell.textLabel?.text
-            navigationItem.title = "Selected Pet: \(petName ?? "None")"
-            
-            let healthTab = self.tabBarController?.viewControllers![1] as! UINavigationController
-            let healthViewController = healthTab.topViewController as! HealthViewController
-            healthViewController.pet = fetchedResultsController.object(at: indexPath)
-            healthViewController.dataController = dataController
+        if !selectedIndexPath.isEmpty {
+            tableView.deselectRow(at: selectedIndexPath, animated: false)
         }
+        
+        configureCellAcessory(indexPath)
+        passSelectedPetToHealthVC(indexPath)
+
+        let indexPathData = try? NSKeyedArchiver.archivedData(withRootObject: indexPath, requiringSecureCoding: false)
+        UserDefaults.standard.set(indexPathData, forKey: "selectedIndexPath")
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -202,7 +220,7 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editRowAction = UIContextualAction(style: UIContextualAction.Style.normal, title: "Edit", handler: { (action, view, completion) in
-            self.editedCellIndexPath = indexPath
+            self.selectedIndexPath = indexPath
             self.performSegue(withIdentifier: "editPet", sender: nil)
             completion(true)
         })
@@ -215,6 +233,8 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
             
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                 self.deletePet(at: indexPath)
+                UserDefaults.standard.set(nil, forKey: "selectedIndexPath")
+                self.navigationItem.title = "Pet: None"
                 completion(true)
             })
             

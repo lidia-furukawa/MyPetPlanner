@@ -21,9 +21,6 @@ class HealthViewController: UIViewController {
     let sectionTitles = ["Food", "Grooming", "Parasite Control", "Medication"]
     let sectionDataSource = [["Kibble or Dry Food", "Fresh or Raw Food"], ["Bathing", "Fur", "Teeth", "Nails", "Ears"], ["Internal", "External"], ["Medications", "Supplements"]]
     
-    let tintColor = #colorLiteral(red: 0.6509035826, green: 0.2576052547, blue: 0.8440084457, alpha: 1)
-    let backgroundColor = #colorLiteral(red: 0.8941176471, green: 0.7176470588, blue: 0.8980392157, alpha: 1)
-    
     var selectedObjectName = String()
     
     override func viewDidLoad() {
@@ -34,7 +31,7 @@ class HealthViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.title = "Selected Pet: \(pet?.name ?? "None")"
+        navigationItem.title = "Pet: \(pet?.name ?? "None")"
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
