@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import EventKit
 
 class FoodViewController: UIViewController {
 
@@ -34,6 +35,9 @@ class FoodViewController: UIViewController {
     
     var dataController: DataController!
     
+    /// The pet whose food is being displayed/edited
+    var pet: Pet?
+    
     /// The food either passed by `HealthSectionViewController` or constructed when adding a new food
     var food: Food!
     
@@ -42,6 +46,10 @@ class FoodViewController: UIViewController {
     var activeTextField = UITextField()
 
     var selectedObjectName = String()
+    
+    let eventStore = EKEventStore()
+
+    let calendarKey = "MyPetPlanner"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +73,7 @@ class FoodViewController: UIViewController {
     
     func addNewFood() {
         let newFood = Food(context: dataController.viewContext)
+        newFood.pet = pet
         try? dataController.viewContext.save()
         food = newFood
     }
@@ -130,6 +139,84 @@ class FoodViewController: UIViewController {
     @objc func handleDatePicker(_ sender: UIDatePicker) {
         dateFormatter.dateFormat = "MM-dd-yyyy"
         activeTextField.text = dateFormatter.string(from: sender.date)
+    }
+    
+    func addReminder() {
+        eventStore.requestAccess(to: .reminder, completion:{(granted, error) in
+            DispatchQueue.main.async {
+                if granted && error == nil {
+                    let reminder = EKReminder(eventStore: self.eventStore)
+                    
+                    reminder.title = "\(self.foodTypeLabel!): \(self.brandTextField.text ?? "#")"
+                    reminder.calendar = self.loadCalendar(.reminder)
+                    let dueDate = self.dateFormatter.date(from: self.endDateTextField.text!)
+                    reminder.dueDateComponents = Calendar.current.dateComponents([.month, .day, .year], from: dueDate!)
+                    
+                    // Configure the recurrence rule
+                    let recurrenceRule = EKRecurrenceRule(
+                        recurrenceWith: .weekly,
+                        interval: 1,
+                        daysOfTheWeek: [EKRecurrenceDayOfWeek(.monday)],
+                        daysOfTheMonth: nil,
+                        monthsOfTheYear: nil,
+                        weeksOfTheYear: nil,
+                        daysOfTheYear: nil,
+                        setPositions: nil,
+                        end: nil)
+                    
+                    reminder.addRecurrenceRule(recurrenceRule)
+                    
+                    do {
+                        try self.eventStore.save(reminder, commit: true)
+                    } catch {
+                        print("Cannot save")
+                        return
+                    }
+                    print("Reminder saved")
+                }
+            }
+        })
+    }
+    
+    func loadCalendar(_ type: EKEntityType) -> EKCalendar? {
+        // Access all available reminder calendars from the Event Store
+        let allCalendars = eventStore.calendars(for: type)
+        
+        // Filter the available calendars to return the one that matches the retrieved identifier from UserDefaults
+        if let retrievedIdentifier = UserDefaults.standard.object(forKey: self.calendarKey) {
+            return allCalendars.filter {
+                (calendar: EKCalendar) -> Bool in
+                calendar.calendarIdentifier == retrievedIdentifier as! String
+                }.first!
+        } else {
+            print("Create new calendar")
+            return createNewCalendar()
+        }
+    }
+    
+    func createNewCalendar() -> EKCalendar? {
+        // Use the Event Store to create a new calendar instance
+        let newCalendar = EKCalendar(for: .reminder, eventStore: eventStore)
+        newCalendar.title = calendarKey
+        
+        // Access all available sources from the Event Store
+        let sourcesInEventStore = eventStore.sources
+        
+        // Filter the available sources to return the one that matches .Local
+        newCalendar.source = sourcesInEventStore.filter {
+            (source: EKSource) -> Bool in
+            source.sourceType.rawValue == EKSourceType.local.rawValue
+            }.first!
+        
+        // Save the calendar
+        do {
+            try eventStore.saveCalendar(newCalendar, commit: true)
+            UserDefaults.standard.set(newCalendar.calendarIdentifier, forKey: calendarKey)
+            print("Calendar created")
+            return newCalendar
+        } catch {
+            fatalError("Error saving the calendar")
+        }
     }
 }
 
