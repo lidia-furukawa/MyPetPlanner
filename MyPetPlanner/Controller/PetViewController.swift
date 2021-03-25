@@ -39,9 +39,7 @@ class PetViewController: UIViewController {
     let pickerView = UIPickerView()
     
     var dogBreeds: [String] = []
-    
-    var catList: [CatResponse] = []
-    
+
     var catBreeds: [String] = []
     
     let dateFormatter = DateFormatter()
@@ -166,8 +164,7 @@ class PetViewController: UIViewController {
     }
     
     func handleCatResponse(cats: [CatResponse], error: Error?) {
-        catList = cats
-        for cat in catList {
+        for cat in cats {
             catBreeds.append(cat.name)
         }
     }
@@ -225,8 +222,9 @@ class PetViewController: UIViewController {
         present(imagePickerPopup, animated: true, completion: nil)
     }
     
-    @IBAction func saveButton(_ sender: Any) {
-        saving(true)
+    @IBAction func saveButton(_ sender: UIButton) {
+        presentActivityIndicator(true, forButton: sender)
+        
         if pet == nil {
             addNewPet()
         }
@@ -280,25 +278,12 @@ class PetViewController: UIViewController {
         sender.becomeFirstResponder()
         saveButton.isEnabled = true
     }
-    
-    /// Save Activity Indicator
-    func saving(_ isSaving: Bool) {
-        let savingView = UIView()
-        savingView.frame = view.bounds
-        savingView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        savingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.center = CGPoint(x: savingView.frame.size.width/2, y: savingView.frame.size.height/2)
-        activityIndicator.style = .gray
-        
-        savingView.addSubview(activityIndicator)
-        view.addSubview(savingView)
-        
-        isSaving ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
-        saveButton.isEnabled = !isSaving
-    }
 }
+
+// -----------------------------------------------------------------------------
+// MARK: - SaveActivityIndicator
+
+extension PetViewController: SaveActivityIndicator { }
 
 // -----------------------------------------------------------------------------
 // MARK: - UITextFieldDelegate

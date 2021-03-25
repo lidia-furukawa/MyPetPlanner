@@ -85,7 +85,9 @@ class FoodViewController: UIViewController {
         food = newFood
     }
     
-    @IBAction func saveButton(_ sender: Any) {
+    @IBAction func saveButton(_ sender: UIButton) {
+        presentActivityIndicator(true, forButton: sender)
+
         if food == nil {
             addNewFood()
         }
@@ -226,6 +228,11 @@ class FoodViewController: UIViewController {
         }
     }
 }
+
+// -----------------------------------------------------------------------------
+// MARK: - SaveActivityIndicator
+
+extension FoodViewController: SaveActivityIndicator { }
 
 // -----------------------------------------------------------------------------
 // MARK: - UITextFieldDelegate
