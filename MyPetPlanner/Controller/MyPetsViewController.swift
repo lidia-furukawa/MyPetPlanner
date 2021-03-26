@@ -117,7 +117,7 @@ class MyPetsViewController: UIViewController {
     }
     
     @IBAction func addNewPet(_ sender: Any) {
-        performSegue(withIdentifier: "createNewPet", sender: nil)
+        performSegue(withIdentifier: SegueIdentifiers.createNewPet, sender: nil)
     }
     
     @IBAction func sortPets(_ sender: Any) {
@@ -152,9 +152,9 @@ class MyPetsViewController: UIViewController {
         vc.dataController = dataController
 
         switch segue.identifier {
-        case "createNewPet":
+        case SegueIdentifiers.createNewPet:
             vc.pet = nil
-        case "editPet":
+        case SegueIdentifiers.editPet:
             vc.pet = fetchedResultsController.object(at: selectedIndexPath)
         default:
             fatalError("Unindentified Segue")
@@ -271,7 +271,7 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editRowAction = UIContextualAction(style: UIContextualAction.Style.normal, title: "Edit", handler: { (action, view, completion) in
             self.selectedIndexPath = indexPath
-            self.performSegue(withIdentifier: "editPet", sender: nil)
+            self.performSegue(withIdentifier: SegueIdentifiers.editPet, sender: nil)
             completion(true)
         })
         

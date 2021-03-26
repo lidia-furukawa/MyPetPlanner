@@ -41,9 +41,20 @@ class HealthSectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        initializeView()
+    }
+
+    fileprivate func initializeView() {
+        tableView.tableFooterView = UIView()
+        navigationItem.title = selectedObjectName
+        navigationItem.leftBarButtonItem?.tintColor = tintColor
+        setupRightBarButton()
+    }
+    
+    fileprivate func setupRightBarButton() {
         let addObjectButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addObjectButton(_:)))
         navigationItem.rightBarButtonItem = addObjectButton
-        navigationItem.title = selectedObjectName
+        navigationItem.rightBarButtonItem?.tintColor = tintColor
     }
 
     /// Generic FetchedResultsController builder
@@ -67,7 +78,7 @@ class HealthSectionViewController: UIViewController {
     @objc func addObjectButton(_ sender: UIBarButtonItem) {
         switch selectedObjectSectionName {
         case "Food":
-            performSegue(withIdentifier: "createNewFood", sender: nil)
+            performSegue(withIdentifier: SegueIdentifiers.createNewFood, sender: nil)
         default:
             fatalError("Unindentified Segue")
         }
@@ -75,7 +86,7 @@ class HealthSectionViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case "createNewFood":
+        case SegueIdentifiers.createNewFood:
             let vc = segue.destination as! FoodViewController
             vc.selectedObjectName = selectedObjectName
             vc.pet = pet
@@ -123,14 +134,16 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
             dateFormatter.dateFormat = "MM-dd-yyyy"
             cell.startDateLabel.text = dateFormatter.string(from: aFood.startDate!)
             cell.endDateLabel.text = dateFormatter.string(from: aFood.endDate!)
-            
-            if let photoData = aFood.photo {
-                let image = UIImage(data: photoData)
-                cell.photoImageView.image = image
-            }
         default:
           fatalError()
         }
+        
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
+        let sectionImage = UIImage(named: cell.sectionNameLabel.text!)
+        let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
+        cell.photoImageView.image = templateImage
+        cell.photoImageView.tintColor = tintColor
+        
         return cell
     }
 }
