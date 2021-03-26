@@ -33,8 +33,8 @@ class PetViewController: UIViewController {
     
     var dataController: DataController!
 
-    /// The pet either passed by `MyPetsViewController` or constructed when adding a new pet
-    var pet: Pet!
+    /// The pet passed by `MyPetsViewController`
+    var pet: Pet?
     
     let pickerView = UIPickerView()
     
@@ -66,16 +66,8 @@ class PetViewController: UIViewController {
         DogAPIClient.getBreedsList(completion: handleDogBreedsListResponse(breeds:error:))
         CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
         
-        if pet != nil {
-            navigationBar.topItem?.title = "Edit Pet"
-            reloadSavedPet()
-        } else {
-            // Set fields default values
-            navigationBar.topItem?.title = "Add New Pet"
-            photoImageView.image = UIImage(named: "placeholder")
-            dateFormatter.dateFormat = "MM-dd-yyyy"
-            birthdayTextField.text = dateFormatter.string(from: Date())
-        }
+        reloadPetAttributes()
+        navigationBar.topItem?.title = "Edit \(pet?.name ?? "New Pet")"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -113,18 +105,19 @@ class PetViewController: UIViewController {
     
     func addNewPet() {
         let newPet = Pet(context: dataController.viewContext)
-        try? dataController.viewContext.save()
         pet = newPet
     }
     
-    func reloadSavedPet() {
-        if let photoData = pet.photo {
+    func reloadPetAttributes() {
+        if let photoData = pet?.photo {
             photoImageView.image = UIImage(data: photoData)
+        } else {
+            photoImageView.image = UIImage(named: "placeholder")
         }
         
-        nameTextField.text = pet.name
+        nameTextField.text = pet?.name
         
-        switch pet.type {
+        switch pet?.type {
         case "Dog":
             typeControl.selectedSegmentIndex = 0
         case "Cat":
@@ -133,15 +126,17 @@ class PetViewController: UIViewController {
             break
         }
         
-        if let birthdayDate = pet.birthday {
-            dateFormatter.dateFormat = "MM-dd-yyyy"
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        if let birthdayDate = pet?.birthday {
             birthdayTextField.text = dateFormatter.string(from: birthdayDate)
+        } else {
+            birthdayTextField.text = dateFormatter.string(from: Date())
         }
         
-        breedTextField.text = pet.breed
-        colorTextField.text = pet.color
+        breedTextField.text = pet?.breed
+        colorTextField.text = pet?.color
         
-        switch pet.gender {
+        switch pet?.gender {
         case "♂️":
             genderControl.selectedSegmentIndex = 0
         case "♀️":
@@ -150,8 +145,8 @@ class PetViewController: UIViewController {
             break
         }
         
-        weightTextField.text = String(pet.weight)
-        heightTextField.text = String(pet.height)
+        weightTextField.text = String(pet?.weight ?? 0)
+        heightTextField.text = String(pet?.height ?? 0)
     }
     
     @objc func handleDatePicker(_ sender: UIDatePicker!) {
@@ -167,44 +162,6 @@ class PetViewController: UIViewController {
         for cat in cats {
             catBreeds.append(cat.name)
         }
-    }
-    
-    /// Sign up to be notified when a keyboard event is coming up
-    func subscribeToKeyboardNotifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    /// Remove all the subscribed observers
-    func unsubscribeFromNotifications() {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    /// Shift the scroll view's frame up
-    @objc func keyboardWillShow(_ notification:Notification) {
-        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: getKeyboardHeight(notification), right: 0.0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
-
-        // If the active text field is hidden by keyboard, scroll it so it's visible
-        var aRect = self.view.frame
-        aRect.size.height = -getKeyboardHeight(notification)
-        if !aRect.contains(activeTextField.frame.origin) {
-            scrollView.scrollRectToVisible(activeTextField.frame, animated: true)
-        }
-    }
-    
-    /// Move the scroll view back down
-    @objc func keyboardWillHide(_ notification:Notification) {
-        let contentInsets = UIEdgeInsets.zero
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
-    }
-    
-    func getKeyboardHeight(_ notification:Notification) -> CGFloat {
-        let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
-        return keyboardSize.cgRectValue.height
     }
     
     @IBAction func selectPhotoButton(_ sender: Any) {
@@ -231,37 +188,37 @@ class PetViewController: UIViewController {
         
         let photoImage = photoImageView.image
         if let photoImageData = photoImage!.pngData() {
-            pet.setValue(photoImageData, forKey: "photo")
+            pet!.setValue(photoImageData, forKey: "photo")
         }
         
         if let birthdayText = birthdayTextField.text {
-            pet.setValue(dateFormatter.date(from: birthdayText), forKey: "birthday")
+            pet!.setValue(dateFormatter.date(from: birthdayText), forKey: "birthday")
         }
         
         let selectedType = typeControl.selectedSegmentIndex
-        pet.setValue(typeControl.titleForSegment(at: selectedType), forKey: "type")
+        pet!.setValue(typeControl.titleForSegment(at: selectedType), forKey: "type")
 
         let selectedGender = genderControl.selectedSegmentIndex
-        pet.setValue(genderControl.titleForSegment(at: selectedGender), forKey: "gender")
+        pet!.setValue(genderControl.titleForSegment(at: selectedGender), forKey: "gender")
         
         if nameTextField.text!.isEmpty {
-            pet.setValue("#", forKey: "name")
-            pet.setValue("#", forKey: "initialName")
+            pet!.setValue("#", forKey: "name")
+            pet!.setValue("#", forKey: "initialName")
         } else {
-            pet.setValue(nameTextField.text, forKey: "name")
+            pet!.setValue(nameTextField.text, forKey: "name")
             let nameInitialLetter = nameTextField.text?.prefix(1)
-            pet.setValue(nameInitialLetter, forKey: "initialName")
+            pet!.setValue(nameInitialLetter, forKey: "initialName")
         }
 
-        pet.setValue(breedTextField.text, forKey: "breed")
-        pet.setValue(colorTextField.text, forKey: "color")
+        pet!.setValue(breedTextField.text, forKey: "breed")
+        pet!.setValue(colorTextField.text, forKey: "color")
         
         if let weightText = weightTextField.text {
-            pet.setValue(Double(weightText) ?? 0, forKey: "weight")
+            pet!.setValue(Double(weightText) ?? 0, forKey: "weight")
         }
         
         if let heightText = heightTextField.text {
-            pet.setValue(Double(heightText) ?? 0, forKey: "height")
+            pet!.setValue(Double(heightText) ?? 0, forKey: "height")
         }
 
         try? dataController.viewContext.save()
@@ -277,6 +234,30 @@ class PetViewController: UIViewController {
         self.view.endEditing(true)
         sender.becomeFirstResponder()
         saveButton.isEnabled = true
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - KeyboardNotifications
+
+extension PetViewController: KeyboardNotifications {
+    func keyboardWillShow(_ notification:Notification) {
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: getKeyboardHeight(notification), right: 0.0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+        
+        // If the active text field is hidden by keyboard, scroll it so it's visible
+        var aRect = self.view.frame
+        aRect.size.height = -getKeyboardHeight(notification)
+        if !aRect.contains(activeTextField.frame.origin) {
+            scrollView.scrollRectToVisible(activeTextField.frame, animated: true)
+        }
+    }
+    
+    func keyboardWillHide(_ notification:Notification) {
+        let contentInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
     }
 }
 
@@ -318,11 +299,7 @@ extension PetViewController: UITextFieldDelegate {
             let datePickerView = UIDatePicker()
             datePickerView.datePickerMode = .date
             datePickerView.backgroundColor = .white
-            if pet != nil {
-                datePickerView.setDate(pet.birthday!, animated: false)
-            } else {
-                datePickerView.setDate(Date(), animated: false)
-            }
+            datePickerView.setDate(pet?.birthday ?? Date(), animated: false)
             birthdayTextField.inputView = datePickerView
             datePickerView.addTarget(self, action: #selector(handleDatePicker(_:)), for: .valueChanged)
         case breedTextField:

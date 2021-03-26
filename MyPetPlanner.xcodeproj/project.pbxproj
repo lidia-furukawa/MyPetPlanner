@@ -36,6 +36,7 @@
 		02F66F2B260C1DC000B99D6A /* SaveActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F2A260C1DC000B99D6A /* SaveActivityIndicator.swift */; };
 		02F66F2F260D1E5100B99D6A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F2E260D1E5100B99D6A /* TabBarController.swift */; };
 		02F66F31260D696100B99D6A /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F30260D696100B99D6A /* UserDefaultsKeys.swift */; };
+		02F66F37260E547600B99D6A /* KeyboardNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F36260E547600B99D6A /* KeyboardNotifications.swift */; };
 		73B6819DE3BC009A5D5AAFA7 /* Pods_MyPetPlannerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08F0B8607E1FD2CB31DBF08A /* Pods_MyPetPlannerTests.framework */; };
 		8419D1C9AC775680FB9DE2A5 /* Pods_MyPetPlanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D223A628C9731F9D4C8AE2C3 /* Pods_MyPetPlanner.framework */; };
 		8B85BA51E91C623C25C39B33 /* Pods_MyPetPlanner_MyPetPlannerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F220E7CD803857BC2465E0D7 /* Pods_MyPetPlanner_MyPetPlannerUITests.framework */; };
@@ -94,6 +95,7 @@
 		02F66F2A260C1DC000B99D6A /* SaveActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveActivityIndicator.swift; sourceTree = "<group>"; };
 		02F66F2E260D1E5100B99D6A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		02F66F30260D696100B99D6A /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
+		02F66F36260E547600B99D6A /* KeyboardNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNotifications.swift; sourceTree = "<group>"; };
 		08F0B8607E1FD2CB31DBF08A /* Pods_MyPetPlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPetPlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26DA4E0E64776BD06D4BAEA3 /* Pods-MyPetPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner.release.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner/Pods-MyPetPlanner.release.xcconfig"; sourceTree = "<group>"; };
 		456D38907334532E704C3A46 /* Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner-MyPetPlannerUITests/Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -153,10 +155,11 @@
 				0277383B25EED70C00510FF4 /* VetCareViewController.swift */,
 				0277383D25EED72D00510FF4 /* CalendarViewController.swift */,
 				0277383F25EED78800510FF4 /* ExpensesViewController.swift */,
+				02F66F30260D696100B99D6A /* UserDefaultsKeys.swift */,
 				02F66F26260BA23A00B99D6A /* UIViewController+Extension.swift */,
 				02F66F28260BB79500B99D6A /* UILabel+Extension.swift */,
 				02F66F2A260C1DC000B99D6A /* SaveActivityIndicator.swift */,
-				02F66F30260D696100B99D6A /* UserDefaultsKeys.swift */,
+				02F66F36260E547600B99D6A /* KeyboardNotifications.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -527,6 +530,7 @@
 				0277383E25EED72D00510FF4 /* CalendarViewController.swift in Sources */,
 				02F66F052602531900B99D6A /* FoodViewController.swift in Sources */,
 				0277384025EED78800510FF4 /* ExpensesViewController.swift in Sources */,
+				02F66F37260E547600B99D6A /* KeyboardNotifications.swift in Sources */,
 				0277384425F0002200510FF4 /* BreedsListResponse.swift in Sources */,
 				02F66F2F260D1E5100B99D6A /* TabBarController.swift in Sources */,
 				02F66F27260BA23A00B99D6A /* UIViewController+Extension.swift in Sources */,
