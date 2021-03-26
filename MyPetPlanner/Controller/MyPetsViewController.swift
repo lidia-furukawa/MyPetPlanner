@@ -17,11 +17,14 @@ class MyPetsViewController: UIViewController {
     
     var fetchedResultsController: NSFetchedResultsController<Pet>!
 
+//    var delegate: PetSelectionDelegate?
+    
     var selectedIndexPath = IndexPath()
     
     var keyPath = "type"
+    
     var sectionNameKeyPath = "type"
-        
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -40,19 +43,10 @@ class MyPetsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        loadLastKeyPaths()
         setupFetchedResultsController(keyPath, sectionNameKeyPath)
-
-        if let indexPathData = UserDefaults.standard.data(forKey: "selectedIndexPath") {
-            print("Selected pet")
-            selectedIndexPath = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(indexPathData) as! IndexPath
-            tableView.reloadData()
-            tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .top)
-            configureCellAcessory(selectedIndexPath)
-            passSelectedPetToHealthVC(selectedIndexPath)
-        } else {
-            print("No selected pet")
-            tableView.reloadData()
-        }
+        tableView.reloadData()
+        loadLastSelectedPet()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -75,11 +69,15 @@ class MyPetsViewController: UIViewController {
         }
     }
     
+    func configureNavigationTitle(_ indexPath: IndexPath) {
+        let selectedPet = fetchedResultsController.object(at: indexPath)
+        navigationItem.title = "Pet: \(selectedPet.name ?? "None")"
+    }
+
     func configureCellAcessory(_ indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.tintColor = tintColor
             cell.accessoryType = .checkmark
-            navigationItem.title = "Pet: \(cell.textLabel?.text ?? "None")"
         }
     }
     
@@ -88,6 +86,30 @@ class MyPetsViewController: UIViewController {
         let healthViewController = healthTab.topViewController as! HealthViewController
         healthViewController.pet = fetchedResultsController.object(at: indexPath)
         healthViewController.dataController = dataController
+    }
+    
+    func loadLastSelectedPet() {
+        if let indexPathData = UserDefaults.standard.data(forKey: UserDefaultsKeys.selectedIndexPathKey) {
+            if let indexPath = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(indexPathData) as? IndexPath {
+                print("There is a selected pet")
+                selectedIndexPath = indexPath
+                
+                // Highlight and checkmark the selected pet's row
+                tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .top)
+                configureCellAcessory(selectedIndexPath)
+                configureNavigationTitle(selectedIndexPath)
+                
+                passSelectedPetToHealthVC(selectedIndexPath)
+                //        delegate?.petWasSelected(fetchedResultsController.object(at: selectedIndexPath))
+            }
+        }
+    }
+    
+    func loadLastKeyPaths() {
+        if let lastKeyPath = UserDefaults.standard.string(forKey: UserDefaultsKeys.sortKeyPathKey), let lastSectionNameKeyPath = UserDefaults.standard.string(forKey: UserDefaultsKeys.sectionNameKeyPathKey) {
+            keyPath = lastKeyPath
+            sectionNameKeyPath = lastSectionNameKeyPath
+        }
     }
     
     /// Delete a pet at the specified index path
@@ -103,9 +125,12 @@ class MyPetsViewController: UIViewController {
     
     @IBAction func sortPets(_ sender: Any) {
         let sortPopup = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
         sortPopup.addAction(UIAlertAction(title: "Sort By Name (A - Z)", style: .default, handler: { _ in
             self.keyPath = "name"
             self.sectionNameKeyPath = "initialName"
+            UserDefaults.standard.set(self.keyPath, forKey: UserDefaultsKeys.sortKeyPathKey)
+            UserDefaults.standard.set(self.sectionNameKeyPath, forKey: UserDefaultsKeys.sectionNameKeyPathKey)
             self.setupFetchedResultsController(self.keyPath, self.sectionNameKeyPath)
             self.tableView.reloadData()
         }))
@@ -113,6 +138,8 @@ class MyPetsViewController: UIViewController {
         sortPopup.addAction(UIAlertAction(title: "Sort By Type (Cat - Dog)", style: .default, handler: { _ in
             self.keyPath = "type"
             self.sectionNameKeyPath = "type"
+            UserDefaults.standard.set(self.keyPath, forKey: UserDefaultsKeys.sortKeyPathKey)
+            UserDefaults.standard.set(self.sectionNameKeyPath, forKey: UserDefaultsKeys.sectionNameKeyPathKey)
             self.setupFetchedResultsController(self.keyPath, self.sectionNameKeyPath)
             self.tableView.reloadData()
         }))
@@ -202,10 +229,13 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         configureCellAcessory(indexPath)
+        configureNavigationTitle(indexPath)
+        
         passSelectedPetToHealthVC(indexPath)
+//        delegate?.petWasSelected(fetchedResultsController.object(at: indexPath))
 
         let indexPathData = try? NSKeyedArchiver.archivedData(withRootObject: indexPath, requiringSecureCoding: false)
-        UserDefaults.standard.set(indexPathData, forKey: "selectedIndexPath")
+        UserDefaults.standard.set(indexPathData, forKey: UserDefaultsKeys.selectedIndexPathKey)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -233,7 +263,7 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
             
             let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
                 self.deletePet(at: indexPath)
-                UserDefaults.standard.set(nil, forKey: "selectedIndexPath")
+                UserDefaults.standard.set(nil, forKey: UserDefaultsKeys.selectedIndexPathKey)
                 self.navigationItem.title = "Pet: None"
                 completion(true)
             })
