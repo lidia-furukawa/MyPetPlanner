@@ -16,8 +16,6 @@ class MyPetsViewController: UIViewController {
     var dataController: DataController!
     
     var fetchedResultsController: NSFetchedResultsController<Pet>!
-
-//    var delegate: PetSelectionDelegate?
     
     var selectedIndexPath = IndexPath()
     
@@ -100,7 +98,6 @@ class MyPetsViewController: UIViewController {
                 configureNavigationTitle(selectedIndexPath)
                 
                 passSelectedPetToHealthVC(selectedIndexPath)
-                //        delegate?.petWasSelected(fetchedResultsController.object(at: selectedIndexPath))
             }
         }
     }
@@ -151,14 +148,39 @@ class MyPetsViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "createNewPet" {
-            let vc = segue.destination as! PetViewController
-            vc.dataController = dataController
-        } else if segue.identifier == "editPet" {
-            let vc = segue.destination as! PetViewController
+        let vc = segue.destination as! PetViewController
+        vc.dataController = dataController
+
+        switch segue.identifier {
+        case "createNewPet":
+            vc.pet = nil
+        case "editPet":
             vc.pet = fetchedResultsController.object(at: selectedIndexPath)
-            vc.dataController = dataController
+        default:
+            fatalError("Unindentified Segue")
         }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - Age Calculator
+
+extension MyPetsViewController {
+    public func calculateAgeIn(component: Calendar.Component, from birthday: Date) -> Int {
+        let age = Calendar.current.dateComponents([component], from: birthday, to: Date())
+        switch component {
+        case .year:
+            return age.year ?? 0
+        case .month:
+            return age.month ?? 0
+        default:
+            fatalError("Age component should be in .year or .month")
+        }
+    }
+    
+    public func calculateAgeResidualMonths(from birthday: Date) -> Int {
+        let residualMonths = calculateAgeIn(component: .month, from: birthday) % 12
+        return residualMonths
     }
 }
 
@@ -205,9 +227,8 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         cell.name?.text = aPet.name
         
-        let ageInYears = Calendar.current.dateComponents([.year], from: aPet.birthday!, to: Date()).year!
-        let ageInMonths = Calendar.current.dateComponents([.month], from: aPet.birthday!, to: Date()).month!
-        let residualMonths = ageInMonths - 12 * ageInYears
+        let ageInYears = calculateAgeIn(component: .year, from: aPet.birthday!)
+        let residualMonths = calculateAgeResidualMonths(from: aPet.birthday!)
         
         cell.information?.text = "\(aPet.type ?? ""), Age: \(ageInYears)yr \(residualMonths)mo, \(aPet.gender ?? "")"
         cell.textLabel?.text = aPet.name
@@ -232,7 +253,6 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         configureNavigationTitle(indexPath)
         
         passSelectedPetToHealthVC(indexPath)
-//        delegate?.petWasSelected(fetchedResultsController.object(at: indexPath))
 
         let indexPathData = try? NSKeyedArchiver.archivedData(withRootObject: indexPath, requiringSecureCoding: false)
         UserDefaults.standard.set(indexPathData, forKey: UserDefaultsKeys.selectedIndexPathKey)
