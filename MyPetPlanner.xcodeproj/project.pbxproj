@@ -38,6 +38,8 @@
 		02F66F31260D696100B99D6A /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F30260D696100B99D6A /* UserDefaultsKeys.swift */; };
 		02F66F37260E547600B99D6A /* KeyboardNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F36260E547600B99D6A /* KeyboardNotifications.swift */; };
 		02F66F39260E885900B99D6A /* SegueIdentifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F38260E885900B99D6A /* SegueIdentifiers.swift */; };
+		02F66F3B260E8E9F00B99D6A /* TableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3A260E8E9F00B99D6A /* TableSection.swift */; };
+		02F66F3D261132EB00B99D6A /* TableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3C261132EB00B99D6A /* TableRow.swift */; };
 		73B6819DE3BC009A5D5AAFA7 /* Pods_MyPetPlannerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08F0B8607E1FD2CB31DBF08A /* Pods_MyPetPlannerTests.framework */; };
 		8419D1C9AC775680FB9DE2A5 /* Pods_MyPetPlanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D223A628C9731F9D4C8AE2C3 /* Pods_MyPetPlanner.framework */; };
 		8B85BA51E91C623C25C39B33 /* Pods_MyPetPlanner_MyPetPlannerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F220E7CD803857BC2465E0D7 /* Pods_MyPetPlanner_MyPetPlannerUITests.framework */; };
@@ -98,6 +100,8 @@
 		02F66F30260D696100B99D6A /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
 		02F66F36260E547600B99D6A /* KeyboardNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNotifications.swift; sourceTree = "<group>"; };
 		02F66F38260E885900B99D6A /* SegueIdentifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegueIdentifiers.swift; sourceTree = "<group>"; };
+		02F66F3A260E8E9F00B99D6A /* TableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSection.swift; sourceTree = "<group>"; };
+		02F66F3C261132EB00B99D6A /* TableRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRow.swift; sourceTree = "<group>"; };
 		08F0B8607E1FD2CB31DBF08A /* Pods_MyPetPlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPetPlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26DA4E0E64776BD06D4BAEA3 /* Pods-MyPetPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner.release.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner/Pods-MyPetPlanner.release.xcconfig"; sourceTree = "<group>"; };
 		456D38907334532E704C3A46 /* Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner-MyPetPlannerUITests/Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -181,6 +185,8 @@
 			isa = PBXGroup;
 			children = (
 				0277384925F03DCF00510FF4 /* DataController.swift */,
+				02F66F3C261132EB00B99D6A /* TableRow.swift */,
+				02F66F3A260E8E9F00B99D6A /* TableSection.swift */,
 				0277383425EEB15400510FF4 /* API */,
 				0277383325EEB10E00510FF4 /* Data */,
 				0263B28525F82163008E120C /* Managed Object Extensions */,
@@ -540,6 +546,7 @@
 				02F66F27260BA23A00B99D6A /* UIViewController+Extension.swift in Sources */,
 				02DD19DE25D6F8DE00236A74 /* MyPetsViewController.swift in Sources */,
 				0277384225EFFF5200510FF4 /* DogAPIClient.swift in Sources */,
+				02F66F3B260E8E9F00B99D6A /* TableSection.swift in Sources */,
 				0277384A25F03DCF00510FF4 /* DataController.swift in Sources */,
 				02DD19E425D6F8DE00236A74 /* MyPetPlanner.xcdatamodeld in Sources */,
 				0277384C25F0F37A00510FF4 /* PetViewController.swift in Sources */,
@@ -548,6 +555,7 @@
 				0277383A25EEC80B00510FF4 /* HealthViewController.swift in Sources */,
 				02F66F29260BB79500B99D6A /* UILabel+Extension.swift in Sources */,
 				02D30DB725F6EB4A007589BE /* PetCell.swift in Sources */,
+				02F66F3D261132EB00B99D6A /* TableRow.swift in Sources */,
 				02D30DB125F27AAA007589BE /* CatAPIClient.swift in Sources */,
 				02DD19DC25D6F8DE00236A74 /* AppDelegate.swift in Sources */,
 			);

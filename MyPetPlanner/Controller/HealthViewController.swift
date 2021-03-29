@@ -17,9 +17,8 @@ class HealthViewController: UIViewController {
     
     /// The pet passed by `MyPetsViewController` when a pet cell's selected
     var pet: Pet?
-    
-    let sectionTitles = ["Food", "Grooming", "Parasite Control", "Medication"]
-    let sectionDataSource = [["Kibble or Dry Food", "Fresh or Raw Food"], ["Bathing", "Fur", "Teeth", "Nails", "Ears"], ["Internal", "External"], ["Medications", "Supplements"]]
+
+    let healthSections = TableSection.healthSections
     
     var selectedObjectName = String()
     
@@ -58,15 +57,15 @@ class HealthViewController: UIViewController {
 
 extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionTitles.count
+        return healthSections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sectionDataSource[section].count
+        return healthSections[section].rows.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitles[section]
+        return healthSections[section].title
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -85,8 +84,11 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
         
         // Configure the cell
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
-        cell.titleLabel?.text = sectionDataSource[indexPath.section][indexPath.row]
-        let sectionImage = UIImage(named: cell.titleLabel.text!)
+        let section = healthSections[indexPath.section]
+        let row = section.rows[indexPath.row]
+        cell.titleLabel?.text = row.text
+        
+        let sectionImage = UIImage(named: row.image)
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
         cell.photoImageView.image = templateImage
         cell.photoImageView.tintColor = tintColor
@@ -94,8 +96,8 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedObjectName = sectionDataSource[indexPath.section][indexPath.row]
-        let selectedCellSection = sectionTitles[indexPath.section]
+        selectedObjectName = healthSections[indexPath.section].rows[indexPath.row].text
+        let selectedCellSection = healthSections[indexPath.section].title
         performSegue(withIdentifier: selectedCellSection, sender: nil)
     }
     
