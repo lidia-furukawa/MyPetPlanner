@@ -243,8 +243,7 @@ class PetViewController: UIViewController {
 extension PetViewController: KeyboardNotifications {
     func keyboardWillShow(_ notification:Notification) {
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: getKeyboardHeight(notification), right: 0.0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
+        setScrollViewInsets(scrollView, contentInsets)
         
         // If the active text field is hidden by keyboard, scroll it so it's visible
         var aRect = self.view.frame
@@ -256,8 +255,7 @@ extension PetViewController: KeyboardNotifications {
     
     func keyboardWillHide(_ notification:Notification) {
         let contentInsets = UIEdgeInsets.zero
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
+        setScrollViewInsets(scrollView, contentInsets)
     }
 }
 

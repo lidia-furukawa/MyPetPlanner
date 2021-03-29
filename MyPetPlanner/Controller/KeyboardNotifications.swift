@@ -38,4 +38,9 @@ extension KeyboardNotifications where Self: UIViewController {
         let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
         return keyboardSize.cgRectValue.height
     }
+    
+    func setScrollViewInsets(_ scrollView: UIScrollView, _ contentInsets: UIEdgeInsets) {
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+    }
 }

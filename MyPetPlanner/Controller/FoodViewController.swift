@@ -78,6 +78,18 @@ class FoodViewController: UIViewController {
         endDateTextField.text = dateFormatter.string(from: Date())
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        subscribeToKeyboardNotifications()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        unsubscribeFromNotifications()
+    }
+    
     func addNewFood() {
         let newFood = Food(context: dataController.viewContext)
         newFood.pet = pet
@@ -226,6 +238,28 @@ class FoodViewController: UIViewController {
         } catch {
             fatalError("Error saving the calendar")
         }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - KeyboardNotifications
+
+extension FoodViewController: KeyboardNotifications {
+    func keyboardWillShow(_ notification:Notification) {
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: getKeyboardHeight(notification), right: 0.0)
+        setScrollViewInsets(scrollView, contentInsets)
+        
+        // If the active text field is hidden by keyboard, scroll it so it's visible
+        var aRect = self.view.frame
+        aRect.size.height = -getKeyboardHeight(notification)
+        if !aRect.contains(activeTextField.frame.origin) {
+            scrollView.scrollRectToVisible(activeTextField.frame, animated: true)
+        }
+    }
+    
+    func keyboardWillHide(_ notification:Notification) {
+        let contentInsets = UIEdgeInsets.zero
+        setScrollViewInsets(scrollView, contentInsets)
     }
 }
 
