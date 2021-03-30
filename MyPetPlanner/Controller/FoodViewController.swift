@@ -28,6 +28,7 @@ class FoodViewController: UIViewController {
     @IBOutlet weak var startDateTextField: UITextField!
     @IBOutlet weak var endDateTextField: UITextField!
     @IBOutlet weak var expensesLabel: UILabel!
+    @IBOutlet weak var reminderSwitch: UISwitch!
     @IBOutlet weak var bagWeightTextField: UITextField!
     @IBOutlet weak var bagWeightUnitControl: UISegmentedControl!
     @IBOutlet weak var bagPriceTextField: UITextField!
@@ -41,41 +42,53 @@ class FoodViewController: UIViewController {
     /// The food either passed by `HealthSectionViewController` or constructed when adding a new food
     var food: Food!
     
-    let dateFormatter = DateFormatter()
-    
     var activeTextField = UITextField()
 
     var selectedObjectName = String()
     
-    let eventStore = EKEventStore()
+    var eventStore = EKEventStore()
 
     let calendarKey = "MyPetPlanner"
     
+    var reminder: EKReminder?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        initView()
+        
+        if food != nil {
+            // Edit Food - TO DO
+        } else {
+            setFieldsDefaultValues()
+        }
+    }
+    
+    func initView() {
+        changeControlsTintColor(tintColor: tintColor)
 
-        foodTypeLabel.configureLabel(backgroundColor: backgroundColor, textColor: UIColor.white, cornerRadius: 3)
         datesLabel.configureLabel(backgroundColor: backgroundColor, textColor: UIColor.white, cornerRadius: 3)
         expensesLabel.configureLabel(backgroundColor: backgroundColor, textColor: UIColor.white, cornerRadius: 3)
         
         for textField in textFields {
             textField.delegate = self
         }
-        
-        if food != nil {
-            // Edit Food - TO DO
-        } else {
-            setDefaultValues()
-        }
     }
     
-    func setDefaultValues() {
+    func changeControlsTintColor(tintColor: UIColor) {
+        saveButton.tintColor = tintColor
+        cancelButton.tintColor = tintColor
+        mealsStepper.tintColor = tintColor
+        quantityUnitControl.tintColor = tintColor
+        quantityPerMealOrDayControl.tintColor = tintColor
+        bagWeightUnitControl.tintColor = tintColor
+    }
+    
+    func setFieldsDefaultValues() {
         navigationBar.topItem?.title = "Add New Food"
         foodImageView.image = UIImage(named: selectedObjectName)
         foodTypeLabel.text = selectedObjectName
-        dateFormatter.dateFormat = "MM-dd-yyyy"
-        startDateTextField.text = dateFormatter.string(from: Date())
-        endDateTextField.text = dateFormatter.string(from: Date())
+        startDateTextField.text = dateToString(from: Date())
+        endDateTextField.text = dateToString(from: Date())
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -84,8 +97,8 @@ class FoodViewController: UIViewController {
         subscribeToKeyboardNotifications()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
         unsubscribeFromNotifications()
     }
@@ -127,11 +140,11 @@ class FoodViewController: UIViewController {
         }
         
         if let startDateText = startDateTextField.text {
-            food.setValue(dateFormatter.date(from: startDateText), forKey: "startDate")
+            food.setValue(stringToDate(from: startDateText), forKey: "startDate")
         }
         
         if let endDateText = endDateTextField.text {
-            food.setValue(dateFormatter.date(from: endDateText), forKey: "endDate")
+            food.setValue(stringToDate(from: endDateText), forKey: "endDate")
         }
         
         if let bagWeightText = bagWeightTextField.text {
@@ -146,6 +159,12 @@ class FoodViewController: UIViewController {
         }
                 
         try? dataController.viewContext.save()
+        
+        if let reminder = reminder {
+            try? eventStore.save(reminder, commit: true)
+            print("Reminder saved")
+        }
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -158,86 +177,50 @@ class FoodViewController: UIViewController {
     }
     
     @objc func handleDatePicker(_ sender: UIDatePicker) {
-        dateFormatter.dateFormat = "MM-dd-yyyy"
-        activeTextField.text = dateFormatter.string(from: sender.date)
+        activeTextField.text = dateToString(from: sender.date)
     }
     
-    func addReminder() {
-        eventStore.requestAccess(to: .reminder, completion:{(granted, error) in
-            DispatchQueue.main.async {
-                if granted && error == nil {
-                    let reminder = EKReminder(eventStore: self.eventStore)
-                    
-                    reminder.title = "\(self.foodTypeLabel!): \(self.brandTextField.text ?? "#")"
-                    reminder.calendar = self.loadCalendar(.reminder)
-                    let dueDate = self.dateFormatter.date(from: self.endDateTextField.text!)
-                    reminder.dueDateComponents = Calendar.current.dateComponents([.month, .day, .year], from: dueDate!)
-                    
-                    // Configure the recurrence rule
-                    let recurrenceRule = EKRecurrenceRule(
-                        recurrenceWith: .weekly,
-                        interval: 1,
-                        daysOfTheWeek: [EKRecurrenceDayOfWeek(.monday)],
-                        daysOfTheMonth: nil,
-                        monthsOfTheYear: nil,
-                        weeksOfTheYear: nil,
-                        daysOfTheYear: nil,
-                        setPositions: nil,
-                        end: nil)
-                    
-                    reminder.addRecurrenceRule(recurrenceRule)
-                    
-                    do {
-                        try self.eventStore.save(reminder, commit: true)
-                    } catch {
-                        print("Cannot save")
-                        return
-                    }
-                    print("Reminder saved")
-                }
-            }
-        })
-    }
-    
-    func loadCalendar(_ type: EKEntityType) -> EKCalendar? {
-        // Access all available reminder calendars from the Event Store
-        let allCalendars = eventStore.calendars(for: type)
-        
-        // Filter the available calendars to return the one that matches the retrieved identifier from UserDefaults
-        if let retrievedIdentifier = UserDefaults.standard.object(forKey: self.calendarKey) {
-            return allCalendars.filter {
-                (calendar: EKCalendar) -> Bool in
-                calendar.calendarIdentifier == retrievedIdentifier as! String
-                }.first!
-        } else {
-            print("Create new calendar")
-            return createNewCalendar()
+    @IBAction func addReminderTapped(_ sender: UISwitch) {
+        if reminderSwitch.isOn {
+            checkAuthorizationStatus(for: .reminder)
         }
     }
     
-    func createNewCalendar() -> EKCalendar? {
-        // Use the Event Store to create a new calendar instance
-        let newCalendar = EKCalendar(for: .reminder, eventStore: eventStore)
-        newCalendar.title = calendarKey
+    func createReminder() {
+        reminder = EKReminder(eventStore: eventStore)
         
-        // Access all available sources from the Event Store
-        let sourcesInEventStore = eventStore.sources
+        reminder?.title = self.foodTypeLabel.text
+        reminder?.calendar = EKCalendar.loadCalendar(type: .reminder, from: eventStore, with: calendarKey)
+        reminder?.notes = "Feed \(self.pet?.name ?? "#") with \(self.brandTextField.text ?? "#")"
         
-        // Filter the available sources to return the one that matches .Local
-        newCalendar.source = sourcesInEventStore.filter {
-            (source: EKSource) -> Bool in
-            source.sourceType.rawValue == EKSourceType.local.rawValue
-            }.first!
+        let startDate = stringToDate(from: startDateTextField.text!)
+        reminder?.startDateComponents = Calendar.current.dateComponents([.month, .day, .year], from: startDate)
         
-        // Save the calendar
-        do {
-            try eventStore.saveCalendar(newCalendar, commit: true)
-            UserDefaults.standard.set(newCalendar.calendarIdentifier, forKey: calendarKey)
-            print("Calendar created")
-            return newCalendar
-        } catch {
-            fatalError("Error saving the calendar")
-        }
+        let dueDate = stringToDate(from: endDateTextField.text!)
+        reminder?.dueDateComponents = Calendar.current.dateComponents([.month, .day, .year], from: dueDate)
+        
+        // Configure the recurrence rule
+        let recurrenceRule = EKRecurrenceRule(
+            recurrenceWith: .weekly,
+            interval: 1,
+            daysOfTheWeek: [EKRecurrenceDayOfWeek(.monday)],
+            daysOfTheMonth: nil,
+            monthsOfTheYear: nil,
+            weeksOfTheYear: nil,
+            daysOfTheYear: nil,
+            setPositions: nil,
+            end: nil)
+        
+        reminder?.addRecurrenceRule(recurrenceRule)
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - EventStoreAuthorization
+
+extension FoodViewController: CalendarReminderAuthorization {
+    func accessGranted() {
+        createReminder()
     }
 }
 
@@ -324,7 +307,7 @@ extension FoodViewController: UITextFieldDelegate {
             } else {
                 datePickerView.setDate(Date(), animated: false)
             }
-            startDateTextField.inputView = datePickerView
+            endDateTextField.inputView = datePickerView
             datePickerView.addTarget(self, action: #selector(handleDatePicker(_:)), for: .valueChanged)
         case bagWeightTextField:
             activeTextField = bagWeightTextField
