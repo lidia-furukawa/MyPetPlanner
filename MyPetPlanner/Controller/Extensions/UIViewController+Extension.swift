@@ -26,5 +26,19 @@ extension UIViewController {
             return ControlsColors.backgroundColor
         }
     }
-
 }
+
+extension UIViewController {
+    func dateToString(from date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        return dateFormatter.string(from: date)
+    }
+    
+    func stringToDate(from string: String) -> Date {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        return dateFormatter.date(from: string)!
+    }
+}
+
