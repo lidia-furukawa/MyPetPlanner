@@ -25,9 +25,17 @@ class CalendarViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         checkAuthorizationStatus(for: .reminder)
+        
+        subscribeToEventStoreNotifications()
     }
     
-        func loadEntity(_ type: EKEntityType) {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        unsubscribeFromNotifications()
+    }
+
+    func loadEntity(_ type: EKEntityType) {
         // Use an Event Store instance to create and properly configure an NSPredicate
         if let calendar = EKCalendar.loadCalendar(type: .reminder, from: eventStore, with: calendarKey) {
             let remindersPredicate = eventStore.predicateForReminders(in: [calendar])
@@ -56,6 +64,26 @@ class CalendarViewController: UIViewController {
 extension CalendarViewController: CalendarReminderAuthorization {
     func accessGranted() {
         loadEntity(.reminder)
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - EventStore Notifications
+
+extension CalendarViewController {
+    /// Sign up to be notified when a change is made to the Event Store
+    func subscribeToEventStoreNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(storeChanged(_:)), name: .EKEventStoreChanged, object: eventStore)
+    }
+    
+    /// Reload all reminders as they are considered stale
+    @objc func storeChanged(_ notification:Notification) {
+        loadEntity(.reminder)
+    }
+    
+    /// Remove all the subscribed observers
+    func unsubscribeFromNotifications() {
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
