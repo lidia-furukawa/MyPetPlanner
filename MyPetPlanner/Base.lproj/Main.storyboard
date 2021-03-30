@@ -589,7 +589,6 @@
                     <connections>
                         <segue destination="ZVf-N9-0TI" kind="relationship" relationship="viewControllers" id="bzV-Rh-lfu"/>
                         <segue destination="ImM-Ds-Gog" kind="relationship" relationship="viewControllers" id="Row-4c-4jk"/>
-                        <segue destination="dDh-5B-Ttv" kind="relationship" relationship="viewControllers" id="zZe-FI-jve"/>
                         <segue destination="KOn-HP-HUu" kind="relationship" relationship="viewControllers" id="zSW-tt-eu8"/>
                         <segue destination="ljq-sA-1xB" kind="relationship" relationship="viewControllers" id="BUr-x8-kd7"/>
                     </connections>
@@ -616,22 +615,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gHu-8d-IdH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="148" y="21"/>
-        </scene>
-        <!--Vet Care View Controller-->
-        <scene sceneID="3cW-oD-3hG">
-            <objects>
-                <viewController id="LE9-U7-VdR" customClass="VetCareViewController" customModule="MyPetPlanner" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="fnt-W2-YPz">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="Fjy-2D-0Mi"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="xjH-3d-JFl"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VF2-EQ-C3D" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="958" y="-1376"/>
         </scene>
         <!--Health-->
         <scene sceneID="jqc-Mv-Uzt">
@@ -711,26 +694,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eAq-GQ-8mo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="958" y="-2065"/>
-        </scene>
-        <!--Vet Care-->
-        <scene sceneID="Rke-H1-YzJ">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dDh-5B-Ttv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Vet Care" image="stethoscope" id="7Qd-se-wdu"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="p7M-Ve-NpF">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="LE9-U7-VdR" kind="relationship" relationship="rootViewController" id="xbp-fz-Mlh"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4PJ-LR-Y3A" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="131.8840579710145" y="-1376.1160714285713"/>
+            <point key="canvasLocation" x="958" y="-1550"/>
         </scene>
         <!--Expenses View Controller-->
         <scene sceneID="dZQ-2S-G1l">
@@ -746,7 +710,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6L3-dO-6fv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="958" y="-2734"/>
+            <point key="canvasLocation" x="958" y="-2324"/>
         </scene>
         <!--Calendar-->
         <scene sceneID="45d-l3-IIm">
@@ -765,7 +729,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w85-pN-O6N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="-2065"/>
+            <point key="canvasLocation" x="148" y="-1549"/>
         </scene>
         <!--Expenses-->
         <scene sceneID="14T-lC-ohZ">
@@ -784,7 +748,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iV8-f7-ioM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="121.73913043478262" y="-2734.1517857142858"/>
+            <point key="canvasLocation" x="148" y="-2323"/>
         </scene>
         <!--Food View Controller-->
         <scene sceneID="49N-pl-8yX">
@@ -1142,7 +1106,6 @@
         <image name="heart.text.square" width="30.5" height="30.5"/>
         <image name="house.fill" width="30.5" height="30.5"/>
         <image name="sort" width="20.5" height="20.5"/>
-        <image name="stethoscope" width="30.5" height="30.5"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="T9W-BG-B72"/>

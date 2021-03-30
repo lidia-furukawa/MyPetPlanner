@@ -11,7 +11,6 @@
 		0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28825FD6AAC008E120C /* HealthCell.swift */; };
 		0277383825EEC5DC00510FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0277383725EEC5DC00510FF4 /* Assets.xcassets */; };
 		0277383A25EEC80B00510FF4 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277383925EEC80B00510FF4 /* HealthViewController.swift */; };
-		0277383C25EED70C00510FF4 /* VetCareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277383B25EED70C00510FF4 /* VetCareViewController.swift */; };
 		0277383E25EED72D00510FF4 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277383D25EED72D00510FF4 /* CalendarViewController.swift */; };
 		0277384025EED78800510FF4 /* ExpensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277383F25EED78800510FF4 /* ExpensesViewController.swift */; };
 		0277384225EFFF5200510FF4 /* DogAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277384125EFFF5200510FF4 /* DogAPIClient.swift */; };
@@ -69,7 +68,6 @@
 		0263B28825FD6AAC008E120C /* HealthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCell.swift; sourceTree = "<group>"; };
 		0277383725EEC5DC00510FF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0277383925EEC80B00510FF4 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
-		0277383B25EED70C00510FF4 /* VetCareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VetCareViewController.swift; sourceTree = "<group>"; };
 		0277383D25EED72D00510FF4 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		0277383F25EED78800510FF4 /* ExpensesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesViewController.swift; sourceTree = "<group>"; };
 		0277384125EFFF5200510FF4 /* DogAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DogAPIClient.swift; sourceTree = "<group>"; };
@@ -162,7 +160,6 @@
 				0277383925EEC80B00510FF4 /* HealthViewController.swift */,
 				02F66F0225FFF50F00B99D6A /* HealthSectionViewController.swift */,
 				02F66F042602531900B99D6A /* FoodViewController.swift */,
-				0277383B25EED70C00510FF4 /* VetCareViewController.swift */,
 				0277383D25EED72D00510FF4 /* CalendarViewController.swift */,
 				0277383F25EED78800510FF4 /* ExpensesViewController.swift */,
 				02F66F38260E885900B99D6A /* SegueIdentifiers.swift */,
@@ -566,7 +563,6 @@
 				0277384A25F03DCF00510FF4 /* DataController.swift in Sources */,
 				02DD19E425D6F8DE00236A74 /* MyPetPlanner.xcdatamodeld in Sources */,
 				0277384C25F0F37A00510FF4 /* PetViewController.swift in Sources */,
-				0277383C25EED70C00510FF4 /* VetCareViewController.swift in Sources */,
 				02D30DB325F27B5A007589BE /* CatResponse.swift in Sources */,
 				0277383A25EEC80B00510FF4 /* HealthViewController.swift in Sources */,
 				02F66F29260BB79500B99D6A /* UILabel+Extension.swift in Sources */,
