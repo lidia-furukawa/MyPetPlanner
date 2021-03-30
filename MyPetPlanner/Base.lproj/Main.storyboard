@@ -664,12 +664,28 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CalendarCell" id="ROH-QH-OfC">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CalendarCell" textLabel="jAh-ta-3oE" detailTextLabel="d1p-AZ-Rid" style="IBUITableViewCellStyleSubtitle" id="ROH-QH-OfC">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ROH-QH-OfC" id="EC1-cF-BcE">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="jAh-ta-3oE">
+                                                    <rect key="frame" x="20" y="5" width="33.5" height="20.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="d1p-AZ-Rid">
+                                                    <rect key="frame" x="20" y="25.5" width="44" height="14.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -976,6 +992,9 @@
                                                             </label>
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="yor-bl-jWY">
                                                                 <rect key="frame" x="345" y="0.0" width="51" height="31"/>
+                                                                <connections>
+                                                                    <action selector="addReminderTapped:" destination="T99-GB-ah0" eventType="valueChanged" id="8m0-E6-2id"/>
+                                                                </connections>
                                                             </switch>
                                                         </subviews>
                                                     </stackView>
@@ -1099,6 +1118,7 @@
                         <outlet property="quantityPerMealOrDayControl" destination="lSB-kJ-aIC" id="KuD-oI-vx9"/>
                         <outlet property="quantityTextField" destination="uRR-Od-18a" id="YKv-No-aX5"/>
                         <outlet property="quantityUnitControl" destination="9NK-9z-pfe" id="o0d-uF-0oh"/>
+                        <outlet property="reminderSwitch" destination="yor-bl-jWY" id="471-W9-3KD"/>
                         <outlet property="saveButton" destination="M0B-3M-bhD" id="Vs3-27-rFY"/>
                         <outlet property="scrollView" destination="WHj-3m-2vV" id="pmf-A1-ygN"/>
                         <outlet property="startDateTextField" destination="GSh-t9-E5Y" id="NHV-5p-arf"/>

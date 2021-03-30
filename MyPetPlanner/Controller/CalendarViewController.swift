@@ -13,10 +13,9 @@ class CalendarViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    let eventStore = EKEventStore()
+    var eventStore = EKEventStore()
     var reminders: [EKReminder]?
     let calendarKey = "MyPetPlanner"
-    var selectedReminder: EKReminder?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,47 +27,9 @@ class CalendarViewController: UIViewController {
         checkAuthorizationStatus(for: .reminder)
     }
     
-    func checkAuthorizationStatus(for type: EKEntityType) {
-        let status = EKEventStore.authorizationStatus(for: type)
-        
-        switch status {
-        case EKAuthorizationStatus.notDetermined:
-            requestAccess(type)
-        case EKAuthorizationStatus.authorized:
-            loadEntity(type)
-            tableView.reloadData()
-        case EKAuthorizationStatus.restricted, EKAuthorizationStatus.denied:
-            showPermissionAlert()
-        @unknown default:
-            fatalError()
-        }
-    }
-    
-    func requestAccess(_ type: EKEntityType) {
-        eventStore.requestAccess(to: type, completion: {(accessGranted: Bool, error: Error?) in
-            if accessGranted == true {
-                DispatchQueue.main.async(execute: {
-                    self.loadEntity(type)
-                    self.tableView.reloadData()
-                })
-            } else {
-                DispatchQueue.main.async(execute: {
-                    self.showPermissionAlert()
-                })
-            }
-        })
-    }
-    
-    func showPermissionAlert() {
-        let alert = UIAlertController(title: "\"MyPetPlanner\" is not allowed to access Reminders", message: "Allow permission in Settings and try again", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alert.addAction(okAction)
-        present(alert, animated: true, completion: nil)
-    }
-    
-    func loadEntity(_ type: EKEntityType) {
+        func loadEntity(_ type: EKEntityType) {
         // Use an Event Store instance to create and properly configure an NSPredicate
-        if let calendar = loadCalendar(.reminder) {
+        if let calendar = EKCalendar.loadCalendar(type: .reminder, from: eventStore, with: calendarKey) {
             let remindersPredicate = eventStore.predicateForReminders(in: [calendar])
             
             switch type {
@@ -76,6 +37,9 @@ class CalendarViewController: UIViewController {
                 // Use the NSPredicate to fetch reminders in the Event Store
                 eventStore.fetchReminders(matching: remindersPredicate, completion: { (reminders: [EKReminder]?) -> Void in
                     self.reminders = reminders
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 })
             default:
                 fatalError()
@@ -84,22 +48,19 @@ class CalendarViewController: UIViewController {
             print("No reminders to show")
         }
     }
-    
-    func loadCalendar(_ type: EKEntityType) -> EKCalendar? {
-        // Access all available reminder calendars from the Event Store
-        let allCalendars = eventStore.calendars(for: type)
-        
-        // Filter the available calendars to return the one that matches the retrieved identifier from UserDefaults
-        if let retrievedIdentifier = UserDefaults.standard.object(forKey: self.calendarKey) {
-            return allCalendars.filter {
-                (calendar: EKCalendar) -> Bool in
-                calendar.calendarIdentifier == retrievedIdentifier as! String
-                }.first!
-        } else {
-            return nil
-        }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - EventStoreAuthorization
+
+extension CalendarViewController: CalendarReminderAuthorization {
+    func accessGranted() {
+        loadEntity(.reminder)
     }
 }
+
+// -----------------------------------------------------------------------------
+// MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -114,12 +75,12 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
         
         if let reminders = self.reminders {
             let reminder = reminders[indexPath.row]
-            cell.textLabel?.text = reminder.title
+            cell.textLabel?.text = reminder.notes
             
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MM-dd-yyyy"
             let dueDate = reminder.dueDateComponents?.date
-            cell.detailTextLabel?.text = dateFormatter.string(from: dueDate!)
+            cell.detailTextLabel?.text = "Due date: \(dateToString(from: dueDate!))"
+            
+            cell.imageView?.image = UIImage(named: reminder.title)
         } else {
             cell.textLabel?.text = "Unknown Reminder"
             cell.detailTextLabel?.text = "Unknown Due Date"
