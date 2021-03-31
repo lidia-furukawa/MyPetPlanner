@@ -88,6 +88,28 @@ extension CalendarViewController {
 }
 
 // -----------------------------------------------------------------------------
+// MARK: - TrailingSwipeActions
+
+extension CalendarViewController: TrailingSwipeActions {
+    func setEditAction(at indexPath: IndexPath) {
+        //TO DO
+    }
+    
+    func setDeleteAction(at indexPath: IndexPath) {
+        if let reminders = self.reminders {
+            let reminder = reminders[indexPath.row]
+            do {
+                try eventStore.remove(reminder, commit: true)
+                self.reminders?.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+            } catch {
+                fatalError("Error deleting the reminder")
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------------------------
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
@@ -116,20 +138,7 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        switch editingStyle {
-        case .delete:
-            if let reminders = self.reminders {
-                let reminder = reminders[indexPath.row]
-                do {
-                    try eventStore.remove(reminder, commit: true)
-                    self.reminders?.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
-                } catch {
-                    fatalError("Error deleting the reminder")
-                }
-            }
-        default: ()
-        }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return configureSwipeActionsForRow(at: indexPath)
     }
 }

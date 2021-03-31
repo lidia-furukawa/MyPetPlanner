@@ -185,6 +185,22 @@ extension MyPetsViewController {
 }
 
 // -----------------------------------------------------------------------------
+// MARK: - TrailingSwipeActions
+
+extension MyPetsViewController: TrailingSwipeActions {
+    func setEditAction(at indexPath: IndexPath) {
+        selectedIndexPath = indexPath
+        performSegue(withIdentifier: SegueIdentifiers.editPet, sender: nil)
+    }
+    
+    func setDeleteAction(at indexPath: IndexPath) {
+        deletePet(at: indexPath)
+        UserDefaults.standard.set(nil, forKey: UserDefaultsKeys.selectedIndexPathKey)
+        navigationItem.title = "Pet: None"
+    }
+}
+
+// -----------------------------------------------------------------------------
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
 extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
@@ -269,36 +285,7 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let editRowAction = UIContextualAction(style: UIContextualAction.Style.normal, title: "Edit", handler: { (action, view, completion) in
-            self.selectedIndexPath = indexPath
-            self.performSegue(withIdentifier: SegueIdentifiers.editPet, sender: nil)
-            completion(true)
-        })
-        
-        let deleteRowAction = UIContextualAction(style: UIContextualAction.Style.destructive, title: "Delete", handler: { (action, view, completion) in
-            // Delete confirmation dialog
-            let alert = UIAlertController(title: "Are you sure you want to delete this pet?", message: "This action cannot be undone", preferredStyle: .alert)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
-                self.deletePet(at: indexPath)
-                UserDefaults.standard.set(nil, forKey: UserDefaultsKeys.selectedIndexPathKey)
-                self.navigationItem.title = "Pet: None"
-                completion(true)
-            })
-            
-            alert.addAction(cancelAction)
-            alert.addAction(deleteAction)
-            self.present(alert, animated: true, completion: nil)
-        })
-        
-        editRowAction.backgroundColor = .green
-        deleteRowAction.backgroundColor = .red
-
-        let configuration = UISwipeActionsConfiguration(actions: [editRowAction, deleteRowAction])
-        configuration.performsFirstActionWithFullSwipe = false
-        return configuration
+        return configureSwipeActionsForRow(at: indexPath)
     }
 }
 
