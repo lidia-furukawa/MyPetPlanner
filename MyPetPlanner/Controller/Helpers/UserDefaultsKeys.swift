@@ -6,8 +6,6 @@
 //  Copyright © 2021 LidiaF. All rights reserved.
 //
 
-import Foundation
-
 struct UserDefaultsKeys {
     static let selectedIndexPathKey = "selectedIndexPath"
     static let sortKeyPathKey = "lastSortKey"

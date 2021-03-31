@@ -6,8 +6,6 @@
 //  Copyright © 2021 LidiaF. All rights reserved.
 //
 
-import Foundation
-
 struct SegueIdentifiers {
     static let createNewPet = "createNewPet"
     static let editPet = "editPet"

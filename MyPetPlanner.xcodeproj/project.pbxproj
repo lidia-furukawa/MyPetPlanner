@@ -42,6 +42,8 @@
 		02F66F402612557200B99D6A /* EKCalendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3F2612557200B99D6A /* EKCalendar+Extension.swift */; };
 		02F66F422613984B00B99D6A /* CalendarReminderAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F412613984B00B99D6A /* CalendarReminderAuthorization.swift */; };
 		02F66F482613E38100B99D6A /* TrailingSwipeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F472613E38100B99D6A /* TrailingSwipeActions.swift */; };
+		02F66F4B2614EB6000B99D6A /* SingleButtonAlertDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F4A2614EB6000B99D6A /* SingleButtonAlertDialog.swift */; };
+		02F66F4D2614EF1D00B99D6A /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F4C2614EF1D00B99D6A /* Alert.swift */; };
 		73B6819DE3BC009A5D5AAFA7 /* Pods_MyPetPlannerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08F0B8607E1FD2CB31DBF08A /* Pods_MyPetPlannerTests.framework */; };
 		8419D1C9AC775680FB9DE2A5 /* Pods_MyPetPlanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D223A628C9731F9D4C8AE2C3 /* Pods_MyPetPlanner.framework */; };
 		8B85BA51E91C623C25C39B33 /* Pods_MyPetPlanner_MyPetPlannerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F220E7CD803857BC2465E0D7 /* Pods_MyPetPlanner_MyPetPlannerUITests.framework */; };
@@ -106,6 +108,8 @@
 		02F66F3F2612557200B99D6A /* EKCalendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EKCalendar+Extension.swift"; sourceTree = "<group>"; };
 		02F66F412613984B00B99D6A /* CalendarReminderAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarReminderAuthorization.swift; sourceTree = "<group>"; };
 		02F66F472613E38100B99D6A /* TrailingSwipeActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailingSwipeActions.swift; sourceTree = "<group>"; };
+		02F66F4A2614EB6000B99D6A /* SingleButtonAlertDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleButtonAlertDialog.swift; sourceTree = "<group>"; };
+		02F66F4C2614EF1D00B99D6A /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		08F0B8607E1FD2CB31DBF08A /* Pods_MyPetPlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPetPlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26DA4E0E64776BD06D4BAEA3 /* Pods-MyPetPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner.release.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner/Pods-MyPetPlanner.release.xcconfig"; sourceTree = "<group>"; };
 		456D38907334532E704C3A46 /* Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner-MyPetPlannerUITests/Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -164,8 +168,7 @@
 				02F66F042602531900B99D6A /* FoodViewController.swift */,
 				0277383D25EED72D00510FF4 /* CalendarViewController.swift */,
 				0277383F25EED78800510FF4 /* ExpensesViewController.swift */,
-				02F66F38260E885900B99D6A /* SegueIdentifiers.swift */,
-				02F66F30260D696100B99D6A /* UserDefaultsKeys.swift */,
+				02F66F4E2614F05A00B99D6A /* Helpers */,
 				02F66F492613E68800B99D6A /* Protocols */,
 				02F66F3E2612553A00B99D6A /* Extensions */,
 			);
@@ -286,8 +289,19 @@
 				02F66F36260E547600B99D6A /* KeyboardNotifications.swift */,
 				02F66F412613984B00B99D6A /* CalendarReminderAuthorization.swift */,
 				02F66F472613E38100B99D6A /* TrailingSwipeActions.swift */,
+				02F66F4A2614EB6000B99D6A /* SingleButtonAlertDialog.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		02F66F4E2614F05A00B99D6A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				02F66F38260E885900B99D6A /* SegueIdentifiers.swift */,
+				02F66F30260D696100B99D6A /* UserDefaultsKeys.swift */,
+				02F66F4C2614EF1D00B99D6A /* Alert.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		29F1258672185233632BAD4F /* Frameworks */ = {
@@ -562,6 +576,7 @@
 				02F66F39260E885900B99D6A /* SegueIdentifiers.swift in Sources */,
 				0277383E25EED72D00510FF4 /* CalendarViewController.swift in Sources */,
 				02F66F422613984B00B99D6A /* CalendarReminderAuthorization.swift in Sources */,
+				02F66F4B2614EB6000B99D6A /* SingleButtonAlertDialog.swift in Sources */,
 				02F66F052602531900B99D6A /* FoodViewController.swift in Sources */,
 				0277384025EED78800510FF4 /* ExpensesViewController.swift in Sources */,
 				02F66F37260E547600B99D6A /* KeyboardNotifications.swift in Sources */,
@@ -581,6 +596,7 @@
 				02D30DB725F6EB4A007589BE /* PetCell.swift in Sources */,
 				02F66F3D261132EB00B99D6A /* TableRow.swift in Sources */,
 				02D30DB125F27AAA007589BE /* CatAPIClient.swift in Sources */,
+				02F66F4D2614EF1D00B99D6A /* Alert.swift in Sources */,
 				02DD19DC25D6F8DE00236A74 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
