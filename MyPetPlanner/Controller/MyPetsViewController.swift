@@ -117,7 +117,7 @@ class MyPetsViewController: UIViewController {
     }
     
     @IBAction func addNewPet(_ sender: Any) {
-        performSegue(withIdentifier: SegueIdentifiers.createNewPet, sender: nil)
+        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.createNewPet, sender: nil)
     }
     
     fileprivate func refreshData() {
@@ -157,9 +157,9 @@ class MyPetsViewController: UIViewController {
         vc.dataController = dataController
 
         switch segue.identifier {
-        case SegueIdentifiers.createNewPet:
+        case UIStoryboardSegue.Identifiers.createNewPet:
             vc.pet = nil
-        case SegueIdentifiers.editPet:
+        case UIStoryboardSegue.Identifiers.editPet:
             vc.pet = fetchedResultsController.object(at: selectedIndexPath)
         default:
             fatalError("Unindentified Segue")
@@ -195,7 +195,7 @@ extension MyPetsViewController {
 extension MyPetsViewController: TrailingSwipeActions {
     func setEditAction(at indexPath: IndexPath) {
         selectedIndexPath = indexPath
-        performSegue(withIdentifier: SegueIdentifiers.editPet, sender: nil)
+        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editPet, sender: nil)
     }
     
     func setDeleteAction(at indexPath: IndexPath) {

@@ -78,7 +78,7 @@ class HealthSectionViewController: UIViewController {
     @objc func addObjectButton(_ sender: UIBarButtonItem) {
         switch selectedObjectSectionName {
         case "Food":
-            performSegue(withIdentifier: SegueIdentifiers.createNewFood, sender: nil)
+            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.createNewFood, sender: nil)
         default:
             fatalError("Unindentified Segue")
         }
@@ -86,7 +86,7 @@ class HealthSectionViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case SegueIdentifiers.createNewFood:
+        case UIStoryboardSegue.Identifiers.createNewFood:
             let vc = segue.destination as! FoodViewController
             vc.selectedObjectName = selectedObjectName
             vc.pet = pet
