@@ -87,7 +87,7 @@ class MyPetsViewController: UIViewController {
     }
     
     func loadLastSelectedPet() {
-        if let indexPathData = UserDefaults.standard.data(forKey: UserDefaultsKeys.selectedIndexPathKey) {
+        if let indexPathData = UserDefaults.standard.data(forKey: UserDefaults.Keys.selectedIndexPath) {
             if let indexPath = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(indexPathData) as? IndexPath {
                 print("There is a selected pet")
                 selectedIndexPath = indexPath
@@ -103,7 +103,7 @@ class MyPetsViewController: UIViewController {
     }
     
     func loadLastKeyPaths() {
-        if let lastKeyPath = UserDefaults.standard.string(forKey: UserDefaultsKeys.sortKeyPathKey), let lastSectionNameKeyPath = UserDefaults.standard.string(forKey: UserDefaultsKeys.sectionNameKeyPathKey) {
+        if let lastKeyPath = UserDefaults.standard.string(forKey: UserDefaults.Keys.sortKeyPath), let lastSectionNameKeyPath = UserDefaults.standard.string(forKey: UserDefaults.Keys.sectionNameKeyPath) {
             keyPath = lastKeyPath
             sectionNameKeyPath = lastSectionNameKeyPath
         }
@@ -120,31 +120,36 @@ class MyPetsViewController: UIViewController {
         performSegue(withIdentifier: SegueIdentifiers.createNewPet, sender: nil)
     }
     
+    fileprivate func refreshData() {
+        UserDefaults.standard.set(keyPath, forKey: UserDefaults.Keys.sortKeyPath)
+        UserDefaults.standard.set(sectionNameKeyPath, forKey: UserDefaults.Keys.sectionNameKeyPath)
+        setupFetchedResultsController(keyPath, sectionNameKeyPath)
+        tableView.reloadData()
+    }
+    
     @IBAction func sortPets(_ sender: Any) {
-        let sortPopup = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let sortDialog = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        sortPopup.addAction(UIAlertAction(title: "Sort By Name (A - Z)", style: .default, handler: { _ in
+        sortDialog.addAction(UIAlertAction(title: "Sort By Name (A - Z)", style: .default, handler: { _ in
             self.keyPath = "name"
             self.sectionNameKeyPath = "initialName"
-            UserDefaults.standard.set(self.keyPath, forKey: UserDefaultsKeys.sortKeyPathKey)
-            UserDefaults.standard.set(self.sectionNameKeyPath, forKey: UserDefaultsKeys.sectionNameKeyPathKey)
-            self.setupFetchedResultsController(self.keyPath, self.sectionNameKeyPath)
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.refreshData()
+            }
         }))
         
-        sortPopup.addAction(UIAlertAction(title: "Sort By Type (Cat - Dog)", style: .default, handler: { _ in
+        sortDialog.addAction(UIAlertAction(title: "Sort By Type (Cat - Dog)", style: .default, handler: { _ in
             self.keyPath = "type"
             self.sectionNameKeyPath = "type"
-            UserDefaults.standard.set(self.keyPath, forKey: UserDefaultsKeys.sortKeyPathKey)
-            UserDefaults.standard.set(self.sectionNameKeyPath, forKey: UserDefaultsKeys.sectionNameKeyPathKey)
-            self.setupFetchedResultsController(self.keyPath, self.sectionNameKeyPath)
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.refreshData()
+            }
         }))
         
-        sortPopup.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-        sortPopup.view.tintColor = tintColor
+        sortDialog.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+        sortDialog.view.tintColor = tintColor
         
-        present(sortPopup, animated: true, completion: nil)
+        present(sortDialog, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -195,7 +200,7 @@ extension MyPetsViewController: TrailingSwipeActions {
     
     func setDeleteAction(at indexPath: IndexPath) {
         deletePet(at: indexPath)
-        UserDefaults.standard.set(nil, forKey: UserDefaultsKeys.selectedIndexPathKey)
+        UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
         navigationItem.title = "Pet: None"
     }
 }
@@ -271,17 +276,13 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         passSelectedPetToHealthVC(indexPath)
 
         let indexPathData = try? NSKeyedArchiver.archivedData(withRootObject: indexPath, requiringSecureCoding: false)
-        UserDefaults.standard.set(indexPathData, forKey: UserDefaultsKeys.selectedIndexPathKey)
+        UserDefaults.standard.set(indexPathData, forKey: UserDefaults.Keys.selectedIndexPath)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .none
         }
-    }
-    
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
