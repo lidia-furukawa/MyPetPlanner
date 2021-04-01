@@ -23,11 +23,19 @@ class MyPetsViewController: UIViewController {
     
     var sectionNameKeyPath = "type"
 
+    var selectedPet: Pet?
+    
+    weak var delegate: PetDelegate?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupFetchedResultsController(keyPath, sectionNameKeyPath)
         initializeView()
+        let healthTab = self.tabBarController?.viewControllers![1] as! UINavigationController
+        let healthViewController = healthTab.topViewController as! HealthViewController
+        healthViewController.dataController = dataController
+        self.delegate = healthViewController
     }
 
     private func initializeView() {
@@ -67,8 +75,7 @@ class MyPetsViewController: UIViewController {
         }
     }
     
-    func configureNavigationTitle(_ indexPath: IndexPath) {
-        let selectedPet = fetchedResultsController.object(at: indexPath)
+    func configureNavigationTitle(_ selectedPet: Pet) {
         navigationItem.title = "Pet: \(selectedPet.name ?? "None")"
     }
 
@@ -79,25 +86,18 @@ class MyPetsViewController: UIViewController {
         }
     }
     
-    func passSelectedPetToHealthVC(_ indexPath: IndexPath) {
-        let healthTab = self.tabBarController?.viewControllers![1] as! UINavigationController
-        let healthViewController = healthTab.topViewController as! HealthViewController
-        healthViewController.pet = fetchedResultsController.object(at: indexPath)
-        healthViewController.dataController = dataController
-    }
-    
     func loadLastSelectedPet() {
         if let indexPathData = UserDefaults.standard.data(forKey: UserDefaults.Keys.selectedIndexPath) {
             if let indexPath = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(indexPathData) as? IndexPath {
                 print("There is a selected pet")
                 selectedIndexPath = indexPath
-                
+                selectedPet = fetchedResultsController.object(at: selectedIndexPath)
+                delegate?.petWasSelected(pet: selectedPet!)
+
                 // Highlight and checkmark the selected pet's row
                 tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .top)
                 configureCellAcessory(selectedIndexPath)
-                configureNavigationTitle(selectedIndexPath)
-                
-                passSelectedPetToHealthVC(selectedIndexPath)
+                configureNavigationTitle(selectedPet!)
             }
         }
     }
@@ -270,10 +270,11 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRow(at: selectedIndexPath, animated: false)
         }
         
-        configureCellAcessory(indexPath)
-        configureNavigationTitle(indexPath)
+        let selectedPet = fetchedResultsController.object(at: indexPath)
+        delegate?.petWasSelected(pet: selectedPet)
         
-        passSelectedPetToHealthVC(indexPath)
+        configureCellAcessory(indexPath)
+        configureNavigationTitle(selectedPet)
 
         let indexPathData = try? NSKeyedArchiver.archivedData(withRootObject: indexPath, requiringSecureCoding: false)
         UserDefaults.standard.set(indexPathData, forKey: UserDefaults.Keys.selectedIndexPath)
