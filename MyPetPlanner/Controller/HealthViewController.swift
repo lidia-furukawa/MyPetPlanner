@@ -31,6 +31,9 @@ class HealthViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "Pet: \(pet?.name ?? "None")"
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: false)
+        }
         tableView.reloadData()
     }
     
@@ -51,6 +54,20 @@ class HealthViewController: UIViewController {
 
     }
 }
+
+// -----------------------------------------------------------------------------
+// MARK: - PetDelegate
+
+extension HealthViewController: PetDelegate {
+    func petWasSelected(pet: Pet) {
+        self.pet = pet
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - SingleButtonAlertPopup
+
+extension HealthViewController: SingleButtonAlertDialog { }
 
 // -----------------------------------------------------------------------------
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -98,10 +115,15 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedObjectName = healthSections[indexPath.section].rows[indexPath.row].text
         let selectedCellSection = healthSections[indexPath.section].title
-        performSegue(withIdentifier: selectedCellSection, sender: nil)
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-
+        if pet != nil {
+            performSegue(withIdentifier: selectedCellSection, sender: nil)
+        } else {
+            let errorAlert = SingleButtonAlertInformation(
+                title: "No Pet Selected",
+                message: "Create/select a pet in \"My Pets\" and try again",
+                action: AlertAction(buttonTitle: "OK", handler: nil)
+            )
+            presentSingleButtonDialog(with: errorAlert)
+        }
     }
 }

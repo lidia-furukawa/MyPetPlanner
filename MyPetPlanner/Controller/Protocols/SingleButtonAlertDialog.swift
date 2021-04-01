@@ -15,12 +15,13 @@ protocol SingleButtonAlertDialog {
 
 extension SingleButtonAlertDialog where Self: UIViewController {
     func presentSingleButtonDialog(with alert: SingleButtonAlertInformation) {
-        let alertController = UIAlertController(title: alert.title,
+        let alertDialog = UIAlertController(title: alert.title,
                                                 message: alert.message,
                                                 preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: alert.action.buttonTitle,
+        alertDialog.addAction(UIAlertAction(title: alert.action.buttonTitle,
                                                 style: .default,
                                                 handler: { _ in alert.action.handler?() }))
-        self.present(alertController, animated: true, completion: nil)
+        alertDialog.view.tintColor = tintColor
+        self.present(alertDialog, animated: true, completion: nil)
     }
 }
