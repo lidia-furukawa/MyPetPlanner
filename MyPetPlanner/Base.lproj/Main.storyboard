@@ -493,7 +493,7 @@
                                                                 <rect key="frame" x="309.5" y="0.0" width="84.5" height="20.5"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad" enablesReturnKeyAutomatically="YES"/>
+                                                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad" enablesReturnKeyAutomatically="YES"/>
                                                             </textField>
                                                         </subviews>
                                                     </stackView>
@@ -510,7 +510,7 @@
                                                                 <rect key="frame" x="251.5" y="0.0" width="142.5" height="20.5"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad"/>
                                                             </textField>
                                                         </subviews>
                                                     </stackView>
@@ -561,7 +561,7 @@
                         <outlet property="navigationBar" destination="eeS-Lg-Cz5" id="x0u-EE-jpo"/>
                         <outlet property="photoImageView" destination="1ih-iJ-jFO" id="FWw-b6-y21"/>
                         <outlet property="saveButton" destination="0In-3z-RjI" id="sI5-Z5-YBx"/>
-                        <outlet property="scrollView" destination="5Ma-oi-DLq" id="VHk-2L-vfs"/>
+                        <outlet property="scrollView" destination="5Ma-oi-DLq" id="h89-Yu-9dS"/>
                         <outlet property="selectPhotoButton" destination="4OH-aF-Wh8" id="BJ9-dl-3zY"/>
                         <outlet property="typeControl" destination="fM3-th-U6W" id="AeR-LJ-MgC"/>
                         <outlet property="weightTextField" destination="7aV-Gm-qNV" id="ns2-Og-ywT"/>
@@ -831,11 +831,11 @@
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="4m8-e8-iw9">
                                                                 <rect key="frame" x="197" y="0.0" width="197" height="29"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" placeholder="e.g. 2" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="thc-eH-H9X">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="thc-eH-H9X">
                                                                         <rect key="frame" x="0.0" y="0.0" width="93.5" height="29"/>
                                                                         <nil key="textColor"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                                        <textInputTraits key="textInputTraits" autocapitalizationType="words"/>
+                                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
                                                                     </textField>
                                                                     <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Dxh-bL-TtD">
                                                                         <rect key="frame" x="103.5" y="0.0" width="94" height="29"/>
@@ -863,7 +863,7 @@
                                                                         <rect key="frame" x="0.0" y="0.0" width="93.5" height="30"/>
                                                                         <nil key="textColor"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                                        <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
                                                                     </textField>
                                                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9NK-9z-pfe">
                                                                         <rect key="frame" x="103.5" y="0.0" width="93.5" height="31"/>
@@ -1027,7 +1027,7 @@
                                                                 <rect key="frame" x="197" y="0.0" width="197" height="30"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                                <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                                <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad"/>
                                                             </textField>
                                                         </subviews>
                                                     </stackView>
