@@ -31,19 +31,20 @@ class MyPetsViewController: UIViewController {
         super.viewDidLoad()
         
         setupFetchedResultsController(keyPath, sectionNameKeyPath)
-        initializeView()
+        initView()
+        setupDelegate()
+    }
+
+    fileprivate func initView() {
+        tableView.tableFooterView = UIView()
+        tableView.sectionIndexBackgroundColor = UIColor.white
+    }
+    
+    fileprivate func setupDelegate() {
         let healthTab = self.tabBarController?.viewControllers![1] as! UINavigationController
         let healthViewController = healthTab.topViewController as! HealthViewController
         healthViewController.dataController = dataController
         self.delegate = healthViewController
-    }
-
-    private func initializeView() {
-        tableView.tableFooterView = UIView()
-        tableView.sectionIndexColor = tintColor
-        tableView.sectionIndexBackgroundColor = UIColor.white
-        navigationItem.leftBarButtonItem?.tintColor = tintColor
-        navigationItem.rightBarButtonItem?.tintColor = tintColor
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,14 +76,10 @@ class MyPetsViewController: UIViewController {
         }
     }
     
-    func configureNavigationTitle(_ selectedPet: Pet) {
-        navigationItem.title = "Pet: \(selectedPet.name ?? "None")"
-    }
-
-    func configureCellAcessory(_ indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            cell.tintColor = tintColor
-            cell.accessoryType = .checkmark
+    func loadLastKeyPaths() {
+        if let lastKeyPath = UserDefaults.standard.string(forKey: UserDefaults.Keys.sortKeyPath), let lastSectionNameKeyPath = UserDefaults.standard.string(forKey: UserDefaults.Keys.sectionNameKeyPath) {
+            keyPath = lastKeyPath
+            sectionNameKeyPath = lastSectionNameKeyPath
         }
     }
     
@@ -92,21 +89,46 @@ class MyPetsViewController: UIViewController {
                 print("There is a selected pet")
                 selectedIndexPath = indexPath
                 selectedPet = fetchedResultsController.object(at: selectedIndexPath)
-                delegate?.petWasSelected(pet: selectedPet!)
-
-                // Highlight and checkmark the selected pet's row
-                tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .top)
-                configureCellAcessory(selectedIndexPath)
-                configureNavigationTitle(selectedPet!)
+                delegate?.petWasSelected(pet: selectedPet)
+            }
+        } else {
+            guard let selectedPet = selectedPet else { return }
+            print("Table was sorted. Get the selected pet's new indexpath")
+            selectedIndexPath = fetchedResultsController.indexPath(forObject: selectedPet)!
+            saveSelectedIndexPath(selectedIndexPath)
+        }
+        
+        // Highlight and checkmark the selected pet's row
+        tableView.selectRow(at: selectedIndexPath, animated: false, scrollPosition: .top)
+        checkmarkCell(true, at: selectedIndexPath)
+        configureNavigationTitle(selectedPet)
+    }
+    
+    func saveSelectedIndexPath(_ indexPath: IndexPath) {
+        let indexPathData = try? NSKeyedArchiver.archivedData(withRootObject: indexPath, requiringSecureCoding: false)
+        UserDefaults.standard.set(indexPathData, forKey: UserDefaults.Keys.selectedIndexPath)
+    }
+    
+    func configureNavigationTitle(_ selectedPet: Pet?) {
+        navigationItem.title = "Pet: \(selectedPet?.name ?? "None")"
+    }
+    
+    func checkmarkCell(_ isCellSelected: Bool, at indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if isCellSelected {
+                cell.accessoryType = .checkmark
+            } else {
+                cell.accessoryType = .none
             }
         }
     }
     
-    func loadLastKeyPaths() {
-        if let lastKeyPath = UserDefaults.standard.string(forKey: UserDefaults.Keys.sortKeyPath), let lastSectionNameKeyPath = UserDefaults.standard.string(forKey: UserDefaults.Keys.sectionNameKeyPath) {
-            keyPath = lastKeyPath
-            sectionNameKeyPath = lastSectionNameKeyPath
-        }
+    func selectPet(at indexPath: IndexPath) {
+        let selectedPet = fetchedResultsController.object(at: indexPath)
+        delegate?.petWasSelected(pet: selectedPet)
+        checkmarkCell(true, at: indexPath)
+        configureNavigationTitle(selectedPet)
+        saveSelectedIndexPath(indexPath)
     }
     
     /// Delete a pet at the specified index path
@@ -121,10 +143,12 @@ class MyPetsViewController: UIViewController {
     }
     
     fileprivate func refreshData() {
+        UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
         UserDefaults.standard.set(keyPath, forKey: UserDefaults.Keys.sortKeyPath)
         UserDefaults.standard.set(sectionNameKeyPath, forKey: UserDefaults.Keys.sectionNameKeyPath)
         setupFetchedResultsController(keyPath, sectionNameKeyPath)
         tableView.reloadData()
+        loadLastSelectedPet()
     }
     
     @IBAction func sortPets(_ sender: Any) {
@@ -147,7 +171,6 @@ class MyPetsViewController: UIViewController {
         }))
         
         sortDialog.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-        sortDialog.view.tintColor = tintColor
         
         present(sortDialog, animated: true, completion: nil)
     }
@@ -201,7 +224,9 @@ extension MyPetsViewController: TrailingSwipeActions {
     func setDeleteAction(at indexPath: IndexPath) {
         deletePet(at: indexPath)
         UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
-        navigationItem.title = "Pet: None"
+        selectedPet = nil
+        configureNavigationTitle(selectedPet)
+        delegate?.petWasSelected(pet: selectedPet)
     }
 }
 
@@ -230,8 +255,7 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = backgroundColor
-//        (view as! UITableViewHeaderFooterView).textLabel?.textColor = UIColor.white
+        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.backgroundColor
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -258,9 +282,7 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         if let photoData = aPet.photo {
             let image = UIImage(data: photoData)
             cell.photo.image = image
-            cell.photo.layer.borderWidth = 0.5
-            cell.photo.layer.borderColor = UIColor.lightGray.cgColor
-            cell.photo.layer.cornerRadius = cell.photo.bounds.width/2
+            cell.photo.roundImage()
         }
         return cell
     }
@@ -269,24 +291,18 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         if !selectedIndexPath.isEmpty {
             tableView.deselectRow(at: selectedIndexPath, animated: false)
         }
-        
-        let selectedPet = fetchedResultsController.object(at: indexPath)
-        delegate?.petWasSelected(pet: selectedPet)
-        
-        configureCellAcessory(indexPath)
-        configureNavigationTitle(selectedPet)
-
-        let indexPathData = try? NSKeyedArchiver.archivedData(withRootObject: indexPath, requiringSecureCoding: false)
-        UserDefaults.standard.set(indexPathData, forKey: UserDefaults.Keys.selectedIndexPath)
+        selectPet(at: indexPath)
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            cell.accessoryType = .none
-        }
+        checkmarkCell(false, at: indexPath)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if !selectedIndexPath.isEmpty {
+            checkmarkCell(false, at: selectedIndexPath)
+        }
+        selectPet(at: indexPath)
         return configureSwipeActionsForRow(at: indexPath)
     }
 }

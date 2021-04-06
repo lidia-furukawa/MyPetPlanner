@@ -7,5 +7,5 @@
 //
 
 protocol PetDelegate: class {
-    func petWasSelected(pet: Pet)
+    func petWasSelected(pet: Pet?)
 }

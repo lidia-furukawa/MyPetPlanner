@@ -12,6 +12,8 @@ extension UIView {
     
     func roundImage() {
         self.layer.masksToBounds = true
+        self.layer.borderWidth = 0.5
+        self.layer.borderColor = UIColor.lightGray.cgColor
         self.layer.cornerRadius = self.bounds.width/2
     }
     

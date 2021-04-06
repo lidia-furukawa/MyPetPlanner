@@ -59,7 +59,7 @@ class HealthViewController: UIViewController {
 // MARK: - PetDelegate
 
 extension HealthViewController: PetDelegate {
-    func petWasSelected(pet: Pet) {
+    func petWasSelected(pet: Pet?) {
         self.pet = pet
     }
 }

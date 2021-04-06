@@ -128,7 +128,7 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
             cell.textLabel?.text = reminder.notes
             
             let dueDate = reminder.dueDateComponents?.date
-            cell.detailTextLabel?.text = "Due date: \(dateToString(from: dueDate!))"
+            cell.detailTextLabel?.text = "Due date: \(dueDate!.stringFormat))"
             
             cell.imageView?.image = UIImage(named: reminder.title)
         } else {
