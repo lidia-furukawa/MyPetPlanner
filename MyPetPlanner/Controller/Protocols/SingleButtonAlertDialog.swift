@@ -21,7 +21,6 @@ extension SingleButtonAlertDialog where Self: UIViewController {
         alertDialog.addAction(UIAlertAction(title: alert.action.buttonTitle,
                                                 style: .default,
                                                 handler: { _ in alert.action.handler?() }))
-        alertDialog.view.tintColor = tintColor
         self.present(alertDialog, animated: true, completion: nil)
     }
 }

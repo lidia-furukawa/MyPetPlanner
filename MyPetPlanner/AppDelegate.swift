@@ -27,6 +27,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let myPetsViewController = navigationController.topViewController as! MyPetsViewController
         myPetsViewController.dataController = dataController
         
+        self.window?.tintColor = UIColor.tintColor
+
         return true
     }
 

@@ -65,7 +65,7 @@ extension HealthViewController: PetDelegate {
 }
 
 // -----------------------------------------------------------------------------
-// MARK: - SingleButtonAlertPopup
+// MARK: - SingleButtonAlertDialog
 
 extension HealthViewController: SingleButtonAlertDialog { }
 
@@ -86,12 +86,10 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = backgroundColor
-//        (view as! UITableViewHeaderFooterView).textLabel?.textColor = UIColor.white
+        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.backgroundColor
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.tintColor = tintColor
         cell.accessoryType = .disclosureIndicator
     }
     
@@ -108,7 +106,6 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
         let sectionImage = UIImage(named: row.image)
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
         cell.photoImageView.image = templateImage
-        cell.photoImageView.tintColor = tintColor
         return cell
     }
     
