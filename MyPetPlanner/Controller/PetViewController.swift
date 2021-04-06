@@ -42,26 +42,10 @@ class PetViewController: UIViewController {
 
     var catBreeds: [String] = []
     
-    let dateFormatter = DateFormatter()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        basicInformationLabel.configureLabel(backgroundColor: backgroundColor, textColor: UIColor.white, cornerRadius: 3)
-        bodyMeasurementsLabel.configureLabel(backgroundColor: backgroundColor, textColor: UIColor.white, cornerRadius: 3)
-        
-        changeControlsTintColor(tintColor: tintColor)
-
-        configureImageView(photoImageView)
-        
-        saveButton.isEnabled = false
-        
-        for textField in textFields {
-            textField.delegate = self
-        }
-
-        pickerView.dataSource = self
-        pickerView.delegate = self
+        initView()
         
         DogAPIClient.getBreedsList(completion: handleDogBreedsListResponse(breeds:error:))
         CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
@@ -83,17 +67,18 @@ class PetViewController: UIViewController {
         unsubscribeFromNotifications()
     }
 
-    fileprivate func changeControlsTintColor(tintColor: UIColor) {
-        saveButton.tintColor = tintColor
-        cancelButton.tintColor = tintColor
-        selectPhotoButton.tintColor = tintColor
-        typeControl.tintColor = tintColor
-        genderControl.tintColor = tintColor
-    }
-    
-    fileprivate func configureImageView(_ imageView: UIImageView) {
-        imageView.layer.masksToBounds = true
-        imageView.layer.cornerRadius = imageView.bounds.width/2
+    func initView() {
+        basicInformationLabel.configureTitle()
+        bodyMeasurementsLabel.configureTitle()
+        photoImageView.roundImage()
+        saveButton.isEnabled = false
+        
+        for textField in textFields {
+            textField.delegate = self
+        }
+        
+        pickerView.dataSource = self
+        pickerView.delegate = self
     }
     
     /// Enable save button if any text field is changed
@@ -114,44 +99,19 @@ class PetViewController: UIViewController {
         } else {
             photoImageView.image = UIImage(named: "placeholder")
         }
-        
+
         nameTextField.text = pet?.name
-        
-        switch pet?.type {
-        case "Dog":
-            typeControl.selectedSegmentIndex = 0
-        case "Cat":
-            typeControl.selectedSegmentIndex = 1
-        default:
-            break
-        }
-        
-        dateFormatter.dateFormat = "MM-dd-yyyy"
-        if let birthdayDate = pet?.birthday {
-            birthdayTextField.text = dateFormatter.string(from: birthdayDate)
-        } else {
-            birthdayTextField.text = dateFormatter.string(from: Date())
-        }
-        
+        typeControl.getSegmentedControlSelectedIndex(from: pet?.type)
+        birthdayTextField.text = pet?.birthday?.stringFormat ?? Date().stringFormat
         breedTextField.text = pet?.breed
         colorTextField.text = pet?.color
-        
-        switch pet?.gender {
-        case "♂️":
-            genderControl.selectedSegmentIndex = 0
-        case "♀️":
-            genderControl.selectedSegmentIndex = 1
-        default:
-            break
-        }
-        
+        genderControl.getSegmentedControlSelectedIndex(from: pet?.gender)
         weightTextField.text = String(pet?.weight ?? 0)
         heightTextField.text = String(pet?.height ?? 0)
     }
     
     @objc func handleDatePicker(_ sender: UIDatePicker!) {
-        dateFormatter.dateFormat = "MM-dd-yyyy"
-        birthdayTextField.text = dateFormatter.string(from: sender.date)
+        birthdayTextField.text = sender.date.stringFormat
     }
     
     func handleDogBreedsListResponse(breeds: [String], error: Error?) {
@@ -192,14 +152,12 @@ class PetViewController: UIViewController {
         }
         
         if let birthdayText = birthdayTextField.text {
-            pet!.setValue(dateFormatter.date(from: birthdayText), forKey: "birthday")
+            pet!.setValue(birthdayText.dateFormat, forKey: "birthday")
         }
         
-        let selectedType = typeControl.selectedSegmentIndex
-        pet!.setValue(typeControl.titleForSegment(at: selectedType), forKey: "type")
+        pet!.setValue(typeControl.selectedSegmentTitle, forKey: "type")
 
-        let selectedGender = genderControl.selectedSegmentIndex
-        pet!.setValue(genderControl.titleForSegment(at: selectedGender), forKey: "gender")
+        pet!.setValue(genderControl.selectedSegmentTitle, forKey: "gender")
         
         if nameTextField.text!.isEmpty {
             pet!.setValue("#", forKey: "name")
@@ -248,6 +206,11 @@ extension PetViewController: KeyboardNotifications { }
 extension PetViewController: SaveActivityIndicator { }
 
 // -----------------------------------------------------------------------------
+// MARK: - SingleButtonAlertDialog
+
+extension PetViewController: SingleButtonAlertDialog { }
+
+// -----------------------------------------------------------------------------
 // MARK: - UITextFieldDelegate
 
 extension PetViewController: UITextFieldDelegate {
@@ -273,29 +236,16 @@ extension PetViewController: UITextFieldDelegate {
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
-        case nameTextField:
-            activeTextField = nameTextField
         case birthdayTextField:
             activeTextField = birthdayTextField
-            let datePickerView = UIDatePicker()
-            datePickerView.datePickerMode = .date
-            datePickerView.backgroundColor = .white
-            datePickerView.setDate(pet?.birthday ?? Date(), animated: false)
-            birthdayTextField.inputView = datePickerView
-            datePickerView.addTarget(self, action: #selector(handleDatePicker(_:)), for: .valueChanged)
+            birthdayTextField.inputView = .customizedDatePickerView(setDate: pet?.birthday ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
         case breedTextField:
             activeTextField = breedTextField
             pickerView.reloadAllComponents()
             pickerView.backgroundColor = .white
             breedTextField.inputView = pickerView
-        case colorTextField:
-            activeTextField = colorTextField
-        case weightTextField:
-            activeTextField = weightTextField
-        case heightTextField:
-            activeTextField = heightTextField
         default:
-            break
+            activeTextField = textField
         }
     }
     
@@ -370,9 +320,12 @@ extension PetViewController: UIImagePickerControllerDelegate, UINavigationContro
             imagePicker.sourceType = sourceType
             present(imagePicker, animated: true, completion: nil)
         } else {
-            let alert  = UIAlertController(title: "Warning", message: "Option not available", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
+            let optionNotAvailableAlert = SingleButtonAlertInformation(
+                title: "Warning",
+                message: "Option Not Available",
+                action: AlertAction(buttonTitle: "OK", handler: nil)
+            )
+            presentSingleButtonDialog(with: optionNotAvailableAlert)
         }
     }
     

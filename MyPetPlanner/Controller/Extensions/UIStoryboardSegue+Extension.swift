@@ -13,6 +13,7 @@ extension UIStoryboardSegue {
         static let createNewPet = "createNewPet"
         static let editPet = "editPet"
         static let createNewFood = "createNewFood"
+        static let editFood = "editFood"
         static let foodSection = "Food"
     }
 }

@@ -9,6 +9,12 @@
 import UIKit
 
 extension UIView {
+    
+    func roundImage() {
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = self.bounds.width/2
+    }
+    
     static func customizedDatePickerView(setDate date: Date, withTarget target: Any, action: Selector) -> UIDatePicker {
         let datePickerView = UIDatePicker()
         datePickerView.datePickerMode = .date

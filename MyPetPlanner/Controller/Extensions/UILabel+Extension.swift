@@ -10,10 +10,10 @@ import UIKit
 
 extension UILabel {
     
-    func configureLabel(backgroundColor: UIColor, textColor: UIColor, cornerRadius: CGFloat) {
+    func configureTitle() {
         self.layer.masksToBounds = true
-        self.layer.cornerRadius = cornerRadius
-        self.backgroundColor = backgroundColor
-        self.textColor = textColor
+        self.layer.cornerRadius = 3
+        self.backgroundColor = UIColor.backgroundColor
+        self.textColor = UIColor.white
     }
 }

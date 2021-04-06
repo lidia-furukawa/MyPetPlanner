@@ -33,7 +33,6 @@
 		02F66F27260BA23A00B99D6A /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F26260BA23A00B99D6A /* UIViewController+Extension.swift */; };
 		02F66F29260BB79500B99D6A /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F28260BB79500B99D6A /* UILabel+Extension.swift */; };
 		02F66F2B260C1DC000B99D6A /* SaveActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F2A260C1DC000B99D6A /* SaveActivityIndicator.swift */; };
-		02F66F2F260D1E5100B99D6A /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F2E260D1E5100B99D6A /* TabBarController.swift */; };
 		02F66F37260E547600B99D6A /* KeyboardNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F36260E547600B99D6A /* KeyboardNotifications.swift */; };
 		02F66F3B260E8E9F00B99D6A /* TableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3A260E8E9F00B99D6A /* TableSection.swift */; };
 		02F66F3D261132EB00B99D6A /* TableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3C261132EB00B99D6A /* TableRow.swift */; };
@@ -46,6 +45,11 @@
 		02F66F522615037C00B99D6A /* UIStoryboardSegue+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F512615037C00B99D6A /* UIStoryboardSegue+Extension.swift */; };
 		02F66F562615536900B99D6A /* PetDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F552615536900B99D6A /* PetDelegate.swift */; };
 		02F66F582616840A00B99D6A /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F572616840A00B99D6A /* UIView+Extension.swift */; };
+		02F66F5A261B540800B99D6A /* UISegmentedControl+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F59261B540800B99D6A /* UISegmentedControl+Extension.swift */; };
+		02F66F5C261B5B4C00B99D6A /* NSDecimalNumber+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F5B261B5B4C00B99D6A /* NSDecimalNumber+Extension.swift */; };
+		02F66F5E261B8D9700B99D6A /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F5D261B8D9700B99D6A /* Date+Extension.swift */; };
+		02F66F60261BA60F00B99D6A /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F5F261BA60F00B99D6A /* String+Extension.swift */; };
+		02F66F62261BB5EC00B99D6A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F61261BB5EC00B99D6A /* Colors.swift */; };
 		73B6819DE3BC009A5D5AAFA7 /* Pods_MyPetPlannerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08F0B8607E1FD2CB31DBF08A /* Pods_MyPetPlannerTests.framework */; };
 		8419D1C9AC775680FB9DE2A5 /* Pods_MyPetPlanner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D223A628C9731F9D4C8AE2C3 /* Pods_MyPetPlanner.framework */; };
 		8B85BA51E91C623C25C39B33 /* Pods_MyPetPlanner_MyPetPlannerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F220E7CD803857BC2465E0D7 /* Pods_MyPetPlanner_MyPetPlannerUITests.framework */; };
@@ -101,7 +105,6 @@
 		02F66F26260BA23A00B99D6A /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		02F66F28260BB79500B99D6A /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		02F66F2A260C1DC000B99D6A /* SaveActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveActivityIndicator.swift; sourceTree = "<group>"; };
-		02F66F2E260D1E5100B99D6A /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		02F66F36260E547600B99D6A /* KeyboardNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNotifications.swift; sourceTree = "<group>"; };
 		02F66F3A260E8E9F00B99D6A /* TableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSection.swift; sourceTree = "<group>"; };
 		02F66F3C261132EB00B99D6A /* TableRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRow.swift; sourceTree = "<group>"; };
@@ -114,6 +117,11 @@
 		02F66F512615037C00B99D6A /* UIStoryboardSegue+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboardSegue+Extension.swift"; sourceTree = "<group>"; };
 		02F66F552615536900B99D6A /* PetDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetDelegate.swift; sourceTree = "<group>"; };
 		02F66F572616840A00B99D6A /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		02F66F59261B540800B99D6A /* UISegmentedControl+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extension.swift"; sourceTree = "<group>"; };
+		02F66F5B261B5B4C00B99D6A /* NSDecimalNumber+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDecimalNumber+Extension.swift"; sourceTree = "<group>"; };
+		02F66F5D261B8D9700B99D6A /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		02F66F5F261BA60F00B99D6A /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		02F66F61261BB5EC00B99D6A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		08F0B8607E1FD2CB31DBF08A /* Pods_MyPetPlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPetPlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26DA4E0E64776BD06D4BAEA3 /* Pods-MyPetPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner.release.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner/Pods-MyPetPlanner.release.xcconfig"; sourceTree = "<group>"; };
 		456D38907334532E704C3A46 /* Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner-MyPetPlannerUITests/Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -164,7 +172,6 @@
 		0277383025EE998B00510FF4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				02F66F2E260D1E5100B99D6A /* TabBarController.swift */,
 				02DD19DD25D6F8DE00236A74 /* MyPetsViewController.swift */,
 				0277384B25F0F37A00510FF4 /* PetViewController.swift */,
 				0277383925EEC80B00510FF4 /* HealthViewController.swift */,
@@ -280,11 +287,15 @@
 			isa = PBXGroup;
 			children = (
 				02F66F26260BA23A00B99D6A /* UIViewController+Extension.swift */,
+				02F66F572616840A00B99D6A /* UIView+Extension.swift */,
 				02F66F28260BB79500B99D6A /* UILabel+Extension.swift */,
+				02F66F59261B540800B99D6A /* UISegmentedControl+Extension.swift */,
+				02F66F512615037C00B99D6A /* UIStoryboardSegue+Extension.swift */,
 				02F66F3F2612557200B99D6A /* EKCalendar+Extension.swift */,
 				02F66F4F2615015C00B99D6A /* UserDefaults+Extension.swift */,
-				02F66F512615037C00B99D6A /* UIStoryboardSegue+Extension.swift */,
-				02F66F572616840A00B99D6A /* UIView+Extension.swift */,
+				02F66F5D261B8D9700B99D6A /* Date+Extension.swift */,
+				02F66F5B261B5B4C00B99D6A /* NSDecimalNumber+Extension.swift */,
+				02F66F5F261BA60F00B99D6A /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -306,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				02F66F4C2614EF1D00B99D6A /* Alert.swift */,
+				02F66F61261BB5EC00B99D6A /* Colors.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -577,7 +589,10 @@
 				02F66F2B260C1DC000B99D6A /* SaveActivityIndicator.swift in Sources */,
 				02F66F072603CCE500B99D6A /* HealthSectionCell.swift in Sources */,
 				0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */,
+				02F66F5C261B5B4C00B99D6A /* NSDecimalNumber+Extension.swift in Sources */,
+				02F66F62261BB5EC00B99D6A /* Colors.swift in Sources */,
 				02F66F562615536900B99D6A /* PetDelegate.swift in Sources */,
+				02F66F5A261B540800B99D6A /* UISegmentedControl+Extension.swift in Sources */,
 				02F66F0325FFF50F00B99D6A /* HealthSectionViewController.swift in Sources */,
 				0277383E25EED72D00510FF4 /* CalendarViewController.swift in Sources */,
 				02F66F422613984B00B99D6A /* CalendarReminderAuthorization.swift in Sources */,
@@ -586,11 +601,12 @@
 				0277384025EED78800510FF4 /* ExpensesViewController.swift in Sources */,
 				02F66F37260E547600B99D6A /* KeyboardNotifications.swift in Sources */,
 				0277384425F0002200510FF4 /* BreedsListResponse.swift in Sources */,
-				02F66F2F260D1E5100B99D6A /* TabBarController.swift in Sources */,
 				02F66F27260BA23A00B99D6A /* UIViewController+Extension.swift in Sources */,
+				02F66F5E261B8D9700B99D6A /* Date+Extension.swift in Sources */,
 				02DD19DE25D6F8DE00236A74 /* MyPetsViewController.swift in Sources */,
 				0277384225EFFF5200510FF4 /* DogAPIClient.swift in Sources */,
 				02F66F3B260E8E9F00B99D6A /* TableSection.swift in Sources */,
+				02F66F60261BA60F00B99D6A /* String+Extension.swift in Sources */,
 				02F66F402612557200B99D6A /* EKCalendar+Extension.swift in Sources */,
 				0277384A25F03DCF00510FF4 /* DataController.swift in Sources */,
 				02DD19E425D6F8DE00236A74 /* MyPetPlanner.xcdatamodeld in Sources */,
