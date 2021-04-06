@@ -27,8 +27,8 @@ class HealthSectionViewController: UIViewController {
     
     var sectionNameKeyPath = String()
     
-    let dateFormatter = DateFormatter()
-
+    var selectedIndexPath = IndexPath()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<NSManagedObject> = {
         switch selectedObjectSectionName {
         case "Food":
@@ -44,17 +44,20 @@ class HealthSectionViewController: UIViewController {
         initializeView()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.navigationController?.popViewController(animated: false)
+    }
+    
     fileprivate func initializeView() {
         tableView.tableFooterView = UIView()
         navigationItem.title = selectedObjectName
-        navigationItem.leftBarButtonItem?.tintColor = tintColor
         setupRightBarButton()
     }
     
     fileprivate func setupRightBarButton() {
         let addObjectButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addObjectButton(_:)))
         navigationItem.rightBarButtonItem = addObjectButton
-        navigationItem.rightBarButtonItem?.tintColor = tintColor
     }
 
     /// Generic FetchedResultsController builder
@@ -84,6 +87,13 @@ class HealthSectionViewController: UIViewController {
         }
     }
     
+    /// Delete a section object at the specified index path
+    func deleteSectionObject(at indexPath: IndexPath) {
+        let sectionObjectToDelete = fetchedResultsController.object(at: indexPath)
+        dataController.viewContext.delete(sectionObjectToDelete)
+        try? dataController.viewContext.save()
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
         case UIStoryboardSegue.Identifiers.createNewFood:
@@ -91,9 +101,29 @@ class HealthSectionViewController: UIViewController {
             vc.selectedObjectName = selectedObjectName
             vc.pet = pet
             vc.dataController = dataController
+        case UIStoryboardSegue.Identifiers.editFood:
+            let vc = segue.destination as! FoodViewController
+            vc.selectedObjectName = selectedObjectName
+            vc.pet = pet
+            vc.food = fetchedResultsController.object(at: selectedIndexPath) as? Food
+            vc.dataController = dataController
         default:
             fatalError("Unindentified Segue")
         }
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - TrailingSwipeActions
+
+extension HealthSectionViewController: TrailingSwipeActions {
+    func setEditAction(at indexPath: IndexPath) {
+        selectedIndexPath = indexPath
+        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editFood, sender: nil)
+    }
+    
+    func setDeleteAction(at indexPath: IndexPath) {
+        deleteSectionObject(at: indexPath)
     }
 }
 
@@ -114,8 +144,7 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = backgroundColor
-        //        (view as! UITableViewHeaderFooterView).textLabel?.textColor = UIColor.white
+        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.backgroundColor
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -131,9 +160,8 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
             let aFood = frc.object(at: indexPath)
             cell.sectionNameLabel?.text = aFood.type
             cell.sectionInfoLabel?.text = aFood.brand
-            dateFormatter.dateFormat = "MM-dd-yyyy"
-            cell.startDateLabel.text = dateFormatter.string(from: aFood.startDate!)
-            cell.endDateLabel.text = dateFormatter.string(from: aFood.endDate!)
+            cell.startDateLabel.text = aFood.startDate!.stringFormat
+            cell.endDateLabel.text = aFood.endDate!.stringFormat
         default:
           fatalError()
         }
@@ -142,9 +170,12 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
         let sectionImage = UIImage(named: cell.sectionNameLabel.text!)
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
         cell.photoImageView.image = templateImage
-        cell.photoImageView.tintColor = tintColor
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return configureSwipeActionsForRow(at: indexPath)
     }
 }
 

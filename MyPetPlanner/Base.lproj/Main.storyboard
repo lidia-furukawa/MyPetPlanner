@@ -200,6 +200,7 @@
                     <connections>
                         <outlet property="tableView" destination="iSJ-LJ-cum" id="yKi-Ap-wOy"/>
                         <segue destination="T99-GB-ah0" kind="presentation" identifier="createNewFood" modalPresentationStyle="pageSheet" id="KVZ-N4-0Bk"/>
+                        <segue destination="T99-GB-ah0" kind="presentation" identifier="editFood" modalPresentationStyle="pageSheet" id="wjU-n5-go7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FUi-H0-qGf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1108,6 +1109,7 @@
         <image name="sort" width="20.5" height="20.5"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="wjU-n5-go7"/>
         <segue reference="T9W-BG-B72"/>
     </inferredMetricsTieBreakers>
 </document>
