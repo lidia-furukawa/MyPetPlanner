@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0263B28725F821B2008E120C /* Pet+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28625F821B2008E120C /* Pet+Extensions.swift */; };
+		0263B28725F821B2008E120C /* Expense+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28625F821B2008E120C /* Expense+Extensions.swift */; };
 		0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28825FD6AAC008E120C /* HealthCell.swift */; };
 		0277383825EEC5DC00510FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0277383725EEC5DC00510FF4 /* Assets.xcassets */; };
 		0277383A25EEC80B00510FF4 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277383925EEC80B00510FF4 /* HealthViewController.swift */; };
@@ -73,7 +73,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0263B28625F821B2008E120C /* Pet+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pet+Extensions.swift"; sourceTree = "<group>"; };
+		0263B28625F821B2008E120C /* Expense+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expense+Extensions.swift"; sourceTree = "<group>"; };
 		0263B28825FD6AAC008E120C /* HealthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCell.swift; sourceTree = "<group>"; };
 		0277383725EEC5DC00510FF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0277383925EEC80B00510FF4 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +122,7 @@
 		02F66F5D261B8D9700B99D6A /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		02F66F5F261BA60F00B99D6A /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		02F66F61261BB5EC00B99D6A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		02F66F63261E41F100B99D6A /* MyPetPlanner-2021-04-07-inheritance.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MyPetPlanner-2021-04-07-inheritance.xcdatamodel"; sourceTree = "<group>"; };
 		08F0B8607E1FD2CB31DBF08A /* Pods_MyPetPlannerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyPetPlannerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26DA4E0E64776BD06D4BAEA3 /* Pods-MyPetPlanner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner.release.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner/Pods-MyPetPlanner.release.xcconfig"; sourceTree = "<group>"; };
 		456D38907334532E704C3A46 /* Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; path = "Target Support Files/Pods-MyPetPlanner-MyPetPlannerUITests/Pods-MyPetPlanner-MyPetPlannerUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -164,7 +165,7 @@
 		0263B28525F82163008E120C /* Managed Object Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				0263B28625F821B2008E120C /* Pet+Extensions.swift */,
+				0263B28625F821B2008E120C /* Expense+Extensions.swift */,
 			);
 			path = "Managed Object Extensions";
 			sourceTree = "<group>";
@@ -585,7 +586,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				02F66F482613E38100B99D6A /* TrailingSwipeActions.swift in Sources */,
-				0263B28725F821B2008E120C /* Pet+Extensions.swift in Sources */,
+				0263B28725F821B2008E120C /* Expense+Extensions.swift in Sources */,
 				02F66F2B260C1DC000B99D6A /* SaveActivityIndicator.swift in Sources */,
 				02F66F072603CCE500B99D6A /* HealthSectionCell.swift in Sources */,
 				0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */,
@@ -955,9 +956,10 @@
 		02DD19E225D6F8DE00236A74 /* MyPetPlanner.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				02F66F63261E41F100B99D6A /* MyPetPlanner-2021-04-07-inheritance.xcdatamodel */,
 				02DD19E325D6F8DE00236A74 /* MyPetPlanner.xcdatamodel */,
 			);
-			currentVersion = 02DD19E325D6F8DE00236A74 /* MyPetPlanner.xcdatamodel */;
+			currentVersion = 02F66F63261E41F100B99D6A /* MyPetPlanner-2021-04-07-inheritance.xcdatamodel */;
 			path = MyPetPlanner.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

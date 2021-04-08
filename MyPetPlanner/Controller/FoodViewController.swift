@@ -92,9 +92,9 @@ class FoodViewController: UIViewController {
         quantityPerMealOrDayControl.getSegmentedControlSelectedIndex(from: food?.quantityPerMealOrDay)
         startDateTextField.text = food?.startDate?.stringFormat ?? Date().stringFormat
         endDateTextField.text = food?.endDate?.stringFormat ?? Date().stringFormat
-        bagWeightTextField.text = String(food?.costUnit ?? 0)
-        bagWeightUnitControl.getSegmentedControlSelectedIndex(from: food?.quantityUnit)
-        bagPriceTextField.text = food?.costPerUnit?.stringFormat ?? ""
+        bagWeightTextField.text = String(food?.bagWeight ?? 0)
+        bagWeightUnitControl.getSegmentedControlSelectedIndex(from: food?.bagWeightUnit)
+        bagPriceTextField.text = food?.amount?.stringFormat ?? ""
     }
     
     func addNewFood() {
@@ -142,14 +142,14 @@ class FoodViewController: UIViewController {
         }
         
         if let bagWeightText = bagWeightTextField.text {
-            food?.setValue(Double(bagWeightText) ?? 0, forKey: "costUnit")
+            food?.setValue(Double(bagWeightText) ?? 0, forKey: "bagWeight")
         }
         
         let bagWeightUnit = bagWeightUnitControl.selectedSegmentIndex
-        food?.setValue(bagWeightUnitControl.titleForSegment(at: bagWeightUnit), forKey: "quantityUnit")
+        food?.setValue(bagWeightUnitControl.titleForSegment(at: bagWeightUnit), forKey: "bagWeightUnit")
         
         if let bagPriceText = bagPriceTextField.text {
-            food?.setValue(Double(bagPriceText) ?? 0, forKey: "costPerUnit")
+            food?.setValue(Double(bagPriceText) ?? 0, forKey: "amount")
         }
                 
         try? dataController.viewContext.save()

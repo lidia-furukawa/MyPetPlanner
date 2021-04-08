@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-extension Pet {
+extension Expense {
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         
