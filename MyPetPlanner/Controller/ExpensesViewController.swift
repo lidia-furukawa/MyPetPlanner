@@ -18,18 +18,27 @@ class ExpensesViewController: UIViewController {
     
     var fetchedResultsController: NSFetchedResultsController<Expense>!
 
-    /// The pet passed by `MyPetsViewController` when a pet cell's selected
+    /// The pet posted by `MyPetsViewController` when a pet cell's selected
     var pet: Pet?
     
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        subscribeToPetNotification()
+    }
+    
+    deinit {
+        unsubscribeFromNotifications()
+    }
+    
+    // Mock PieChart Data
     let mockLabels = ["Ozil", "Ramsey", "Laca", "Auba", "Xhaka", "Torreira"]
     let mockValues = [6, 8, 26, 30, 8, 10]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupDelegate()
         setupFetchedResultsController()
-        let expenses = fetchedResultsController.fetchedObjects
+//        let expenses = fetchedResultsController.fetchedObjects
         customizeChart(dataPoints: mockLabels, values: mockValues.map{ Double($0) })
     }
     
@@ -44,12 +53,6 @@ class ExpensesViewController: UIViewController {
         super.viewDidDisappear(animated)
         
         fetchedResultsController = nil
-    }
-    
-    fileprivate func setupDelegate() {
-        let myPetsTab = self.tabBarController?.viewControllers![0] as! UINavigationController
-        let myPetsViewController = myPetsTab.topViewController as! MyPetsViewController
-        myPetsViewController.delegate = self
     }
     
     func setupFetchedResultsController() {
@@ -107,10 +110,6 @@ class ExpensesViewController: UIViewController {
 }
 
 // -----------------------------------------------------------------------------
-// MARK: - PetDelegate
+// MARK: - PetNotification
 
-extension ExpensesViewController: PetDelegate {
-    func petWasSelected(pet: Pet?) {
-        self.pet = pet
-    }
-}
+extension ExpensesViewController: PetNotification { }

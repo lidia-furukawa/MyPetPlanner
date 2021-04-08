@@ -25,25 +25,16 @@ class MyPetsViewController: UIViewController {
 
     var selectedPet: Pet?
     
-    weak var delegate: PetDelegate?
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupFetchedResultsController(keyPath, sectionNameKeyPath)
         initView()
-        setupDelegate()
     }
 
     fileprivate func initView() {
         tableView.tableFooterView = UIView()
         tableView.sectionIndexBackgroundColor = UIColor.white
-    }
-    
-    fileprivate func setupDelegate() {
-        let healthTab = self.tabBarController?.viewControllers![1] as! UINavigationController
-        let healthViewController = healthTab.topViewController as! HealthViewController
-        self.delegate = healthViewController
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,7 +97,7 @@ class MyPetsViewController: UIViewController {
     
     func selectPet(at indexPath: IndexPath) {
         selectedPet = fetchedResultsController.object(at: indexPath)
-        delegate?.petWasSelected(pet: selectedPet)
+        postPetNotification(selectedPet)
         checkmarkCell(true, at: indexPath)
         configureNavigationTitle(selectedPet)
     }
@@ -114,6 +105,10 @@ class MyPetsViewController: UIViewController {
     func saveSelectedIndexPath(_ indexPath: IndexPath) {
         let indexPathData = try? NSKeyedArchiver.archivedData(withRootObject: indexPath, requiringSecureCoding: false)
         UserDefaults.standard.set(indexPathData, forKey: UserDefaults.Keys.selectedIndexPath)
+    }
+    
+    func postPetNotification(_ pet: Pet?) {
+        NotificationCenter.default.post(name: .petWasSelected, object: nil, userInfo: ["pet" : pet as Any])
     }
     
     func configureNavigationTitle(_ selectedPet: Pet?) {
@@ -222,7 +217,7 @@ extension MyPetsViewController: TrailingSwipeActions {
         UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
         selectedPet = nil
         configureNavigationTitle(selectedPet)
-        delegate?.petWasSelected(pet: selectedPet)
+        postPetNotification(selectedPet)
     }
 }
 

@@ -15,12 +15,21 @@ class HealthViewController: UIViewController {
     
     var dataController: DataController!
     
-    /// The pet passed by `MyPetsViewController` when a pet cell's selected
+    /// The pet posted by `MyPetsViewController` when a pet cell's selected
     var pet: Pet?
 
     let healthSections = TableSection.healthSections
     
     var selectedObjectName = String()
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        subscribeToPetNotification()
+    }
+    
+    deinit {
+        unsubscribeFromNotifications()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,18 +69,14 @@ class HealthViewController: UIViewController {
 }
 
 // -----------------------------------------------------------------------------
-// MARK: - PetDelegate
-
-extension HealthViewController: PetDelegate {
-    func petWasSelected(pet: Pet?) {
-        self.pet = pet
-    }
-}
-
-// -----------------------------------------------------------------------------
 // MARK: - SingleButtonAlertDialog
 
 extension HealthViewController: SingleButtonAlertDialog { }
+
+// -----------------------------------------------------------------------------
+// MARK: - PetNotification
+
+extension HealthViewController: PetNotification { }
 
 // -----------------------------------------------------------------------------
 // MARK: - UITableViewDataSource, UITableViewDelegate

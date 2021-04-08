@@ -33,7 +33,7 @@ class PetViewController: UIViewController {
     
     var dataController: DataController!
 
-    /// The pet passed by `MyPetsViewController`
+    /// The pet whose info is being displayed/edited
     var pet: Pet?
     
     let pickerView = UIPickerView()
