@@ -704,10 +704,25 @@
                     <view key="view" contentMode="scaleToFill" id="aOs-b9-1RD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KIW-9S-VyJ" customClass="PieChartView" customModule="Charts">
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="uvc-5S-nK8" firstAttribute="trailing" secondItem="KIW-9S-VyJ" secondAttribute="trailing" id="EUC-Pn-04X"/>
+                            <constraint firstItem="uvc-5S-nK8" firstAttribute="bottom" secondItem="KIW-9S-VyJ" secondAttribute="bottom" id="LH3-rG-Iv9"/>
+                            <constraint firstItem="KIW-9S-VyJ" firstAttribute="top" secondItem="uvc-5S-nK8" secondAttribute="top" id="MMm-00-fc0"/>
+                            <constraint firstItem="KIW-9S-VyJ" firstAttribute="leading" secondItem="uvc-5S-nK8" secondAttribute="leading" id="bDM-0C-OGz"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="uvc-5S-nK8"/>
                     </view>
                     <navigationItem key="navigationItem" id="eIy-yM-gbe"/>
+                    <connections>
+                        <outlet property="pieChartView" destination="KIW-9S-VyJ" id="2RL-Wb-7kZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6L3-dO-6fv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
