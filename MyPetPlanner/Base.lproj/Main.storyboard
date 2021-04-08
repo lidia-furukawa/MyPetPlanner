@@ -581,7 +581,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="wts-xt-QQP">
             <objects>
-                <tabBarController id="t8F-C0-uUu" sceneMemberID="viewController">
+                <tabBarController id="t8F-C0-uUu" customClass="TabBarController" customModule="MyPetPlanner" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3xe-U9-gpZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

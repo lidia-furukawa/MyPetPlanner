@@ -17,6 +17,7 @@
 		0277384425F0002200510FF4 /* BreedsListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277384325F0002200510FF4 /* BreedsListResponse.swift */; };
 		0277384A25F03DCF00510FF4 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277384925F03DCF00510FF4 /* DataController.swift */; };
 		0277384C25F0F37A00510FF4 /* PetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277384B25F0F37A00510FF4 /* PetViewController.swift */; };
+		02AB321F261F5E3000E3BF8F /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AB321E261F5E3000E3BF8F /* TabBarController.swift */; };
 		02D30DB125F27AAA007589BE /* CatAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB025F27AAA007589BE /* CatAPIClient.swift */; };
 		02D30DB325F27B5A007589BE /* CatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB225F27B5A007589BE /* CatResponse.swift */; };
 		02D30DB725F6EB4A007589BE /* PetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB625F6EB4A007589BE /* PetCell.swift */; };
@@ -83,6 +84,7 @@
 		0277384325F0002200510FF4 /* BreedsListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedsListResponse.swift; sourceTree = "<group>"; };
 		0277384925F03DCF00510FF4 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		0277384B25F0F37A00510FF4 /* PetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetViewController.swift; sourceTree = "<group>"; };
+		02AB321E261F5E3000E3BF8F /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		02D30DB025F27AAA007589BE /* CatAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAPIClient.swift; sourceTree = "<group>"; };
 		02D30DB225F27B5A007589BE /* CatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatResponse.swift; sourceTree = "<group>"; };
 		02D30DB625F6EB4A007589BE /* PetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCell.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 		0277383025EE998B00510FF4 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				02AB321E261F5E3000E3BF8F /* TabBarController.swift */,
 				02DD19DD25D6F8DE00236A74 /* MyPetsViewController.swift */,
 				0277384B25F0F37A00510FF4 /* PetViewController.swift */,
 				0277383925EEC80B00510FF4 /* HealthViewController.swift */,
@@ -612,6 +615,7 @@
 				0277384A25F03DCF00510FF4 /* DataController.swift in Sources */,
 				02DD19E425D6F8DE00236A74 /* MyPetPlanner.xcdatamodeld in Sources */,
 				0277384C25F0F37A00510FF4 /* PetViewController.swift in Sources */,
+				02AB321F261F5E3000E3BF8F /* TabBarController.swift in Sources */,
 				02D30DB325F27B5A007589BE /* CatResponse.swift in Sources */,
 				02F66F582616840A00B99D6A /* UIView+Extension.swift in Sources */,
 				02F66F502615015C00B99D6A /* UserDefaults+Extension.swift in Sources */,

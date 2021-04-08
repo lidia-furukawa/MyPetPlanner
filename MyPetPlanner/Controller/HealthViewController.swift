@@ -24,6 +24,10 @@ class HealthViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        initView()
+    }
+    
+    fileprivate func initView() {
         tableView.tableFooterView = UIView()
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }

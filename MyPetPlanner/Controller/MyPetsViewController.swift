@@ -43,7 +43,6 @@ class MyPetsViewController: UIViewController {
     fileprivate func setupDelegate() {
         let healthTab = self.tabBarController?.viewControllers![1] as! UINavigationController
         let healthViewController = healthTab.topViewController as! HealthViewController
-        healthViewController.dataController = dataController
         self.delegate = healthViewController
     }
     

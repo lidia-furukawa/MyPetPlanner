@@ -21,11 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         dataController.load()
         
-        /// Inject data controller dependency
-        let tabBarController = window?.rootViewController as! UITabBarController
-        let navigationController = tabBarController.viewControllers![0] as! UINavigationController
-        let myPetsViewController = navigationController.topViewController as! MyPetsViewController
-        myPetsViewController.dataController = dataController
+        /// Inject data controller dependency into the TabBarController
+        let tabBarController = window?.rootViewController as! TabBarController
+        tabBarController.dataController = dataController
         
         self.window?.tintColor = UIColor.tintColor
 
