@@ -53,10 +53,14 @@ class FoodViewController: UIViewController {
     
     var reminder: EKReminder?
     
+    var viewTitle: String {
+        return food == nil ? "Add New Food" : "Edit Food"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        initView()
         
+        initView()
         reloadFoodAttributes()
     }
     
@@ -64,6 +68,7 @@ class FoodViewController: UIViewController {
         super.viewWillAppear(animated)
         
         subscribeToKeyboardNotifications()
+        subscribeToTextFieldsNotifications()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -73,12 +78,20 @@ class FoodViewController: UIViewController {
     }
     
     func initView() {
-        navigationBar.topItem?.title = "Add New Food"
+        navigationBar.topItem?.title = viewTitle
         datesLabel.configureTitle()
         expensesLabel.configureTitle()
-        
+        saveButton.isEnabled = false
+
         for textField in textFields {
             textField.delegate = self
+        }
+    }
+    
+    /// Enable save button if any text field is changed
+    func subscribeToTextFieldsNotifications() {
+        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: nil, queue: .main) { notification in
+            self.saveButton.isEnabled = true
         }
     }
     
@@ -97,59 +110,44 @@ class FoodViewController: UIViewController {
         bagPriceTextField.text = food?.amount?.stringFormat ?? ""
     }
     
-    func addNewFood() {
+    func addNewFood() -> Food {
         let newFood = Food(context: dataController.viewContext)
         newFood.pet = pet
-        try? dataController.viewContext.save()
-        food = newFood
+        return newFood
+    }
+    
+    @objc func handleDatePicker(_ sender: UIDatePicker) {
+        activeTextField.text = sender.date.stringFormat
     }
     
     @IBAction func saveButton(_ sender: UIButton) {
         presentActivityIndicator(true, forButton: sender)
-
-        if food == nil {
-            addNewFood()
-        }
         
-        food?.setValue(foodTypeLabel.text, forKey: "type")
-        
-        if brandTextField.text!.isEmpty {
-            food?.setValue("#", forKey: "brand")
+        let food: Food
+        if let foodToEdit = self.food {
+            food = foodToEdit
         } else {
-            food?.setValue(brandTextField.text, forKey: "brand")
+            food = addNewFood()
         }
         
+        food.type = selectedObjectName
+        food.brand = brandTextField.text
         if let mealsText = mealsTextField.text {
-            food?.setValue(Int(mealsText) ?? 0, forKey: "meals")
+            food.meals = Int16(mealsText)!
         }
-        
         if let quantityText = quantityTextField.text {
-            food?.setValue(Int(quantityText) ?? 0, forKey: "quantity")
+            food.quantity = Int16(quantityText)!
         }
-        
-        let quantityUnit = quantityUnitControl.selectedSegmentIndex
-        food?.setValue(quantityUnitControl.titleForSegment(at: quantityUnit), forKey: "quantityUnit")
-        
-        let quantityPerMealOrDay = quantityPerMealOrDayControl.selectedSegmentIndex
-        food?.setValue(quantityPerMealOrDayControl.titleForSegment(at: quantityPerMealOrDay), forKey: "quantityPerMealOrDay")
-        
-        if let startDateText = startDateTextField.text {
-            food?.setValue(startDateText.dateFormat, forKey: "startDate")
-        }
-        
-        if let endDateText = endDateTextField.text {
-            food?.setValue(endDateText.dateFormat, forKey: "endDate")
-        }
-        
+        food.quantityUnit = quantityUnitControl.selectedSegmentTitle
+        food.quantityPerMealOrDay = quantityPerMealOrDayControl.selectedSegmentTitle
+        food.startDate = startDateTextField.text?.dateFormat
+        food.endDate = endDateTextField.text?.dateFormat
         if let bagWeightText = bagWeightTextField.text {
-            food?.setValue(Double(bagWeightText) ?? 0, forKey: "bagWeight")
+            food.bagWeight = Double(bagWeightText)!
         }
-        
-        let bagWeightUnit = bagWeightUnitControl.selectedSegmentIndex
-        food?.setValue(bagWeightUnitControl.titleForSegment(at: bagWeightUnit), forKey: "bagWeightUnit")
-        
-        if let bagPriceText = bagPriceTextField.text {
-            food?.setValue(Double(bagPriceText) ?? 0, forKey: "amount")
+        food.bagWeightUnit = bagWeightUnitControl.selectedSegmentTitle
+        if let bagPriceText = Double(bagPriceTextField.text!) {
+            food.amount = NSDecimalNumber(value: bagPriceText)
         }
                 
         try? dataController.viewContext.save()
@@ -170,10 +168,6 @@ class FoodViewController: UIViewController {
         mealsTextField.text = Int(sender.value).description
     }
     
-    @objc func handleDatePicker(_ sender: UIDatePicker) {
-        activeTextField.text = sender.date.stringFormat
-    }
-    
     @IBAction func addReminderTapped(_ sender: UISwitch) {
         if reminderSwitch.isOn {
             checkAuthorizationStatus(for: .reminder)
@@ -183,9 +177,9 @@ class FoodViewController: UIViewController {
     func createReminder() {
         reminder = EKReminder(eventStore: eventStore)
         
-        reminder?.title = self.foodTypeLabel.text
+        reminder?.title = foodTypeLabel.text
         reminder?.calendar = EKCalendar.loadCalendar(type: .reminder, from: eventStore, with: calendarKey)
-        reminder?.notes = "Feed \(self.pet?.name ?? "#") with \(self.brandTextField.text ?? "#")"
+        reminder?.notes = "Feed \(pet?.name ?? "#") with \(brandTextField.text ?? "#")"
         
         let startDate = startDateTextField.text?.dateFormat
         reminder?.startDateComponents = Calendar.current.dateComponents([.month, .day, .year], from: startDate!)
