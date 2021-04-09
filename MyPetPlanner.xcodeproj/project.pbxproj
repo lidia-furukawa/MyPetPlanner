@@ -297,12 +297,12 @@
 				02F66F28260BB79500B99D6A /* UILabel+Extension.swift */,
 				02F66F59261B540800B99D6A /* UISegmentedControl+Extension.swift */,
 				02F66F512615037C00B99D6A /* UIStoryboardSegue+Extension.swift */,
-				02F66F3F2612557200B99D6A /* EKCalendar+Extension.swift */,
 				02F66F4F2615015C00B99D6A /* UserDefaults+Extension.swift */,
+				02AB3220261F7A3A00E3BF8F /* Notification.Name+Extension.swift */,
+				02F66F3F2612557200B99D6A /* EKCalendar+Extension.swift */,
 				02F66F5D261B8D9700B99D6A /* Date+Extension.swift */,
 				02F66F5F261BA60F00B99D6A /* String+Extension.swift */,
 				02F66F5B261B5B4C00B99D6A /* NSDecimalNumber+Extension.swift */,
-				02AB3220261F7A3A00E3BF8F /* Notification.Name+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
