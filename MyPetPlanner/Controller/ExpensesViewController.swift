@@ -30,23 +30,16 @@ class ExpensesViewController: UIViewController {
         unsubscribeFromNotifications()
     }
     
-    // Mock PieChart Data
-    let mockLabels = ["Ozil", "Ramsey", "Laca", "Auba", "Xhaka", "Torreira"]
-    let mockValues = [6, 8, 26, 30, 8, 10]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupFetchedResultsController()
-//        let expenses = fetchedResultsController.fetchedObjects
-        customizeChart(dataPoints: mockLabels, values: mockValues.map{ Double($0) })
+    
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setupFetchedResultsController()
         navigationItem.title = "Pet: \(pet?.name ?? "None")"
+        customizeChart(dataPoints: fetchData(from: "type") as! [String], values: fetchData(from: "amount") as! [Double])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -55,11 +48,28 @@ class ExpensesViewController: UIViewController {
         fetchedResultsController = nil
     }
     
-    func setupFetchedResultsController() {
+    func fetchData(from attribute: String) -> [Any] {
+        setupFetchedResultsController(attribute)
+        guard let objects = fetchedResultsController.fetchedObjects else { return [] }
+        var array: [Any] = []
+        for object in objects {
+            switch attribute {
+            case "type":
+                array.append(object.type!)
+            case "amount":
+                array.append(object.amount!.doubleValue)
+            default:
+                fatalError()
+            }
+        }
+        return array
+    }
+    
+    func setupFetchedResultsController(_ keyPath: String) {
         let fetchRequest: NSFetchRequest<Expense> = Expense.fetchRequest()
         let predicate = NSPredicate(format: "pet == %@", pet ?? "")
         fetchRequest.predicate = predicate
-        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: keyPath, ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -76,7 +86,7 @@ class ExpensesViewController: UIViewController {
         // Set ChartDataEntry
         var dataEntries: [ChartDataEntry] = []
         for i in 0..<dataPoints.count {
-            let dataEntry = PieChartDataEntry(value: values[i], label: dataPoints[i], data:  dataPoints[i] as AnyObject)
+            let dataEntry = PieChartDataEntry(value: values[i], label: dataPoints[i], data: dataPoints[i] as AnyObject)
             dataEntries.append(dataEntry)
         }
         
@@ -87,7 +97,7 @@ class ExpensesViewController: UIViewController {
         // Set ChartData
         let pieChartData = PieChartData(dataSet: pieChartDataSet)
         let format = NumberFormatter()
-        format.numberStyle = .none
+        format.numberStyle = .currency
         let formatter = DefaultValueFormatter(formatter: format)
         pieChartData.setValueFormatter(formatter)
         
