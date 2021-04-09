@@ -42,6 +42,10 @@ class PetViewController: UIViewController {
 
     var catBreeds: [String] = []
     
+    var viewTitle: String {
+        return pet == nil ? "Create New Pet" : "Edit Pet"
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -51,7 +55,6 @@ class PetViewController: UIViewController {
         CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
         
         reloadPetAttributes()
-        navigationBar.topItem?.title = "Edit \(pet?.name ?? "New Pet")"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,6 +71,8 @@ class PetViewController: UIViewController {
     }
 
     func initView() {
+        navigationBar.topItem?.title = viewTitle
+
         basicInformationLabel.configureTitle()
         bodyMeasurementsLabel.configureTitle()
         photoImageView.roundImage()
@@ -82,15 +87,15 @@ class PetViewController: UIViewController {
     }
     
     /// Enable save button if any text field is changed
-    fileprivate func subscribeToTextFieldsNotifications() {
-        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: nil, queue: .main) { notif in
+    func subscribeToTextFieldsNotifications() {
+        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification, object: nil, queue: .main) { notification in
             self.saveButton.isEnabled = true
         }
     }
     
-    func addNewPet() {
+    func addNewPet() -> Pet {
         let newPet = Pet(context: dataController.viewContext)
-        pet = newPet
+        return newPet
     }
     
     func reloadPetAttributes() {
@@ -142,41 +147,31 @@ class PetViewController: UIViewController {
     @IBAction func saveButton(_ sender: UIButton) {
         presentActivityIndicator(true, forButton: sender)
         
-        if pet == nil {
-            addNewPet()
-        }
-        
-        let photoImage = photoImageView.image
-        if let photoImageData = photoImage!.pngData() {
-            pet!.setValue(photoImageData, forKey: "photo")
-        }
-        
-        if let birthdayText = birthdayTextField.text {
-            pet!.setValue(birthdayText.dateFormat, forKey: "birthday")
-        }
-        
-        pet!.setValue(typeControl.selectedSegmentTitle, forKey: "type")
-
-        pet!.setValue(genderControl.selectedSegmentTitle, forKey: "gender")
-        
-        if nameTextField.text!.isEmpty {
-            pet!.setValue("#", forKey: "name")
-            pet!.setValue("#", forKey: "initialName")
+        let pet: Pet
+        if let petToEdit = self.pet {
+            pet = petToEdit
         } else {
-            pet!.setValue(nameTextField.text, forKey: "name")
-            let nameInitialLetter = nameTextField.text?.prefix(1)
-            pet!.setValue(nameInitialLetter, forKey: "initialName")
+            pet = addNewPet()
         }
-
-        pet!.setValue(breedTextField.text, forKey: "breed")
-        pet!.setValue(colorTextField.text, forKey: "color")
         
+        pet.photo = photoImageView.image?.pngData()
+        pet.birthday = birthdayTextField.text?.dateFormat
+        pet.type = typeControl.selectedSegmentTitle
+        pet.gender = genderControl.selectedSegmentTitle
+        if nameTextField.text!.isEmpty {
+            pet.name = "#"
+            pet.initialName = "#"
+        } else {
+            pet.name = nameTextField.text
+            pet.initialName = String(nameTextField.text!.prefix(1))
+        }
+        pet.breed = breedTextField.text
+        pet.color = colorTextField.text
         if let weightText = weightTextField.text {
-            pet!.setValue(Double(weightText) ?? 0, forKey: "weight")
+            pet.weight = Double(weightText)!
         }
-        
         if let heightText = heightTextField.text {
-            pet!.setValue(Double(heightText) ?? 0, forKey: "height")
+            pet.height = Double(heightText)!
         }
 
         try? dataController.viewContext.save()

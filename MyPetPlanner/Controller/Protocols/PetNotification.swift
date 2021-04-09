@@ -23,6 +23,8 @@ extension PetNotification where Self: UIViewController {
     func petWasSelected(_ notification: Notification) {
         if let selectedPet = notification.userInfo?["pet"] as? Pet {
             pet = selectedPet
+        } else {
+            pet = nil
         }
     }
     
