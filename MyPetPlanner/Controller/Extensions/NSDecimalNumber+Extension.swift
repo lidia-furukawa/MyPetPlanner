@@ -15,6 +15,7 @@ extension NSDecimalNumber {
         numberFormatter.generatesDecimalNumbers = true
         numberFormatter.minimumFractionDigits = 2
         numberFormatter.maximumFractionDigits = 2
+        numberFormatter.numberStyle = .currency
         return numberFormatter.string(from: self)
     }
     

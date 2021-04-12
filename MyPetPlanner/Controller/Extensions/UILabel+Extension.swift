@@ -13,7 +13,9 @@ extension UILabel {
     func configureTitle() {
         self.layer.masksToBounds = true
         self.layer.cornerRadius = 3
-        self.backgroundColor = UIColor.backgroundColor
-        self.textColor = UIColor.white
+        self.font = .boldSystemFont(ofSize: 17)
+        self.adjustsFontSizeToFitWidth = true
+        self.backgroundColor = .backgroundColor
+        self.textColor = .black
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		020F5B8426211896001B1268 /* ExpensesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020F5B8326211896001B1268 /* ExpensesCell.swift */; };
 		0263B28725F821B2008E120C /* Expense+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28625F821B2008E120C /* Expense+Extensions.swift */; };
 		0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28825FD6AAC008E120C /* HealthCell.swift */; };
 		0277383825EEC5DC00510FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0277383725EEC5DC00510FF4 /* Assets.xcassets */; };
@@ -75,6 +76,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		020F5B8326211896001B1268 /* ExpensesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesCell.swift; sourceTree = "<group>"; };
 		0263B28625F821B2008E120C /* Expense+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expense+Extensions.swift"; sourceTree = "<group>"; };
 		0263B28825FD6AAC008E120C /* HealthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCell.swift; sourceTree = "<group>"; };
 		0277383725EEC5DC00510FF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				02D30DB625F6EB4A007589BE /* PetCell.swift */,
 				0263B28825FD6AAC008E120C /* HealthCell.swift */,
 				02F66F062603CCE500B99D6A /* HealthSectionCell.swift */,
+				020F5B8326211896001B1268 /* ExpensesCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -627,6 +630,7 @@
 				02F66F29260BB79500B99D6A /* UILabel+Extension.swift in Sources */,
 				02D30DB725F6EB4A007589BE /* PetCell.swift in Sources */,
 				02F66F522615037C00B99D6A /* UIStoryboardSegue+Extension.swift in Sources */,
+				020F5B8426211896001B1268 /* ExpensesCell.swift in Sources */,
 				02F66F3D261132EB00B99D6A /* TableRow.swift in Sources */,
 				02D30DB125F27AAA007589BE /* CatAPIClient.swift in Sources */,
 				02F66F4D2614EF1D00B99D6A /* Alert.swift in Sources */,

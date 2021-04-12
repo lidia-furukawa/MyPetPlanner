@@ -705,23 +705,115 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KIW-9S-VyJ" customClass="PieChartView" customModule="Charts">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lt5-NE-vhs">
                                 <rect key="frame" x="0.0" y="88" width="414" height="725"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ead-Uk-pQ5">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expenses" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJu-19-I7i">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KIW-9S-VyJ" customClass="PieChartView" customModule="Charts">
+                                                <rect key="frame" x="0.0" y="20.5" width="414" height="300"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="300" id="pJF-cq-Fvv"/>
+                                                </constraints>
+                                            </view>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Breakdown" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yh9-uM-g87">
+                                                <rect key="frame" x="0.0" y="320.5" width="414" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iLF-rj-fwh">
+                                                <rect key="frame" x="0.0" y="341" width="414" height="555"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <prototypes>
+                                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ExpensesCell" textLabel="VYm-nO-lcw" detailTextLabel="ekA-lH-KfE" style="IBUITableViewCellStyleValue1" id="hyc-4R-SJX">
+                                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hyc-4R-SJX" id="OXk-gF-icY">
+                                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                                            <autoresizingMask key="autoresizingMask"/>
+                                                            <subviews>
+                                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VYm-nO-lcw">
+                                                                    <rect key="frame" x="20" y="12" width="33.5" height="20.5"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ekA-lH-KfE">
+                                                                    <rect key="frame" x="350" y="12" width="44" height="20.5"/>
+                                                                    <autoresizingMask key="autoresizingMask"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </tableViewCellContentView>
+                                                    </tableViewCell>
+                                                </prototypes>
+                                                <connections>
+                                                    <outlet property="dataSource" destination="rBu-I9-tKL" id="O81-nX-50J"/>
+                                                    <outlet property="delegate" destination="rBu-I9-tKL" id="yuD-SK-0Tc"/>
+                                                </connections>
+                                            </tableView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="iLF-rj-fwh" secondAttribute="trailing" id="1qN-YM-1oc"/>
+                                            <constraint firstItem="iLF-rj-fwh" firstAttribute="leading" secondItem="ead-Uk-pQ5" secondAttribute="leading" id="80p-NM-McH"/>
+                                            <constraint firstItem="yh9-uM-g87" firstAttribute="leading" secondItem="ead-Uk-pQ5" secondAttribute="leading" id="DFI-Zf-Ji4"/>
+                                            <constraint firstAttribute="bottom" secondItem="iLF-rj-fwh" secondAttribute="bottom" id="GvM-3W-UG2"/>
+                                            <constraint firstAttribute="trailing" secondItem="KIW-9S-VyJ" secondAttribute="trailing" id="Ken-GB-xde"/>
+                                            <constraint firstAttribute="trailing" secondItem="yh9-uM-g87" secondAttribute="trailing" id="XsH-Mt-i4J"/>
+                                            <constraint firstItem="bJu-19-I7i" firstAttribute="top" secondItem="ead-Uk-pQ5" secondAttribute="top" id="bXc-em-wQj"/>
+                                            <constraint firstItem="yh9-uM-g87" firstAttribute="top" secondItem="KIW-9S-VyJ" secondAttribute="bottom" id="ntD-ne-5qr"/>
+                                            <constraint firstItem="iLF-rj-fwh" firstAttribute="top" secondItem="yh9-uM-g87" secondAttribute="bottom" id="oY6-Kl-xl0"/>
+                                            <constraint firstItem="bJu-19-I7i" firstAttribute="leading" secondItem="ead-Uk-pQ5" secondAttribute="leading" id="pTT-0w-Ib6"/>
+                                            <constraint firstItem="KIW-9S-VyJ" firstAttribute="leading" secondItem="ead-Uk-pQ5" secondAttribute="leading" id="tXB-DJ-CIA"/>
+                                            <constraint firstAttribute="trailing" secondItem="bJu-19-I7i" secondAttribute="trailing" id="u8E-bl-S7W"/>
+                                            <constraint firstItem="KIW-9S-VyJ" firstAttribute="top" secondItem="bJu-19-I7i" secondAttribute="bottom" id="udl-co-8Lq"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="ead-Uk-pQ5" secondAttribute="trailing" id="7mF-f4-Fdb"/>
+                                    <constraint firstItem="ead-Uk-pQ5" firstAttribute="top" secondItem="lt5-NE-vhs" secondAttribute="top" id="XL2-rf-VXA"/>
+                                    <constraint firstAttribute="bottom" secondItem="ead-Uk-pQ5" secondAttribute="bottom" id="dCD-BC-NNX"/>
+                                    <constraint firstItem="ead-Uk-pQ5" firstAttribute="leading" secondItem="lt5-NE-vhs" secondAttribute="leading" id="rF4-dK-Rm9"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="uvc-5S-nK8" firstAttribute="trailing" secondItem="KIW-9S-VyJ" secondAttribute="trailing" id="EUC-Pn-04X"/>
-                            <constraint firstItem="uvc-5S-nK8" firstAttribute="bottom" secondItem="KIW-9S-VyJ" secondAttribute="bottom" id="LH3-rG-Iv9"/>
-                            <constraint firstItem="KIW-9S-VyJ" firstAttribute="top" secondItem="uvc-5S-nK8" secondAttribute="top" id="MMm-00-fc0"/>
-                            <constraint firstItem="KIW-9S-VyJ" firstAttribute="leading" secondItem="uvc-5S-nK8" secondAttribute="leading" id="bDM-0C-OGz"/>
+                            <constraint firstItem="uvc-5S-nK8" firstAttribute="bottom" secondItem="lt5-NE-vhs" secondAttribute="bottom" id="Iol-ZX-eS0"/>
+                            <constraint firstItem="lt5-NE-vhs" firstAttribute="top" secondItem="uvc-5S-nK8" secondAttribute="top" id="YzG-Sb-RNq"/>
+                            <constraint firstItem="ead-Uk-pQ5" firstAttribute="width" secondItem="aOs-b9-1RD" secondAttribute="width" id="ZY3-xf-3tc"/>
+                            <constraint firstItem="lt5-NE-vhs" firstAttribute="leading" secondItem="uvc-5S-nK8" secondAttribute="leading" id="lBp-Mx-NlL"/>
+                            <constraint firstItem="ead-Uk-pQ5" firstAttribute="height" secondItem="aOs-b9-1RD" secondAttribute="height" priority="250" id="lw7-ec-hLY"/>
+                            <constraint firstItem="uvc-5S-nK8" firstAttribute="trailing" secondItem="lt5-NE-vhs" secondAttribute="trailing" id="nM3-J9-9wk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="uvc-5S-nK8"/>
                     </view>
-                    <navigationItem key="navigationItem" id="eIy-yM-gbe"/>
+                    <navigationItem key="navigationItem" id="eIy-yM-gbe">
+                        <barButtonItem key="rightBarButtonItem" image="sort" id="E53-fB-gen">
+                            <connections>
+                                <action selector="sortExpenses:" destination="rBu-I9-tKL" id="yci-4e-I63"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="breakdownLabel" destination="yh9-uM-g87" id="Nsm-16-TT2"/>
+                        <outlet property="expensesLabel" destination="bJu-19-I7i" id="IST-ux-i5d"/>
                         <outlet property="pieChartView" destination="KIW-9S-VyJ" id="2RL-Wb-7kZ"/>
+                        <outlet property="tableView" destination="iLF-rj-fwh" id="9gF-k1-gfs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6L3-dO-6fv" userLabel="First Responder" sceneMemberID="firstResponder"/>
