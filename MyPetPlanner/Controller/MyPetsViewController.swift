@@ -142,27 +142,21 @@ class MyPetsViewController: UIViewController {
     }
     
     @IBAction func sortPets(_ sender: Any) {
-        let sortDialog = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        sortDialog.addAction(UIAlertAction(title: "Sort By Name (A - Z)", style: .default, handler: { _ in
-            UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
-            self.saveKeyPaths("name", "initialName")
-            DispatchQueue.main.async {
-                self.refreshData()
-            }
-        }))
-        
-        sortDialog.addAction(UIAlertAction(title: "Sort By Type (Cat - Dog)", style: .default, handler: { _ in
-            UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
-            self.saveKeyPaths("type", "type")
-            DispatchQueue.main.async {
-                self.refreshData()
-            }
-        }))
-        
-        sortDialog.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-        
-        present(sortDialog, animated: true, completion: nil)
+        let sortPetsActions: [Action] = [
+            Action(buttonTitle: "Sort By Name (A - Z)", handler: { UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
+                self.saveKeyPaths("name", "initialName")
+                DispatchQueue.main.async {
+                    self.refreshData()
+                }
+            }),
+            Action(buttonTitle: "Sort By Type (Cat - Dog)", handler: { UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
+                self.saveKeyPaths("type", "type")
+                DispatchQueue.main.async {
+                    self.refreshData()
+                }
+            })
+        ]
+        presentActionSheetDialog(with: sortPetsActions)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -179,6 +173,11 @@ class MyPetsViewController: UIViewController {
         }
     }
 }
+
+// -----------------------------------------------------------------------------
+// MARK: - ActionSheetDialog
+
+extension MyPetsViewController: ActionSheetDialog { }
 
 // -----------------------------------------------------------------------------
 // MARK: - Age Calculator

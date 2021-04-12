@@ -6,7 +6,7 @@
 //  Copyright © 2021 LidiaF. All rights reserved.
 //
 
-struct AlertAction {
+struct Action {
     let buttonTitle: String
     let handler: (() -> Void)?
 }
@@ -14,5 +14,5 @@ struct AlertAction {
 struct SingleButtonAlertInformation {
     let title: String
     let message: String?
-    let action: AlertAction
+    let action: Action
 }

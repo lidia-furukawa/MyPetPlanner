@@ -52,7 +52,7 @@ extension CalendarReminderAuthorization where Self: UIViewController {
         let permissionAlert = SingleButtonAlertInformation(
             title: "\"MyPetPlanner\" is not allowed to access Reminders",
             message: "Allow permission in Settings and try again",
-            action: AlertAction(buttonTitle: "OK", handler: nil)
+            action: Action(buttonTitle: "OK", handler: nil)
         )
         presentSingleButtonDialog(with: permissionAlert)
     }

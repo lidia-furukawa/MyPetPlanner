@@ -318,7 +318,7 @@ extension PetViewController: UIImagePickerControllerDelegate, UINavigationContro
             let optionNotAvailableAlert = SingleButtonAlertInformation(
                 title: "Warning",
                 message: "Option Not Available",
-                action: AlertAction(buttonTitle: "OK", handler: nil)
+                action: Action(buttonTitle: "OK", handler: nil)
             )
             presentSingleButtonDialog(with: optionNotAvailableAlert)
         }

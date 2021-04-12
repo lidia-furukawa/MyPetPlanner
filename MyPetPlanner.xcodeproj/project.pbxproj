@@ -31,6 +31,7 @@
 		02DD19E925D6F8E300236A74 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 02DD19E725D6F8E300236A74 /* LaunchScreen.storyboard */; };
 		02DD19F425D6F8E300236A74 /* MyPetPlannerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DD19F325D6F8E300236A74 /* MyPetPlannerTests.swift */; };
 		02DD19FF25D6F8E300236A74 /* MyPetPlannerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02DD19FE25D6F8E300236A74 /* MyPetPlannerUITests.swift */; };
+		02EE0F98262477890038E05C /* ActionSheetDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE0F97262477890038E05C /* ActionSheetDialog.swift */; };
 		02F66F0325FFF50F00B99D6A /* HealthSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F0225FFF50F00B99D6A /* HealthSectionViewController.swift */; };
 		02F66F052602531900B99D6A /* FoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F042602531900B99D6A /* FoodViewController.swift */; };
 		02F66F072603CCE500B99D6A /* HealthSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F062603CCE500B99D6A /* HealthSectionCell.swift */; };
@@ -106,6 +107,7 @@
 		02DD19FA25D6F8E300236A74 /* MyPetPlannerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyPetPlannerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		02DD19FE25D6F8E300236A74 /* MyPetPlannerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPetPlannerUITests.swift; sourceTree = "<group>"; };
 		02DD1A0025D6F8E300236A74 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		02EE0F97262477890038E05C /* ActionSheetDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetDialog.swift; sourceTree = "<group>"; };
 		02F66F0225FFF50F00B99D6A /* HealthSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSectionViewController.swift; sourceTree = "<group>"; };
 		02F66F042602531900B99D6A /* FoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodViewController.swift; sourceTree = "<group>"; };
 		02F66F062603CCE500B99D6A /* HealthSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSectionCell.swift; sourceTree = "<group>"; };
@@ -318,6 +320,7 @@
 				02F66F412613984B00B99D6A /* CalendarReminderAuthorization.swift */,
 				02F66F472613E38100B99D6A /* TrailingSwipeActions.swift */,
 				02F66F4A2614EB6000B99D6A /* SingleButtonAlertDialog.swift */,
+				02EE0F97262477890038E05C /* ActionSheetDialog.swift */,
 				02AB3222261F829500E3BF8F /* PetNotification.swift */,
 			);
 			path = Protocols;
@@ -627,6 +630,7 @@
 				02F66F582616840A00B99D6A /* UIView+Extension.swift in Sources */,
 				02F66F502615015C00B99D6A /* UserDefaults+Extension.swift in Sources */,
 				0277383A25EEC80B00510FF4 /* HealthViewController.swift in Sources */,
+				02EE0F98262477890038E05C /* ActionSheetDialog.swift in Sources */,
 				02F66F29260BB79500B99D6A /* UILabel+Extension.swift in Sources */,
 				02D30DB725F6EB4A007589BE /* PetCell.swift in Sources */,
 				02F66F522615037C00B99D6A /* UIStoryboardSegue+Extension.swift in Sources */,
