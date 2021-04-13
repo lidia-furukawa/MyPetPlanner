@@ -25,16 +25,12 @@ class ExpensesViewController: UIViewController {
     var pet: Pet?
     
     var keyPath = "category"
-
-    var subcategory: [String]?
     
-    var amountPerSubcategory: [Double]?
+    var expensesLabels: [String]?
     
-    var category: [String]?
-
-    var amountPerCategory: [Double]?
+    var expensesValues: [Double]?
     
-    var totalExpenses: Double?
+    var totalExpensesSum: Double?
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -84,41 +80,33 @@ class ExpensesViewController: UIViewController {
         
         switch keyPath {
         case "type":
-            fetchSubcategoryData()
-            customizeChart(labels: subcategory ?? [], values: amountPerSubcategory ?? [])
+            sortBySubcategory()
         case "category":
-            fetchCategoryData()
-//            customizeChart(labels: category ?? [], values: amountPerCategory ?? [])
+            sortByCategory()
         default:
-            fatalError()
+            fatalError("Unrecognized key path")
         }
         tableView.reloadData()
     }
     
-    func fetchCategoryData() {
+    func sortByCategory() {
         Expense.fetchAllCategoriesData(context: dataController.viewContext) { results in
             guard !results.isEmpty else { return }
-            self.amountPerCategory = results.map { $0.totalAmount }
-            self.category = results.map { $0.category }
-            let total = results.map { $0.totalAmount }.reduce(0, +)
-            self.totalExpenses = total
-            print("Category Data fetched")
+            self.expensesLabels = results.map { $0.category }
+            self.expensesValues = results.map { $0.totalAmount }
+            self.totalExpensesSum = results.map { $0.totalAmount }.reduce(0, +)
             
-            self.customizeChart(labels: self.category ?? [], values: self.amountPerCategory ?? [])
+            self.customizeChart(labels: self.expensesLabels ?? [], values: self.expensesValues ?? [])
         }
     }
 
-    func fetchSubcategoryData() {
+    func sortBySubcategory() {
         guard let objects = fetchedResultsController.fetchedObjects else { return }
-        var type: [String] = []
-        var amount: [Double] = []
-        for object in objects {
-            type.append(object.type!)
-            amount.append(object.amount!.doubleValue)
-        }
-        subcategory = type
-        amountPerSubcategory = amount
-        print("Subcategory Data fetched")
+        expensesLabels = objects.map { $0.type! }
+        expensesValues = objects.map { $0.amount!.doubleValue }
+        totalExpensesSum = objects.map { $0.amount!.doubleValue }.reduce(0, +)
+        
+        customizeChart(labels: expensesLabels ?? [], values: expensesValues ?? [])
     }
     
     func saveKeyPath(_ keyPath: String) {
@@ -163,7 +151,6 @@ class ExpensesViewController: UIViewController {
         pieChartData.setValueFormatter(formatter)
         pieChartData.setValueTextColor(.black)
         pieChartView.data = pieChartData
-        print("Chart")
     }
     
     // Set random colors for each entry
@@ -220,10 +207,10 @@ extension ExpensesViewController: UITableViewDataSource, UITableViewDelegate {
         case "category":
             cell.textLabel?.text = aExpense.category
         default:
-            fatalError()
+            fatalError("Unrecognized key path")
         }
         cell.detailTextLabel?.text = aExpense.amount?.stringFormat
-        let sectionImage = UIImage(named: cell.textLabel?.text ?? "")
+        let sectionImage = UIImage(named: aExpense.type ?? "")
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
         cell.imageView?.image = templateImage
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
