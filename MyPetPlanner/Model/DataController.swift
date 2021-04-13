@@ -11,15 +11,27 @@ import CoreData
 
 class DataController {
     /// Create a persistent container instance
-    let persistentContainer:NSPersistentContainer
+    let persistentContainer: NSPersistentContainer
     
     /// Property to access the context
-    var viewContext:NSManagedObjectContext {
+    var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
+    /// Create a background context
+    let backgroundContext: NSManagedObjectContext!
+
     init(modelName: String) {
         persistentContainer = NSPersistentContainer(name: modelName)
+        backgroundContext = persistentContainer.newBackgroundContext()
+    }
+    
+    func configureContexts() {
+        viewContext.automaticallyMergesChangesFromParent = true
+        backgroundContext.automaticallyMergesChangesFromParent = true
+        
+        backgroundContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
+        viewContext.mergePolicy = NSMergePolicy.mergeByPropertyStoreTrump
     }
     
     /// Use the persistent container to load the persistent store
@@ -28,6 +40,7 @@ class DataController {
             guard error == nil else {
                 fatalError(error!.localizedDescription)
             }
+            self.configureContexts()
             completion?()
         }
     }
