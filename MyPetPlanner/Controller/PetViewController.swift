@@ -50,10 +50,8 @@ class PetViewController: UIViewController {
         super.viewDidLoad()
 
         initView()
-        
         DogAPIClient.getBreedsList(completion: handleDogBreedsListResponse(breeds:error:))
         CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
-        
         reloadPetAttributes()
     }
     
@@ -72,16 +70,13 @@ class PetViewController: UIViewController {
 
     func initView() {
         navigationBar.topItem?.title = viewTitle
-
         basicInformationLabel.configureTitle()
         bodyMeasurementsLabel.configureTitle()
         photoImageView.roundImage()
         saveButton.isEnabled = false
-        
         for textField in textFields {
             textField.delegate = self
         }
-        
         pickerView.dataSource = self
         pickerView.delegate = self
     }
@@ -104,7 +99,6 @@ class PetViewController: UIViewController {
         } else {
             photoImageView.image = UIImage(named: "placeholder")
         }
-
         nameTextField.text = pet?.name
         typeControl.getSegmentedControlSelectedIndex(from: pet?.type)
         birthdayTextField.text = pet?.birthday?.stringFormat ?? Date().stringFormat
@@ -124,24 +118,19 @@ class PetViewController: UIViewController {
     }
     
     func handleCatResponse(cats: [CatResponse], error: Error?) {
-        for cat in cats {
-            catBreeds.append(cat.name)
-        }
+        catBreeds = cats.map { $0.name }
     }
     
     @IBAction func selectPhotoButton(_ sender: Any) {
-        let imagePickerPopup = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        imagePickerPopup.addAction(UIAlertAction(title: "Take Photo", style: .default, handler: { _ in
-            self.openImagePickerWith(sourceType: .camera)
-        }))
-        
-        imagePickerPopup.addAction(UIAlertAction(title: "Choose Photo", style: .default, handler: { _ in
-            self.openImagePickerWith(sourceType: .photoLibrary)
-        }))
-        
-        imagePickerPopup.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
-        
-        present(imagePickerPopup, animated: true, completion: nil)
+        let imagePickerActions: [Action] = [
+            Action(buttonTitle: "Take Photo", handler: {
+                self.openImagePickerWith(sourceType: .camera)
+            }),
+            Action(buttonTitle: "Choose Photo", handler: {
+                self.openImagePickerWith(sourceType: .photoLibrary)
+            })
+        ]
+        presentActionSheetDialog(with: imagePickerActions)
     }
     
     @IBAction func saveButton(_ sender: UIButton) {
@@ -175,11 +164,11 @@ class PetViewController: UIViewController {
         }
 
         try? dataController.viewContext.save()
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func cancelButton(_ sender: Any) {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     /// Enable save button if any segmented control is changed
@@ -204,6 +193,11 @@ extension PetViewController: SaveActivityIndicator { }
 // MARK: - SingleButtonAlertDialog
 
 extension PetViewController: SingleButtonAlertDialog { }
+
+// -----------------------------------------------------------------------------
+// MARK: - ActionSheetDialog
+
+extension PetViewController: ActionSheetDialog { }
 
 // -----------------------------------------------------------------------------
 // MARK: - UITextFieldDelegate
@@ -278,19 +272,11 @@ extension PetViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if typeControl.selectedSegmentIndex == 0 {
-            return dogBreeds.count
-        } else {
-            return catBreeds.count
-        }
+        return typeControl.selectedSegmentIndex == 0 ? dogBreeds.count : catBreeds.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if typeControl.selectedSegmentIndex == 0 {
-            return dogBreeds[row]
-        } else {
-            return catBreeds[row]
-        }
+        return typeControl.selectedSegmentIndex == 0 ? dogBreeds[row] : catBreeds[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
