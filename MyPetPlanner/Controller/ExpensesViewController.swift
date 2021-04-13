@@ -24,10 +24,18 @@ class ExpensesViewController: UIViewController {
     /// The pet posted by `MyPetsViewController` when a pet cell's selected
     var pet: Pet?
     
-    var types: [String] = []
+    var keyPath = "category"
+
+    var subcategory: [String]?
     
-    var amounts: [Double] = []
+    var amountPerSubcategory: [Double]?
     
+    var category: [String]?
+
+    var amountPerCategory: [Double]?
+    
+    var totalExpenses: Double?
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         subscribeToPetNotification()
@@ -39,6 +47,9 @@ class ExpensesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadLastKeyPath()
+        setupFetchedResultsController(keyPath)
         initView()
     }
     
@@ -46,9 +57,8 @@ class ExpensesViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationItem.title = "Pet: \(pet?.name ?? "None")"
-        customizeChart(labels: fetchData(from: "type") as! [String], values: fetchData(from: "amount") as! [Double])
-        tableView.reloadData()
-        tableView.tableFooterView = UIView()
+        loadLastKeyPath()
+        refreshData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -60,23 +70,60 @@ class ExpensesViewController: UIViewController {
     func initView() {
         expensesLabel.configureTitle()
         breakdownLabel.configureTitle()
+        tableView.tableFooterView = UIView()
     }
     
-    func fetchData(from attribute: String) -> [Any] {
-        setupFetchedResultsController(attribute)
-        guard let objects = fetchedResultsController.fetchedObjects else { return [] }
-        var array: [Any] = []
-        for object in objects {
-            switch attribute {
-            case "type":
-                array.append(object.type!)
-            case "amount":
-                array.append(object.amount!.doubleValue)
-            default:
-                fatalError()
-            }
+    func loadLastKeyPath() {
+        if let lastKeyPath = UserDefaults.standard.string(forKey: UserDefaults.Keys.expensesSortKeyPath) {
+            keyPath = lastKeyPath
         }
-        return array
+    }
+    
+    func refreshData() {
+        setupFetchedResultsController(keyPath)
+        
+        switch keyPath {
+        case "type":
+            fetchSubcategoryData()
+            customizeChart(labels: subcategory ?? [], values: amountPerSubcategory ?? [])
+        case "category":
+            fetchCategoryData()
+//            customizeChart(labels: category ?? [], values: amountPerCategory ?? [])
+        default:
+            fatalError()
+        }
+        tableView.reloadData()
+    }
+    
+    func fetchCategoryData() {
+        Expense.fetchAllCategoriesData(context: dataController.viewContext) { results in
+            guard !results.isEmpty else { return }
+            self.amountPerCategory = results.map { $0.totalAmount }
+            self.category = results.map { $0.category }
+            let total = results.map { $0.totalAmount }.reduce(0, +)
+            self.totalExpenses = total
+            print("Category Data fetched")
+            
+            self.customizeChart(labels: self.category ?? [], values: self.amountPerCategory ?? [])
+        }
+    }
+
+    func fetchSubcategoryData() {
+        guard let objects = fetchedResultsController.fetchedObjects else { return }
+        var type: [String] = []
+        var amount: [Double] = []
+        for object in objects {
+            type.append(object.type!)
+            amount.append(object.amount!.doubleValue)
+        }
+        subcategory = type
+        amountPerSubcategory = amount
+        print("Subcategory Data fetched")
+    }
+    
+    func saveKeyPath(_ keyPath: String) {
+        UserDefaults.standard.set(keyPath, forKey: UserDefaults.Keys.expensesSortKeyPath)
+        self.keyPath = keyPath
     }
     
     func setupFetchedResultsController(_ keyPath: String) {
@@ -116,6 +163,7 @@ class ExpensesViewController: UIViewController {
         pieChartData.setValueFormatter(formatter)
         pieChartData.setValueTextColor(.black)
         pieChartView.data = pieChartData
+        print("Chart")
     }
     
     // Set random colors for each entry
@@ -128,6 +176,17 @@ class ExpensesViewController: UIViewController {
     }
     
     @IBAction func sortExpenses(_ sender: Any) {
+        let sortExpensesActions: [Action] = [
+            Action(buttonTitle: "Sort By Category", handler: {
+                self.saveKeyPath("category")
+                self.refreshData()
+            }),
+            Action(buttonTitle: "Sort By Subcategory", handler: {
+                self.saveKeyPath("type")
+                self.refreshData()
+            })
+        ]
+        presentActionSheetDialog(with: sortExpensesActions)
     }
 }
 
@@ -135,6 +194,11 @@ class ExpensesViewController: UIViewController {
 // MARK: - PetNotification
 
 extension ExpensesViewController: PetNotification { }
+
+// -----------------------------------------------------------------------------
+// MARK: - ActionSheetDialog
+
+extension ExpensesViewController: ActionSheetDialog { }
 
 // -----------------------------------------------------------------------------
 // MARK: - UITableViewDataSource, UITableViewDelegate
@@ -150,13 +214,19 @@ extension ExpensesViewController: UITableViewDataSource, UITableViewDelegate {
         let aExpense = fetchedResultsController.object(at: indexPath)
         
         // Configure the cell
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
-        cell.textLabel?.text = aExpense.type
+        switch keyPath {
+        case "type":
+            cell.textLabel?.text = aExpense.type
+        case "category":
+            cell.textLabel?.text = aExpense.category
+        default:
+            fatalError()
+        }
         cell.detailTextLabel?.text = aExpense.amount?.stringFormat
-        
         let sectionImage = UIImage(named: cell.textLabel?.text ?? "")
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
         cell.imageView?.image = templateImage
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         return cell
     }
 }

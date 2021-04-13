@@ -13,5 +13,7 @@ extension UserDefaults {
         static let selectedIndexPath = "selectedIndexPath"
         static let sortKeyPath = "lastSortKey"
         static let sectionNameKeyPath = "lastSectionNameKey"
+        static let expensesSortKeyPath = "expensesSortKey"
+
     }
 }

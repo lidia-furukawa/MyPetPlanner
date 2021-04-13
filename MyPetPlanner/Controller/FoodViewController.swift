@@ -130,6 +130,7 @@ class FoodViewController: UIViewController {
             food = addNewFood()
         }
         
+        food.category = "Food"
         food.type = selectedObjectName
         food.brand = brandTextField.text
         if let mealsText = mealsTextField.text {
