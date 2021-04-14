@@ -122,11 +122,11 @@ class PetViewController: UIViewController {
     }
     
     @IBAction func selectPhotoButton(_ sender: Any) {
-        let imagePickerActions: [Action] = [
-            Action(buttonTitle: "Take Photo", handler: {
+        let imagePickerActions = [
+            Action(buttonTitle: "Take Photo", buttonStyle: .default, handler: {
                 self.openImagePickerWith(sourceType: .camera)
             }),
-            Action(buttonTitle: "Choose Photo", handler: {
+            Action(buttonTitle: "Choose Photo", buttonStyle: .default, handler: {
                 self.openImagePickerWith(sourceType: .photoLibrary)
             })
         ]
@@ -304,7 +304,7 @@ extension PetViewController: UIImagePickerControllerDelegate, UINavigationContro
             let optionNotAvailableAlert = AlertInformation(
                 title: "Warning",
                 message: "Option Not Available",
-                actions: [Action(buttonTitle: "OK", handler: nil)]
+                actions: [Action(buttonTitle: "OK", buttonStyle: .default, handler: nil)]
             )
             presentAlertDialog(with: optionNotAvailableAlert)
         }

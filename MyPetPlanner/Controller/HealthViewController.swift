@@ -127,7 +127,7 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
             let errorAlert = AlertInformation(
                 title: "No Pet Selected",
                 message: "Create/select a pet in \"My Pets\" and try again",
-                actions: [Action(buttonTitle: "OK", handler: nil)]
+                actions: [Action(buttonTitle: "OK", buttonStyle: .default, handler: nil)]
             )
             presentAlertDialog(with: errorAlert)
         }

@@ -26,8 +26,8 @@ extension TrailingSwipeActions where Self: UIViewController {
                 title: "Are you sure you want to delete?",
                 message: "This action cannot be undone",
                 actions: [
-                    Action(buttonTitle: "Cancel", handler: nil),
-                    Action(buttonTitle: "Delete", handler: {
+                    Action(buttonTitle: "Cancel", buttonStyle: .cancel, handler: nil),
+                    Action(buttonTitle: "Delete", buttonStyle: .destructive, handler: {
                         self.setDeleteAction(at: indexPath)
                         completion(true)
                     })

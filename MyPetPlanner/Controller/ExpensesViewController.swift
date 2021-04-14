@@ -164,12 +164,12 @@ class ExpensesViewController: UIViewController {
     }
     
     @IBAction func sortExpenses(_ sender: Any) {
-        let sortExpensesActions: [Action] = [
-            Action(buttonTitle: "Sort By Category", handler: {
+        let sortExpensesActions = [
+            Action(buttonTitle: "Sort By Category", buttonStyle: .default, handler: {
                 self.saveKeyPath("category")
                 self.refreshData()
             }),
-            Action(buttonTitle: "Sort By Subcategory", handler: {
+            Action(buttonTitle: "Sort By Subcategory", buttonStyle: .default, handler: {
                 self.saveKeyPath("subcategory")
                 self.refreshData()
             })

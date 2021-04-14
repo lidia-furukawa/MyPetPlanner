@@ -143,14 +143,16 @@ class MyPetsViewController: UIViewController {
     }
     
     @IBAction func sortPets(_ sender: Any) {
-        let sortPetsActions: [Action] = [
-            Action(buttonTitle: "Sort By Name (A - Z)", handler: { UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
+        let sortPetsActions = [
+            Action(buttonTitle: "Sort By Name (A - Z)", buttonStyle: .default, handler: {
+                UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
                 self.saveKeyPaths("name", "initialName")
                 DispatchQueue.main.async {
                     self.refreshData()
                 }
             }),
-            Action(buttonTitle: "Sort By Type (Cat - Dog)", handler: { UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
+            Action(buttonTitle: "Sort By Type (Cat - Dog)", buttonStyle: .default, handler: {
+                UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
                 self.saveKeyPaths("type", "type")
                 DispatchQueue.main.async {
                     self.refreshData()

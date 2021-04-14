@@ -20,7 +20,7 @@ extension ActionSheetDialog where Self: UIViewController {
                                             preferredStyle: .actionSheet)
         for action in actions {
             actionSheetDialog.addAction(UIAlertAction(title: action.buttonTitle,
-                                                style: .default,
+                                                style: action.buttonStyle,
                                                 handler: { _ in action.handler?() }))
         }
         

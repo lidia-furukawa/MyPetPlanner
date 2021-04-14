@@ -20,7 +20,7 @@ extension AlertDialog where Self: UIViewController {
                                                 preferredStyle: .alert)
         for action in alert.actions {
             alertDialog.addAction(UIAlertAction(title: action.buttonTitle,
-                                                style: .default,
+                                                style: action.buttonStyle,
                                                 handler: { _ in action.handler?() }))
         }
         self.present(alertDialog, animated: true, completion: nil)

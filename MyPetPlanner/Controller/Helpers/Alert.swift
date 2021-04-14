@@ -6,8 +6,11 @@
 //  Copyright © 2021 LidiaF. All rights reserved.
 //
 
+import UIKit
+
 struct Action {
     let buttonTitle: String
+    let buttonStyle: UIAlertAction.Style
     let handler: (() -> Void)?
 }
 
