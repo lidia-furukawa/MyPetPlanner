@@ -71,7 +71,7 @@ class HealthViewController: UIViewController {
 // -----------------------------------------------------------------------------
 // MARK: - SingleButtonAlertDialog
 
-extension HealthViewController: SingleButtonAlertDialog { }
+extension HealthViewController: AlertDialog { }
 
 // -----------------------------------------------------------------------------
 // MARK: - PetNotification
@@ -124,12 +124,12 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
         if pet != nil {
             performSegue(withIdentifier: selectedCellSection, sender: nil)
         } else {
-            let errorAlert = SingleButtonAlertInformation(
+            let errorAlert = AlertInformation(
                 title: "No Pet Selected",
                 message: "Create/select a pet in \"My Pets\" and try again",
-                action: Action(buttonTitle: "OK", handler: nil)
+                actions: [Action(buttonTitle: "OK", handler: nil)]
             )
-            presentSingleButtonDialog(with: errorAlert)
+            presentAlertDialog(with: errorAlert)
         }
     }
 }

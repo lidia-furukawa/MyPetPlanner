@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol TrailingSwipeActions {
+protocol TrailingSwipeActions: AlertDialog {
     func setEditAction(at indexPath: IndexPath)
     func setDeleteAction(at indexPath: IndexPath)
 }
@@ -22,19 +22,18 @@ extension TrailingSwipeActions where Self: UIViewController {
         })
         
         let deleteRowAction = UIContextualAction(style: .destructive, title: "Delete", handler: { (action, view, completion) in
-            // Delete confirmation dialog
-            let alert = UIAlertController(title: "Are you sure you want to delete?", message: "This action cannot be undone", preferredStyle: .alert)
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-            
-            let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) -> Void in
-                self.setDeleteAction(at: indexPath)
-                completion(true)
-            })
-            
-            alert.addAction(cancelAction)
-            alert.addAction(deleteAction)
-            self.present(alert, animated: true, completion: nil)
+            let deleteAlert = AlertInformation(
+                title: "Are you sure you want to delete?",
+                message: "This action cannot be undone",
+                actions: [
+                    Action(buttonTitle: "Cancel", handler: nil),
+                    Action(buttonTitle: "Delete", handler: {
+                        self.setDeleteAction(at: indexPath)
+                        completion(true)
+                    })
+                ]
+            )
+            self.presentAlertDialog(with: deleteAlert)
         })
         
         editRowAction.backgroundColor = .green

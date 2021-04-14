@@ -9,7 +9,7 @@
 import EventKit
 import UIKit
 
-protocol CalendarReminderAuthorization: SingleButtonAlertDialog {
+protocol CalendarReminderAuthorization: AlertDialog {
     var eventStore: EKEventStore { get }
     func accessGranted()
 }
@@ -49,11 +49,11 @@ extension CalendarReminderAuthorization where Self: UIViewController {
     }
     
     func showPermissionAlert() {
-        let permissionAlert = SingleButtonAlertInformation(
+        let permissionAlert = AlertInformation(
             title: "\"MyPetPlanner\" is not allowed to access Reminders",
             message: "Allow permission in Settings and try again",
-            action: Action(buttonTitle: "OK", handler: nil)
+            actions: [Action(buttonTitle: "OK", handler: nil)]
         )
-        presentSingleButtonDialog(with: permissionAlert)
+        presentAlertDialog(with: permissionAlert)
     }
 }

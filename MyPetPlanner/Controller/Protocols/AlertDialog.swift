@@ -1,5 +1,5 @@
 //
-//  SingleButtonAlertDialog.swift
+//  AlertDialog.swift
 //  MyPetPlanner
 //
 //  Created by Lidia on 31/03/21.
@@ -8,19 +8,21 @@
 
 import UIKit
 
-protocol SingleButtonAlertDialog {
-    func presentSingleButtonDialog(with alert: SingleButtonAlertInformation)
+protocol AlertDialog {
+    func presentAlertDialog(with alert: AlertInformation)
 
 }
 
-extension SingleButtonAlertDialog where Self: UIViewController {
-    func presentSingleButtonDialog(with alert: SingleButtonAlertInformation) {
+extension AlertDialog where Self: UIViewController {
+    func presentAlertDialog(with alert: AlertInformation) {
         let alertDialog = UIAlertController(title: alert.title,
                                                 message: alert.message,
                                                 preferredStyle: .alert)
-        alertDialog.addAction(UIAlertAction(title: alert.action.buttonTitle,
+        for action in alert.actions {
+            alertDialog.addAction(UIAlertAction(title: action.buttonTitle,
                                                 style: .default,
-                                                handler: { _ in alert.action.handler?() }))
+                                                handler: { _ in action.handler?() }))
+        }
         self.present(alertDialog, animated: true, completion: nil)
     }
 }

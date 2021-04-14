@@ -11,8 +11,8 @@ struct Action {
     let handler: (() -> Void)?
 }
 
-struct SingleButtonAlertInformation {
+struct AlertInformation {
     let title: String
     let message: String?
-    let action: Action
+    let actions: [Action]
 }

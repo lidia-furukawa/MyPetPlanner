@@ -44,7 +44,7 @@
 		02F66F402612557200B99D6A /* EKCalendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3F2612557200B99D6A /* EKCalendar+Extension.swift */; };
 		02F66F422613984B00B99D6A /* CalendarReminderAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F412613984B00B99D6A /* CalendarReminderAuthorization.swift */; };
 		02F66F482613E38100B99D6A /* TrailingSwipeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F472613E38100B99D6A /* TrailingSwipeActions.swift */; };
-		02F66F4B2614EB6000B99D6A /* SingleButtonAlertDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F4A2614EB6000B99D6A /* SingleButtonAlertDialog.swift */; };
+		02F66F4B2614EB6000B99D6A /* AlertDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F4A2614EB6000B99D6A /* AlertDialog.swift */; };
 		02F66F4D2614EF1D00B99D6A /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F4C2614EF1D00B99D6A /* Alert.swift */; };
 		02F66F502615015C00B99D6A /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F4F2615015C00B99D6A /* UserDefaults+Extension.swift */; };
 		02F66F522615037C00B99D6A /* UIStoryboardSegue+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F512615037C00B99D6A /* UIStoryboardSegue+Extension.swift */; };
@@ -120,7 +120,7 @@
 		02F66F3F2612557200B99D6A /* EKCalendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EKCalendar+Extension.swift"; sourceTree = "<group>"; };
 		02F66F412613984B00B99D6A /* CalendarReminderAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarReminderAuthorization.swift; sourceTree = "<group>"; };
 		02F66F472613E38100B99D6A /* TrailingSwipeActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailingSwipeActions.swift; sourceTree = "<group>"; };
-		02F66F4A2614EB6000B99D6A /* SingleButtonAlertDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleButtonAlertDialog.swift; sourceTree = "<group>"; };
+		02F66F4A2614EB6000B99D6A /* AlertDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDialog.swift; sourceTree = "<group>"; };
 		02F66F4C2614EF1D00B99D6A /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		02F66F4F2615015C00B99D6A /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		02F66F512615037C00B99D6A /* UIStoryboardSegue+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboardSegue+Extension.swift"; sourceTree = "<group>"; };
@@ -319,7 +319,7 @@
 				02F66F36260E547600B99D6A /* KeyboardNotifications.swift */,
 				02F66F412613984B00B99D6A /* CalendarReminderAuthorization.swift */,
 				02F66F472613E38100B99D6A /* TrailingSwipeActions.swift */,
-				02F66F4A2614EB6000B99D6A /* SingleButtonAlertDialog.swift */,
+				02F66F4A2614EB6000B99D6A /* AlertDialog.swift */,
 				02EE0F97262477890038E05C /* ActionSheetDialog.swift */,
 				02AB3222261F829500E3BF8F /* PetNotification.swift */,
 			);
@@ -608,7 +608,7 @@
 				02F66F0325FFF50F00B99D6A /* HealthSectionViewController.swift in Sources */,
 				0277383E25EED72D00510FF4 /* CalendarViewController.swift in Sources */,
 				02F66F422613984B00B99D6A /* CalendarReminderAuthorization.swift in Sources */,
-				02F66F4B2614EB6000B99D6A /* SingleButtonAlertDialog.swift in Sources */,
+				02F66F4B2614EB6000B99D6A /* AlertDialog.swift in Sources */,
 				02F66F052602531900B99D6A /* FoodViewController.swift in Sources */,
 				0277384025EED78800510FF4 /* ExpensesViewController.swift in Sources */,
 				02F66F37260E547600B99D6A /* KeyboardNotifications.swift in Sources */,

@@ -192,7 +192,7 @@ extension PetViewController: SaveActivityIndicator { }
 // -----------------------------------------------------------------------------
 // MARK: - SingleButtonAlertDialog
 
-extension PetViewController: SingleButtonAlertDialog { }
+extension PetViewController: AlertDialog { }
 
 // -----------------------------------------------------------------------------
 // MARK: - ActionSheetDialog
@@ -301,12 +301,12 @@ extension PetViewController: UIImagePickerControllerDelegate, UINavigationContro
             imagePicker.sourceType = sourceType
             present(imagePicker, animated: true, completion: nil)
         } else {
-            let optionNotAvailableAlert = SingleButtonAlertInformation(
+            let optionNotAvailableAlert = AlertInformation(
                 title: "Warning",
                 message: "Option Not Available",
-                action: Action(buttonTitle: "OK", handler: nil)
+                actions: [Action(buttonTitle: "OK", handler: nil)]
             )
-            presentSingleButtonDialog(with: optionNotAvailableAlert)
+            presentAlertDialog(with: optionNotAvailableAlert)
         }
     }
     
