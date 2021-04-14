@@ -28,6 +28,7 @@ class MyPetsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadLastKeyPaths()
         setupFetchedResultsController(keyPath, sectionNameKeyPath)
         initView()
     }
@@ -108,7 +109,7 @@ class MyPetsViewController: UIViewController {
     }
     
     func postPetNotification(_ pet: Pet?) {
-        NotificationCenter.default.post(name: .petWasSelected, object: nil, userInfo: ["pet" : pet as Any])
+        NotificationCenter.default.post(name: .petWasSelected, object: nil, userInfo: ["pet": pet as Any])
     }
     
     func configureNavigationTitle(_ selectedPet: Pet?) {

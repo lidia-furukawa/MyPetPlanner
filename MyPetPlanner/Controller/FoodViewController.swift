@@ -18,14 +18,14 @@ class FoodViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIBarButtonItem!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var foodImageView: UIImageView!
-    @IBOutlet weak var foodTypeLabel: UILabel!
+    @IBOutlet weak var foodSubcategoryLabel: UILabel!
     @IBOutlet weak var brandTextField: UITextField!
     @IBOutlet weak var mealsTextField: UITextField!
     @IBOutlet weak var mealsStepper: UIStepper!
     @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var quantityUnitControl: UISegmentedControl!
     @IBOutlet weak var quantityPerMealOrDayControl: UISegmentedControl!
-    @IBOutlet weak var datesLabel: UILabel!
+    @IBOutlet weak var scheduleLabel: UILabel!
     @IBOutlet weak var startDateTextField: UITextField!
     @IBOutlet weak var endDateTextField: UITextField!
     @IBOutlet weak var expensesLabel: UILabel!
@@ -33,6 +33,7 @@ class FoodViewController: UIViewController {
     @IBOutlet weak var bagWeightTextField: UITextField!
     @IBOutlet weak var bagWeightUnitControl: UISegmentedControl!
     @IBOutlet weak var bagPriceTextField: UITextField!
+    @IBOutlet weak var expensesDateTextField: UITextField!
     @IBOutlet var textFields: [UITextField]!
     
     var dataController: DataController!
@@ -79,10 +80,9 @@ class FoodViewController: UIViewController {
     
     func initView() {
         navigationBar.topItem?.title = viewTitle
-        datesLabel.configureTitle()
+        scheduleLabel.configureTitle()
         expensesLabel.configureTitle()
         saveButton.isEnabled = false
-
         for textField in textFields {
             textField.delegate = self
         }
@@ -97,7 +97,7 @@ class FoodViewController: UIViewController {
     
     func reloadFoodAttributes() {
         foodImageView.image = UIImage(named: selectedObjectName)
-        foodTypeLabel.text = selectedObjectName
+        foodSubcategoryLabel.text = selectedObjectName
         brandTextField.text = food?.brand
         mealsTextField.text = String(food?.meals ?? 0)
         quantityTextField.text = String(food?.quantity ?? 0)
@@ -108,6 +108,7 @@ class FoodViewController: UIViewController {
         bagWeightTextField.text = String(food?.bagWeight ?? 0)
         bagWeightUnitControl.getSegmentedControlSelectedIndex(from: food?.bagWeightUnit)
         bagPriceTextField.text = food?.amount?.stringFormat ?? ""
+        expensesDateTextField.text = food?.date?.stringFormat ?? Date().stringFormat
     }
     
     func addNewFood() -> Food {
@@ -131,7 +132,7 @@ class FoodViewController: UIViewController {
         }
         
         food.category = "Food"
-        food.type = selectedObjectName
+        food.subcategory = selectedObjectName
         food.brand = brandTextField.text
         if let mealsText = mealsTextField.text {
             food.meals = Int16(mealsText)!
@@ -147,9 +148,10 @@ class FoodViewController: UIViewController {
             food.bagWeight = Double(bagWeightText)!
         }
         food.bagWeightUnit = bagWeightUnitControl.selectedSegmentTitle
-        if let bagPriceText = Double(bagPriceTextField.text!) {
+        if let bagPriceText = Double(bagPriceTextField.text ?? "") {
             food.amount = NSDecimalNumber(value: bagPriceText)
         }
+        food.date = expensesDateTextField.text?.dateFormat
                 
         try? dataController.viewContext.save()
         
@@ -178,7 +180,7 @@ class FoodViewController: UIViewController {
     func createReminder() {
         reminder = EKReminder(eventStore: eventStore)
         
-        reminder?.title = foodTypeLabel.text
+        reminder?.title = foodSubcategoryLabel.text
         reminder?.calendar = EKCalendar.loadCalendar(type: .reminder, from: eventStore, with: calendarKey)
         reminder?.notes = "Feed \(pet?.name ?? "#") with \(brandTextField.text ?? "#")"
         
@@ -257,6 +259,9 @@ extension FoodViewController: UITextFieldDelegate {
         case endDateTextField:
             activeTextField = endDateTextField
             endDateTextField.inputView = .customizedDatePickerView(setDate: food?.endDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+        case quantityTextField, bagWeightTextField, bagPriceTextField:
+            activeTextField = textField
+            textField.text = ""
         default:
             activeTextField = textField
         }

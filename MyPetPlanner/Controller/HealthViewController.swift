@@ -59,8 +59,8 @@ class HealthViewController: UIViewController {
         
         switch segue.identifier {
         case "Food":
-            vc.keyPath = "type"
-            vc.sectionNameKeyPath = "type"
+            vc.keyPath = "subcategory"
+            vc.sectionNameKeyPath = "subcategory"
         default:
             fatalError("Unindentified Segue")
         }

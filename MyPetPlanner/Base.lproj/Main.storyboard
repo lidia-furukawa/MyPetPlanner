@@ -870,7 +870,7 @@
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gvk-QX-d65">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="606"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="636.5"/>
                                         <subviews>
                                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RAd-9J-iZ4">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -890,7 +890,7 @@
                                                 </items>
                                             </navigationBar>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="9n5-7j-9nq">
-                                                <rect key="frame" x="20" y="44" width="374" height="542"/>
+                                                <rect key="frame" x="20" y="44" width="374" height="572.5"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Bmh-YI-7MM">
                                                         <rect key="frame" x="0.0" y="0.0" width="374" height="110.5"/>
@@ -901,8 +901,8 @@
                                                                     <constraint firstAttribute="height" constant="80" id="dcy-Ke-56b"/>
                                                                 </constraints>
                                                             </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Food Type" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cvd-u7-oEd">
-                                                                <rect key="frame" x="145" y="90" width="84" height="20.5"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Food Subcategory" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cvd-u7-oEd">
+                                                                <rect key="frame" x="113.5" y="90" width="147" height="20.5"/>
                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -966,7 +966,7 @@
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="b6j-57-xpR">
                                                                 <rect key="frame" x="187" y="0.0" width="187" height="30"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g. 30" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="uRR-Od-18a">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="uRR-Od-18a">
                                                                         <rect key="frame" x="0.0" y="0.0" width="93.5" height="30"/>
                                                                         <nil key="textColor"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -1012,7 +1012,7 @@
                                                             </stackView>
                                                         </subviews>
                                                     </stackView>
-                                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dates" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkd-1h-Jti">
+                                                    <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feeding Schedule" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rkd-1h-Jti">
                                                         <rect key="frame" x="0.0" y="278.5" width="374" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                         <nil key="textColor"/>
@@ -1104,7 +1104,7 @@
                                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kRE-TU-z0l">
                                                                 <rect key="frame" x="187" y="0.0" width="187" height="30"/>
                                                                 <subviews>
-                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="e.g. 30" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dLs-hQ-kwE">
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="dLs-hQ-kwE">
                                                                         <rect key="frame" x="0.0" y="0.0" width="93.5" height="30"/>
                                                                         <nil key="textColor"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -1135,6 +1135,23 @@
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="decimalPad"/>
+                                                            </textField>
+                                                        </subviews>
+                                                    </stackView>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="3fN-qH-QPt">
+                                                        <rect key="frame" x="0.0" y="552" width="374" height="20.5"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sZt-LW-IkV">
+                                                                <rect key="frame" x="0.0" y="0.0" width="41" height="20.5"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                <nil key="textColor"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fID-Et-oaW">
+                                                                <rect key="frame" x="366" y="0.0" width="8" height="20.5"/>
+                                                                <nil key="textColor"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <textInputTraits key="textInputTraits"/>
                                                             </textField>
                                                         </subviews>
                                                     </stackView>
@@ -1178,11 +1195,11 @@
                         <outlet property="bagWeightUnitControl" destination="Z9C-eg-gxy" id="q1x-34-hWP"/>
                         <outlet property="brandTextField" destination="muB-st-H3p" id="Rh8-vI-mFk"/>
                         <outlet property="cancelButton" destination="Am1-0l-qzE" id="JKI-Nc-lhL"/>
-                        <outlet property="datesLabel" destination="rkd-1h-Jti" id="aKn-yw-hts"/>
                         <outlet property="endDateTextField" destination="bzq-7J-VTE" id="4BV-sa-892"/>
+                        <outlet property="expensesDateTextField" destination="fID-Et-oaW" id="jsz-13-Su3"/>
                         <outlet property="expensesLabel" destination="7XZ-Ve-oUT" id="OLJ-Rf-Gf2"/>
                         <outlet property="foodImageView" destination="x4I-Lf-5Fu" id="8j8-fG-uuF"/>
-                        <outlet property="foodTypeLabel" destination="Cvd-u7-oEd" id="UC0-pI-0vh"/>
+                        <outlet property="foodSubcategoryLabel" destination="Cvd-u7-oEd" id="dBb-UE-CXT"/>
                         <outlet property="mealsStepper" destination="Dxh-bL-TtD" id="ZnG-QO-uEZ"/>
                         <outlet property="mealsTextField" destination="thc-eH-H9X" id="vhZ-ha-UTq"/>
                         <outlet property="navigationBar" destination="RAd-9J-iZ4" id="7CE-VI-d67"/>
@@ -1191,6 +1208,7 @@
                         <outlet property="quantityUnitControl" destination="9NK-9z-pfe" id="o0d-uF-0oh"/>
                         <outlet property="reminderSwitch" destination="yor-bl-jWY" id="471-W9-3KD"/>
                         <outlet property="saveButton" destination="M0B-3M-bhD" id="Vs3-27-rFY"/>
+                        <outlet property="scheduleLabel" destination="rkd-1h-Jti" id="Vrd-QV-CyU"/>
                         <outlet property="scrollView" destination="WHj-3m-2vV" id="pmf-A1-ygN"/>
                         <outlet property="startDateTextField" destination="GSh-t9-E5Y" id="NHV-5p-arf"/>
                         <outletCollection property="textFields" destination="muB-st-H3p" collectionClass="NSMutableArray" id="o6k-NC-ULR"/>

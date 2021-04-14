@@ -158,7 +158,7 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
         case "Food":
             let frc = fetchedResultsController as! NSFetchedResultsController<Food>
             let aFood = frc.object(at: indexPath)
-            cell.sectionNameLabel?.text = aFood.type
+            cell.sectionNameLabel?.text = aFood.subcategory
             cell.sectionInfoLabel?.text = aFood.brand
             cell.startDateLabel.text = aFood.startDate!.stringFormat
             cell.endDateLabel.text = aFood.endDate!.stringFormat

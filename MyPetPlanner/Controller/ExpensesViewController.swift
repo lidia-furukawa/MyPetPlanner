@@ -79,7 +79,7 @@ class ExpensesViewController: UIViewController {
         setupFetchedResultsController(keyPath)
         
         switch keyPath {
-        case "type":
+        case "subcategory":
             sortBySubcategory()
         case "category":
             sortByCategory()
@@ -104,7 +104,7 @@ class ExpensesViewController: UIViewController {
     func sortBySubcategory() {
         guard let objects = fetchedResultsController.fetchedObjects else { return }
         guard !objects.isEmpty else { return }
-        expensesLabels = objects.map { $0.type ?? "" }
+        expensesLabels = objects.map { $0.subcategory ?? "" }
         expensesValues = objects.map { $0.amount?.doubleValue ?? 0 }
         totalExpensesSum = objects.map { $0.amount?.doubleValue ?? 0 }.reduce(0, +)
         customizeChart(labels: expensesLabels ?? [], values: expensesValues ?? [])
@@ -170,7 +170,7 @@ class ExpensesViewController: UIViewController {
                 self.refreshData()
             }),
             Action(buttonTitle: "Sort By Subcategory", handler: {
-                self.saveKeyPath("type")
+                self.saveKeyPath("subcategory")
                 self.refreshData()
             })
         ]
@@ -203,15 +203,15 @@ extension ExpensesViewController: UITableViewDataSource, UITableViewDelegate {
         
         // Configure the cell
         switch keyPath {
-        case "type":
-            cell.textLabel?.text = aExpense.type
+        case "subcategory":
+            cell.textLabel?.text = aExpense.subcategory
         case "category":
             cell.textLabel?.text = aExpense.category
         default:
             fatalError("Unrecognized key path")
         }
         cell.detailTextLabel?.text = aExpense.amount?.stringFormat
-        let sectionImage = UIImage(named: aExpense.type ?? "")
+        let sectionImage = UIImage(named: aExpense.subcategory ?? "")
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
         cell.imageView?.image = templateImage
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)

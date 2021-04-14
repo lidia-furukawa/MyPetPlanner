@@ -4,7 +4,7 @@
         <attribute name="amount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="subcategory" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Food" representedClassName="Food" parentEntity="Expense" syncable="YES" codeGenerationType="class">
         <attribute name="bagWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -34,7 +34,7 @@
         <relationship name="foods" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Food" inverseName="pet" inverseEntity="Food" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Expense" positionX="-216.85546875" positionY="2151.62890625" width="128" height="103"/>
+        <element name="Expense" positionX="-216.85546875" positionY="2151.62890625" width="128" height="105"/>
         <element name="Food" positionX="-214.27734375" positionY="2259.97265625" width="128" height="223"/>
         <element name="Pet" positionX="-446.6171875" positionY="2258.0859375" width="128" height="210"/>
     </elements>
