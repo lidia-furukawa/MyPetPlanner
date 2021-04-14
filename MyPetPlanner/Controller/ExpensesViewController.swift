@@ -90,7 +90,8 @@ class ExpensesViewController: UIViewController {
     }
     
     func sortByCategory() {
-        Expense.fetchAllCategoriesData(context: dataController.viewContext) { results in
+        guard let pet = pet else { return }
+        Expense.fetchAllCategoriesData(pet: pet, context: dataController.viewContext) { results in
             guard !results.isEmpty else { return }
             self.expensesLabels = results.map { $0.category }
             self.expensesValues = results.map { $0.totalAmount }
@@ -102,10 +103,10 @@ class ExpensesViewController: UIViewController {
 
     func sortBySubcategory() {
         guard let objects = fetchedResultsController.fetchedObjects else { return }
-        expensesLabels = objects.map { $0.type! }
-        expensesValues = objects.map { $0.amount!.doubleValue }
-        totalExpensesSum = objects.map { $0.amount!.doubleValue }.reduce(0, +)
-        
+        guard !objects.isEmpty else { return }
+        expensesLabels = objects.map { $0.type ?? "" }
+        expensesValues = objects.map { $0.amount?.doubleValue ?? 0 }
+        totalExpensesSum = objects.map { $0.amount?.doubleValue ?? 0 }.reduce(0, +)
         customizeChart(labels: expensesLabels ?? [], values: expensesValues ?? [])
     }
     
