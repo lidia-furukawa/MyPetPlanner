@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreData
 import EventKit
+import EventKitUI
 
 class FoodViewController: UIViewController {
 
@@ -25,11 +26,11 @@ class FoodViewController: UIViewController {
     @IBOutlet weak var quantityTextField: UITextField!
     @IBOutlet weak var quantityUnitControl: UISegmentedControl!
     @IBOutlet weak var quantityPerMealOrDayControl: UISegmentedControl!
-    @IBOutlet weak var scheduleLabel: UILabel!
+    @IBOutlet weak var calendarLabel: UILabel!
     @IBOutlet weak var startDateTextField: UITextField!
     @IBOutlet weak var endDateTextField: UITextField!
     @IBOutlet weak var expensesLabel: UILabel!
-    @IBOutlet weak var reminderSwitch: UISwitch!
+    @IBOutlet weak var calendarSwitch: UISwitch!
     @IBOutlet weak var bagWeightTextField: UITextField!
     @IBOutlet weak var bagWeightUnitControl: UISegmentedControl!
     @IBOutlet weak var bagPriceTextField: UITextField!
@@ -45,42 +46,36 @@ class FoodViewController: UIViewController {
     var food: Food?
     
     var activeTextField = UITextField()
-
     var selectedObjectName = String()
-    
     var eventStore = EKEventStore()
-
     let calendarKey = "MyPetPlanner"
-    
-    var reminder: EKReminder?
-    
+    var event: EKEvent?
+    var eventIdentifier = String()
+
     var viewTitle: String {
         return food == nil ? "Add New Food" : "Edit Food"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         initView()
         reloadFoodAttributes()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         subscribeToKeyboardNotifications()
         subscribeToTextFieldsNotifications()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         unsubscribeFromNotifications()
     }
     
     func initView() {
         navigationBar.topItem?.title = viewTitle
-        scheduleLabel.configureTitle()
+        calendarLabel.configureTitle()
         expensesLabel.configureTitle()
         saveButton.isEnabled = false
         for textField in textFields {
@@ -109,6 +104,9 @@ class FoodViewController: UIViewController {
         bagWeightUnitControl.getSegmentedControlSelectedIndex(from: food?.bagWeightUnit)
         bagPriceTextField.text = food?.amount?.stringFormat ?? ""
         expensesDateTextField.text = food?.date?.stringFormat ?? Date().stringFormat
+        if food?.eventIdentifier != nil {
+            calendarSwitch.isOn = true
+        }
     }
     
     func addNewFood() -> Food {
@@ -155,9 +153,8 @@ class FoodViewController: UIViewController {
                 
         try? dataController.viewContext.save()
         
-        if let reminder = reminder {
-            try? eventStore.save(reminder, commit: true)
-            print("Reminder saved")
+        if let event = event {
+            try? eventStore.save(event, span: .futureEvents)
         }
         
         dismiss(animated: true, completion: nil)
@@ -171,47 +168,85 @@ class FoodViewController: UIViewController {
         mealsTextField.text = Int(sender.value).description
     }
     
-    @IBAction func addReminderTapped(_ sender: UISwitch) {
-        if reminderSwitch.isOn {
-            checkAuthorizationStatus(for: .reminder)
+    @IBAction func addCalendarTapped(_ sender: UISwitch) {
+        if calendarSwitch.isOn {
+            checkAuthorizationStatus(for: .event)
+        } else {
+            removeEvent()
         }
     }
     
-    func createReminder() {
-        reminder = EKReminder(eventStore: eventStore)
-        
-        reminder?.title = foodSubcategoryLabel.text
-        reminder?.calendar = EKCalendar.loadCalendar(type: .reminder, from: eventStore, with: calendarKey)
-        reminder?.notes = "Feed \(pet?.name ?? "#") with \(brandTextField.text ?? "#")"
-        
-        let startDate = startDateTextField.text?.dateFormat
-        reminder?.startDateComponents = Calendar.current.dateComponents([.month, .day, .year], from: startDate!)
-        
-        let dueDate = endDateTextField.text?.dateFormat
-        reminder?.dueDateComponents = Calendar.current.dateComponents([.month, .day, .year], from: dueDate!)
-        
-        // Configure the recurrence rule
-        let recurrenceRule = EKRecurrenceRule(
-            recurrenceWith: .weekly,
-            interval: 1,
-            daysOfTheWeek: [EKRecurrenceDayOfWeek(.monday)],
-            daysOfTheMonth: nil,
-            monthsOfTheYear: nil,
-            weeksOfTheYear: nil,
-            daysOfTheYear: nil,
-            setPositions: nil,
-            end: nil)
-        
-        reminder?.addRecurrenceRule(recurrenceRule)
+    func removeEvent() {
+        guard let eventIdentifier = food?.eventIdentifier else { return }
+        let removeAlert = AlertInformation(
+            title: "Are you sure you want to remove this event?",
+            message: "This action cannot be undone",
+            actions: [
+                Action(buttonTitle: "Cancel", buttonStyle: .cancel, handler: {
+                    self.calendarSwitch.isOn = true
+                }),
+                Action(buttonTitle: "Delete", buttonStyle: .destructive, handler: {
+                    if let event = self.eventStore.event(withIdentifier: eventIdentifier) {
+                        self.food?.eventIdentifier = nil
+                        do {
+                            try self.eventStore.remove(event, span: .futureEvents)
+                            try self.dataController.viewContext.save()
+                        } catch {
+                            fatalError("Remove event error")
+                        }
+                    }
+                })
+            ]
+        )
+        presentAlertDialog(with: removeAlert)
+    }
+
+    func createEvent() {
+        let eventViewController = EKEventEditViewController()
+        eventViewController.editViewDelegate = self
+        eventViewController.eventStore = eventStore
+        event = EKEvent(eventStore: eventStore)
+        event?.calendar = EKCalendar.loadCalendar(type: .event, from: eventStore, with: calendarKey)
+        event?.title = foodSubcategoryLabel.text
+        event?.startDate = food?.startDate
+        event?.endDate = food?.endDate
+        event?.notes = "Feed \(pet?.name ?? "#") with \(brandTextField.text ?? "#")"
+        eventViewController.event = event
+        present(eventViewController, animated: true, completion: nil)
+    }
+    
+    func setEventIdentifier(_ identifier: String) {
+        food?.eventIdentifier = identifier
+        try? dataController.viewContext.save()
     }
 }
 
 // -----------------------------------------------------------------------------
 // MARK: - EventStoreAuthorization
 
-extension FoodViewController: CalendarReminderAuthorization {
+extension FoodViewController: CalendarAuthorization {
     func accessGranted() {
-        createReminder()
+        createEvent()
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - EKEventEditViewDelegate
+
+extension FoodViewController: EKEventEditViewDelegate {
+    func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        switch action {
+        case .canceled:
+            controller.dismiss(animated: true, completion: {
+                self.calendarSwitch.isOn = false
+            })
+        case .saved:
+            controller.dismiss(animated: true, completion: {
+                self.setEventIdentifier(controller.event?.eventIdentifier ?? "")
+            })
+        default:
+            fatalError("Invalid action")
+        }
     }
 }
 
