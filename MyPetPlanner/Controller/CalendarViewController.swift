@@ -8,25 +8,28 @@
 
 import UIKit
 import EventKit
+import EventKitUI
 
 class CalendarViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
     var eventStore = EKEventStore()
-    var reminders: [EKReminder]?
     let calendarKey = "MyPetPlanner"
-    var selectedReminder: EKReminder!
+    var events: [EKEvent]?
+    var selectedEvent: EKEvent!
+    var startDate: Date?
+    var endDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
-        checkAuthorizationStatus(for: .reminder)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        checkAuthorizationStatus(for: .reminder)
+        loadLastDates()
+        checkAuthorizationStatus(for: .event)
         subscribeToEventStoreNotifications()
     }
     
@@ -36,41 +39,63 @@ class CalendarViewController: UIViewController {
     }
 
     func initView() {
-        navigationItem.title = "My Pets Reminders"
+        navigationItem.title = "My Pets Events"
+        setupLeftBarButton()
+        setupRightBarButton()
         tableView.tableFooterView = UIView()
     }
     
-    func loadEntity(_ type: EKEntityType) {
-        // Use an Event Store instance to create and properly configure an NSPredicate
-        if let calendar = EKCalendar.loadCalendar(type: .reminder, from: eventStore, with: calendarKey) {
-            let remindersPredicate = eventStore.predicateForReminders(in: [calendar])
-            
-            switch type {
-            case .reminder:
-                // Use the NSPredicate to fetch reminders in the Event Store
-                eventStore.fetchReminders(matching: remindersPredicate, completion: { (reminders: [EKReminder]?) -> Void in
-                    self.reminders = reminders
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                    }
-                })
-            default:
-                fatalError()
-            }
-        } else {
-            print("No reminders to show")
+    func setupLeftBarButton() {
+        let addEventButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEventButton(_:)))
+        navigationItem.leftBarButtonItem = addEventButton
+    }
+    
+    func setupRightBarButton() {
+        let filterDateButton = UIBarButtonItem(image: UIImage(named: "sort"), style: .plain, target: self, action: #selector(filterDateButton(_:)))
+        navigationItem.rightBarButtonItem = filterDateButton
+    }
+    
+    @objc func addEventButton(_ sender: UIBarButtonItem) {
+        let eventViewController = EKEventEditViewController()
+        eventViewController.editViewDelegate = self
+        eventViewController.eventStore = eventStore
+        let event = EKEvent(eventStore: eventStore)
+        event.calendar = EKCalendar.loadCalendar(type: .event, from: eventStore, with: calendarKey)
+        eventViewController.event = event
+        present(eventViewController, animated: true, completion: nil)
+    }
+    
+    @objc func filterDateButton(_ sender: UIBarButtonItem) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "DateFilterViewController") as! DateFilterViewController
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = self
+        vc.isSaved = { [weak self] in
+            self?.loadLastDates()
+            self?.loadEvents()
+        }
+        present(vc, animated: true, completion: nil)
+    }
+    
+    func loadLastDates() {
+        if let lastStartDate = UserDefaults.standard.string(forKey: UserDefaults.Keys.startDateKey), let lastEndDate = UserDefaults.standard.string(forKey: UserDefaults.Keys.endDateKey) {
+            startDate = lastStartDate.dateFormat
+            endDate = lastEndDate.dateFormat
         }
     }
     
-    func deleteReminder(at indexPath: IndexPath) {
-        if let reminder = reminders?[indexPath.row] {
-            do {
-                try self.eventStore.remove(reminder, commit: true)
-                self.reminders?.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            } catch {
-                fatalError("Error deleting the reminder")
+    func loadEvents() {
+        // Use an Event Store instance to create and properly configure an NSPredicate
+        if let calendar = EKCalendar.loadCalendar(type: .event, from: eventStore, with: calendarKey) {
+            
+            let eventsPredicate = eventStore.predicateForEvents(withStart: startDate ?? Date(), end: endDate ?? Date(), calendars: [calendar])
+            
+            // Use the NSPredicate to fetch events in the Event Store
+            events = eventStore.events(matching: eventsPredicate)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
             }
+        } else {
+            print("No events to show")
         }
     }
 }
@@ -78,9 +103,20 @@ class CalendarViewController: UIViewController {
 // -----------------------------------------------------------------------------
 // MARK: - EventStoreAuthorization
 
-extension CalendarViewController: CalendarReminderAuthorization {
+extension CalendarViewController: CalendarAuthorization {
     func accessGranted() {
-        loadEntity(.reminder)
+        loadEvents()
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - EKEventEditViewDelegate
+
+extension CalendarViewController: EKEventEditViewDelegate {
+    func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        controller.dismiss(animated: true, completion: {
+            self.tableView.reloadData()
+        })
     }
 }
 
@@ -93,9 +129,9 @@ extension CalendarViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(storeChanged(_:)), name: .EKEventStoreChanged, object: eventStore)
     }
     
-    /// Reload all reminders as they are considered stale
+    /// Reload all events as they are considered stale
     @objc func storeChanged(_ notification:Notification) {
-        loadEntity(.reminder)
+        loadEvents()
     }
     
     /// Remove all the subscribed observers
@@ -109,21 +145,25 @@ extension CalendarViewController {
 
 extension CalendarViewController: TrailingSwipeActions {
     func setEditAction(at indexPath: IndexPath) {
-        //TO DO
+        if let event = events?[indexPath.row] {
+            let eventViewController = EKEventEditViewController()
+            eventViewController.editViewDelegate = self
+            eventViewController.eventStore = eventStore
+            eventViewController.event = event
+            present(eventViewController, animated: true, completion: nil)
+        }
     }
     
     func setDeleteAction(at indexPath: IndexPath) {
-        let deleteAlert = AlertInformation(
-            title: "Are you sure you want to delete this reminder?",
-            message: "This action cannot be undone",
-            actions: [
-                Action(buttonTitle: "Cancel", buttonStyle: .cancel, handler: nil),
-                Action(buttonTitle: "Delete", buttonStyle: .destructive, handler: {
-                    self.deleteReminder(at: indexPath)
-                })
-            ]
-        )
-        presentAlertDialog(with: deleteAlert)
+        if let event = events?[indexPath.row] {
+            do {
+                try eventStore.remove(event, span: .futureEvents)
+                self.events?.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            } catch {
+                fatalError("Error deleting the event")
+            }
+        }
     }
 }
 
@@ -132,27 +172,38 @@ extension CalendarViewController: TrailingSwipeActions {
 
 extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return reminders?.count ?? 0
+        return events?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CalendarCell")!
         
-        if let reminder = reminders?[indexPath.row] {
-            cell.textLabel?.text = reminder.notes
-            let dueDate = reminder.dueDateComponents?.date
-            cell.detailTextLabel?.text = "Due date: \(dueDate?.stringFormat ?? "")"
-            let reminderImage = UIImage(named: reminder.title)
-            let templateImage = reminderImage?.withRenderingMode(.alwaysTemplate)
+        if let event = events?[indexPath.row] {
+            cell.textLabel?.text = event.notes ?? "No Notes"
+            let startDate = event.startDate.stringFormat
+            let endDate = event.endDate.stringFormat
+            cell.detailTextLabel?.text = "From: \(startDate) to: \(endDate)"
+            let eventImage = UIImage(named: event.title) ?? UIImage(named: "eventPlaceholder")
+            let templateImage = eventImage?.withRenderingMode(.alwaysTemplate)
             cell.imageView?.image = templateImage
         } else {
-            cell.textLabel?.text = "Unknown Reminder"
-            cell.detailTextLabel?.text = "Unknown Due Date"
+            cell.textLabel?.text = "Unknown Event"
+            cell.detailTextLabel?.text = "Unknown Dates"
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         return configureSwipeActionsForRow(at: indexPath)
+    }
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension CalendarViewController: UIViewControllerTransitioningDelegate {
+    
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return CustomSizePresentationController(presentedViewController: presented, presenting: presenting)
     }
 }

@@ -153,10 +153,6 @@ class FoodViewController: UIViewController {
                 
         try? dataController.viewContext.save()
         
-        if let event = event {
-            try? eventStore.save(event, span: .futureEvents)
-        }
-        
         dismiss(animated: true, completion: nil)
     }
     
