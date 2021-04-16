@@ -14,6 +14,7 @@ extension UserDefaults {
         static let sortKeyPath = "lastSortKey"
         static let sectionNameKeyPath = "lastSectionNameKey"
         static let expensesSortKeyPath = "expensesSortKey"
-
+        static let startDateKey = "startDateKey"
+        static let endDateKey = "endDateKey"
     }
 }

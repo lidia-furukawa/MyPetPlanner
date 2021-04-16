@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		020F5B8426211896001B1268 /* ExpensesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020F5B8326211896001B1268 /* ExpensesCell.swift */; };
+		0237CF38262A069A00E1E53B /* CustomSizePresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0237CF37262A069A00E1E53B /* CustomSizePresentationController.swift */; };
+		024C709D2628AA2000209AEA /* DateFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024C709C2628AA2000209AEA /* DateFilterViewController.swift */; };
 		0263B28725F821B2008E120C /* Expense+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28625F821B2008E120C /* Expense+Extensions.swift */; };
 		0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28825FD6AAC008E120C /* HealthCell.swift */; };
 		0277383825EEC5DC00510FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0277383725EEC5DC00510FF4 /* Assets.xcassets */; };
@@ -78,6 +80,8 @@
 
 /* Begin PBXFileReference section */
 		020F5B8326211896001B1268 /* ExpensesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpensesCell.swift; sourceTree = "<group>"; };
+		0237CF37262A069A00E1E53B /* CustomSizePresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSizePresentationController.swift; sourceTree = "<group>"; };
+		024C709C2628AA2000209AEA /* DateFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFilterViewController.swift; sourceTree = "<group>"; };
 		0263B28625F821B2008E120C /* Expense+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expense+Extensions.swift"; sourceTree = "<group>"; };
 		0263B28825FD6AAC008E120C /* HealthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCell.swift; sourceTree = "<group>"; };
 		0277383725EEC5DC00510FF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -189,6 +193,8 @@
 				02F66F042602531900B99D6A /* FoodViewController.swift */,
 				0277383D25EED72D00510FF4 /* CalendarViewController.swift */,
 				0277383F25EED78800510FF4 /* ExpensesViewController.swift */,
+				024C709C2628AA2000209AEA /* DateFilterViewController.swift */,
+				0237CF37262A069A00E1E53B /* CustomSizePresentationController.swift */,
 				02F66F4E2614F05A00B99D6A /* Helpers */,
 				02F66F492613E68800B99D6A /* Protocols */,
 				02F66F3E2612553A00B99D6A /* Extensions */,
@@ -602,6 +608,7 @@
 				02F66F2B260C1DC000B99D6A /* SaveActivityIndicator.swift in Sources */,
 				02F66F072603CCE500B99D6A /* HealthSectionCell.swift in Sources */,
 				0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */,
+				024C709D2628AA2000209AEA /* DateFilterViewController.swift in Sources */,
 				02F66F5C261B5B4C00B99D6A /* NSDecimalNumber+Extension.swift in Sources */,
 				02F66F62261BB5EC00B99D6A /* Colors.swift in Sources */,
 				02F66F5A261B540800B99D6A /* UISegmentedControl+Extension.swift in Sources */,
@@ -619,6 +626,7 @@
 				02DD19DE25D6F8DE00236A74 /* MyPetsViewController.swift in Sources */,
 				0277384225EFFF5200510FF4 /* DogAPIClient.swift in Sources */,
 				02F66F3B260E8E9F00B99D6A /* TableSection.swift in Sources */,
+				0237CF38262A069A00E1E53B /* CustomSizePresentationController.swift in Sources */,
 				02AB3221261F7A3A00E3BF8F /* Notification.Name+Extension.swift in Sources */,
 				02F66F60261BA60F00B99D6A /* String+Extension.swift in Sources */,
 				02F66F402612557200B99D6A /* EKCalendar+Extension.swift in Sources */,
