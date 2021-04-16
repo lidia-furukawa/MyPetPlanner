@@ -286,10 +286,10 @@ extension FoodViewController: UITextFieldDelegate {
         switch textField {
         case startDateTextField:
             activeTextField = startDateTextField
-            startDateTextField.inputView = .customizedDatePickerView(setDate: food?.startDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            startDateTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: food?.startDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
         case endDateTextField:
             activeTextField = endDateTextField
-            endDateTextField.inputView = .customizedDatePickerView(setDate: food?.endDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            endDateTextField.inputView = .customizedDatePickerView(setMinimumDate: food?.startDate, setDate: food?.endDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
         case quantityTextField, bagWeightTextField, bagPriceTextField:
             activeTextField = textField
             textField.text = ""

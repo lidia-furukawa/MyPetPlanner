@@ -227,7 +227,7 @@ extension PetViewController: UITextFieldDelegate {
         switch textField {
         case birthdayTextField:
             activeTextField = birthdayTextField
-            birthdayTextField.inputView = .customizedDatePickerView(setDate: pet?.birthday ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            birthdayTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: pet?.birthday ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
         case breedTextField:
             activeTextField = breedTextField
             pickerView.reloadAllComponents()
