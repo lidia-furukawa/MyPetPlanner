@@ -803,11 +803,18 @@
                         <viewLayoutGuide key="safeArea" id="uvc-5S-nK8"/>
                     </view>
                     <navigationItem key="navigationItem" id="eIy-yM-gbe">
-                        <barButtonItem key="rightBarButtonItem" image="sort" id="E53-fB-gen">
-                            <connections>
-                                <action selector="sortExpenses:" destination="rBu-I9-tKL" id="yci-4e-I63"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="sort" id="E53-fB-gen">
+                                <connections>
+                                    <action selector="sortExpenses:" destination="rBu-I9-tKL" id="yci-4e-I63"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem image="date" id="QQb-M0-GYC">
+                                <connections>
+                                    <action selector="filterDate:" destination="rBu-I9-tKL" id="4Qg-k8-PZs"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="breakdownLabel" destination="yh9-uM-g87" id="Nsm-16-TT2"/>
@@ -1330,6 +1337,7 @@
     <resources>
         <image name="calendar" width="30.5" height="30.5"/>
         <image name="chart.bar.xaxis" width="30.5" height="30.5"/>
+        <image name="date" width="25.5" height="25.5"/>
         <image name="heart.text.square" width="30.5" height="30.5"/>
         <image name="house.fill" width="30.5" height="30.5"/>
         <image name="sort" width="20.5" height="20.5"/>

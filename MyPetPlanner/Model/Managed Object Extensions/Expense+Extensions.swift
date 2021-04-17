@@ -15,7 +15,7 @@ extension Expense {
         
     }
     
-    static func fetchAllCategoriesData(pet: Pet, context: NSManagedObjectContext, completion: @escaping ([(totalAmount: Double, category: String)]) -> ()) {
+    static func fetchAllCategoriesData(for pet: Pet, fromDate: Date, toDate: Date, context: NSManagedObjectContext, completion: @escaping ([(totalAmount: Double, category: String)]) -> ()) {
         let keypathExp = NSExpression(forKeyPath: "amount")
         let expression = NSExpression(forFunction: "sum:", arguments: [keypathExp])
         
@@ -25,8 +25,10 @@ extension Expense {
         sumDesc.expressionResultType = .decimalAttributeType
         
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
-        let predicate = NSPredicate(format: "pet == %@", pet)
-        request.predicate = predicate
+        let petPredicate = NSPredicate(format: "pet == %@", pet)
+        let datePredicate = NSPredicate(format: "(date >= %@) AND (date <= %@)", fromDate as CVarArg, toDate as CVarArg)
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [petPredicate, datePredicate])
+        
         let sortDescriptor = NSSortDescriptor(key: "amount", ascending: true)
         request.sortDescriptors = [sortDescriptor]
         

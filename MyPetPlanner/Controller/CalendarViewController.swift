@@ -51,7 +51,7 @@ class CalendarViewController: UIViewController {
     }
     
     func setupRightBarButton() {
-        let filterDateButton = UIBarButtonItem(image: UIImage(named: "sort"), style: .plain, target: self, action: #selector(filterDateButton(_:)))
+        let filterDateButton = UIBarButtonItem(image: UIImage(named: "date"), style: .plain, target: self, action: #selector(filterDateButton(_:)))
         navigationItem.rightBarButtonItem = filterDateButton
     }
     

@@ -17,21 +17,17 @@ class ExpensesViewController: UIViewController {
     @IBOutlet weak var expensesLabel: UILabel!
     @IBOutlet weak var breakdownLabel: UILabel!
     
-    var dataController: DataController!
-    
-    var fetchedResultsController: NSFetchedResultsController<Expense>!
-
     /// The pet posted by `MyPetsViewController` when a pet cell's selected
     var pet: Pet?
-    
-    var keyPath = "category"
-    
+    var dataController: DataController!
+    var fetchedResultsController: NSFetchedResultsController<Expense>!
+    var sortKeyPath = "category"
     var expensesLabels: [String]?
-    
     var expensesValues: [Double]?
-    
     var totalExpensesSum: Double?
-
+    var startDate = Date()
+    var endDate = Date()
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         subscribeToPetNotification()
@@ -43,23 +39,20 @@ class ExpensesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         loadLastKeyPath()
-        setupFetchedResultsController(keyPath)
+        loadLastDates()
+        setupFetchedResultsController(sortKeyPath)
         initView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         navigationItem.title = "Pet: \(pet?.name ?? "None")"
-        loadLastKeyPath()
         refreshData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
         fetchedResultsController = nil
     }
     
@@ -71,54 +64,75 @@ class ExpensesViewController: UIViewController {
     
     func loadLastKeyPath() {
         if let lastKeyPath = UserDefaults.standard.string(forKey: UserDefaults.Keys.expensesSortKeyPath) {
-            keyPath = lastKeyPath
+            sortKeyPath = lastKeyPath
+        }
+    }
+    
+    func loadLastDates() {
+        if let lastStartDate = UserDefaults.standard.string(forKey: UserDefaults.Keys.startDateKey), let lastEndDate = UserDefaults.standard.string(forKey: UserDefaults.Keys.endDateKey) {
+            startDate = lastStartDate.dateFormat ?? Date()
+            endDate = lastEndDate.dateFormat ?? Date()
         }
     }
     
     func refreshData() {
-        setupFetchedResultsController(keyPath)
-        
-        switch keyPath {
+        loadLastKeyPath()
+        loadLastDates()
+        setupFetchedResultsController(sortKeyPath)
+
+        switch sortKeyPath {
         case "subcategory":
-            sortBySubcategory()
+            sortChartBySubcategory()
         case "category":
-            sortByCategory()
+            sortChartByCategory()
         default:
             fatalError("Unrecognized key path")
         }
-        tableView.reloadData()
+        
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
     
-    func sortByCategory() {
+    func sortChartByCategory() {
         guard let pet = pet else { return }
-        Expense.fetchAllCategoriesData(pet: pet, context: dataController.viewContext) { results in
-            guard !results.isEmpty else { return }
-            self.expensesLabels = results.map { $0.category }
-            self.expensesValues = results.map { $0.totalAmount }
+        Expense.fetchAllCategoriesData(for: pet, fromDate: startDate, toDate: endDate, context: dataController.viewContext) { results in
+            guard !results.isEmpty else {
+                self.customizeChart(labels: [], values: [])
+                return
+            }
+            let expensesLabels = results.map { $0.category }
+            let expensesValues = results.map { $0.totalAmount }
             self.totalExpensesSum = results.map { $0.totalAmount }.reduce(0, +)
             
-            self.customizeChart(labels: self.expensesLabels ?? [], values: self.expensesValues ?? [])
+            self.customizeChart(labels: expensesLabels, values: expensesValues)
         }
     }
 
-    func sortBySubcategory() {
+    func sortChartBySubcategory() {
         guard let objects = fetchedResultsController.fetchedObjects else { return }
-        guard !objects.isEmpty else { return }
-        expensesLabels = objects.map { $0.subcategory ?? "" }
-        expensesValues = objects.map { $0.amount?.doubleValue ?? 0 }
+        guard !objects.isEmpty else {
+            customizeChart(labels: [], values: [])
+            return
+        }
+        let expensesLabels = objects.map { $0.subcategory ?? "" }
+        let expensesValues = objects.map { $0.amount?.doubleValue ?? 0 }
         totalExpensesSum = objects.map { $0.amount?.doubleValue ?? 0 }.reduce(0, +)
-        customizeChart(labels: expensesLabels ?? [], values: expensesValues ?? [])
+        
+        customizeChart(labels: expensesLabels, values: expensesValues)
     }
     
-    func saveKeyPath(_ keyPath: String) {
+    func saveSortKeyPath(_ keyPath: String) {
         UserDefaults.standard.set(keyPath, forKey: UserDefaults.Keys.expensesSortKeyPath)
-        self.keyPath = keyPath
+        self.sortKeyPath = keyPath
     }
     
     func setupFetchedResultsController(_ keyPath: String) {
         let fetchRequest: NSFetchRequest<Expense> = Expense.fetchRequest()
-        let predicate = NSPredicate(format: "pet == %@", pet ?? "")
-        fetchRequest.predicate = predicate
+        let petPredicate = NSPredicate(format: "pet == %@", pet ?? "")
+        let datePredicate = NSPredicate(format: "(date >= %@) AND (date <= %@)", startDate as CVarArg, endDate as CVarArg)
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [petPredicate, datePredicate])
+        
         let sortDescriptor = NSSortDescriptor(key: keyPath, ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -166,15 +180,25 @@ class ExpensesViewController: UIViewController {
     @IBAction func sortExpenses(_ sender: Any) {
         let sortExpensesActions = [
             Action(buttonTitle: "Sort By Category", buttonStyle: .default, handler: {
-                self.saveKeyPath("category")
+                self.saveSortKeyPath("category")
                 self.refreshData()
             }),
             Action(buttonTitle: "Sort By Subcategory", buttonStyle: .default, handler: {
-                self.saveKeyPath("subcategory")
+                self.saveSortKeyPath("subcategory")
                 self.refreshData()
             })
         ]
         presentActionSheetDialog(with: sortExpensesActions)
+    }
+    
+    @IBAction func filterDate(_ sender: Any) {
+        let vc = storyboard?.instantiateViewController(withIdentifier: "DateFilterViewController") as! DateFilterViewController
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = self
+        vc.isSaved = { [weak self] in
+            self?.refreshData()
+        }
+        present(vc, animated: true, completion: nil)
     }
 }
 
@@ -202,8 +226,8 @@ extension ExpensesViewController: UITableViewDataSource, UITableViewDelegate {
         let aExpense = fetchedResultsController.object(at: indexPath)
         
         // Configure the cell
-        switch keyPath {
-        case "subcategory":
+        switch sortKeyPath {
+        case "subcategory", "date":
             cell.textLabel?.text = aExpense.subcategory
         case "category":
             cell.textLabel?.text = aExpense.category
@@ -261,4 +285,14 @@ extension ExpensesViewController: NSFetchedResultsControllerDelegate {
         tableView.endUpdates()
     }
     
+}
+
+// -----------------------------------------------------------------------------
+// MARK: - UIViewControllerTransitioningDelegate
+
+extension ExpensesViewController: UIViewControllerTransitioningDelegate {
+    
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return CustomSizePresentationController(presentedViewController: presented, presenting: presenting)
+    }
 }
