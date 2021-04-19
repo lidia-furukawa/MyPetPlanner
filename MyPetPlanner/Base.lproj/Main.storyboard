@@ -598,7 +598,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bWT-8h-Pza" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1090" y="-1129"/>
+            <point key="canvasLocation" x="-1342" y="-1012"/>
         </scene>
         <!--My Pets-->
         <scene sceneID="W6O-CN-BKJ">
@@ -1626,6 +1626,24 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bjI-GQ-68H"/>
                     </view>
+                    <connections>
+                        <outlet property="calendarSwitch" destination="rzV-Ns-eKi" id="DEF-ZX-GjS"/>
+                        <outlet property="cancelButton" destination="8Xh-Eh-TXd" id="xlF-eG-K5h"/>
+                        <outlet property="endDateTextField" destination="giO-KR-dOR" id="COi-7n-s1g"/>
+                        <outlet property="expensesDateTextField" destination="g6b-Nl-LZe" id="x6r-oH-myG"/>
+                        <outlet property="expensesSwitch" destination="I33-mw-usf" id="zls-ZW-JrY"/>
+                        <outlet property="frequencyControl" destination="yHy-sg-jYf" id="i9p-7k-FJO"/>
+                        <outlet property="frequencyStepper" destination="dpo-bx-S7b" id="JmI-GB-6th"/>
+                        <outlet property="frequencyTextField" destination="VzW-EZ-uMS" id="0dq-UO-JwC"/>
+                        <outlet property="groomingImageView" destination="oXb-u2-5Dv" id="hLR-0D-Ej4"/>
+                        <outlet property="groomingSubcategoryLabel" destination="SsK-ey-NfY" id="vzX-to-W21"/>
+                        <outlet property="groomingTextField" destination="i5U-Jl-5f2" id="MiS-cA-gib"/>
+                        <outlet property="navigationBar" destination="oZ3-Jd-DtI" id="Acj-fG-NUv"/>
+                        <outlet property="priceTextField" destination="tAZ-KA-nC5" id="0I6-dz-QGl"/>
+                        <outlet property="saveButton" destination="hcq-w2-Bvd" id="1sS-Si-IV6"/>
+                        <outlet property="scrollView" destination="8Y0-s3-pAb" id="0ap-fd-njZ"/>
+                        <outlet property="startDateTextField" destination="6aO-Id-fDG" id="PD5-ds-QUt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P6k-NW-xvN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
