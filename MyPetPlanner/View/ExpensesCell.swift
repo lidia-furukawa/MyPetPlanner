@@ -11,4 +11,9 @@ import UIKit
 
 class ExpensesCell: UITableViewCell {
     
+    @IBOutlet var photoImageView: UIImageView!
+    @IBOutlet var sectionLabel: UILabel!
+    @IBOutlet var subsectionLabel: UILabel!
+    @IBOutlet var amountLabel: UILabel!
+    
 }

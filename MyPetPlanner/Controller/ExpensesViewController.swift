@@ -221,23 +221,26 @@ extension ExpensesViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ExpensesCell")!
-
+        let reuseIdentifier = "ExpensesCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ExpensesCell
+        
         let aExpense = fetchedResultsController.object(at: indexPath)
         
         // Configure the cell
         switch sortKeyPath {
-        case "subcategory", "date":
-            cell.textLabel?.text = aExpense.subcategory
+        case "subcategory":
+            cell.sectionLabel?.text = aExpense.subcategory
+            cell.subsectionLabel?.text = aExpense.date?.stringFormat
         case "category":
-            cell.textLabel?.text = aExpense.category
+            cell.sectionLabel?.text = aExpense.category
+            cell.subsectionLabel?.text = aExpense.date?.stringFormat
         default:
             fatalError("Unrecognized key path")
         }
-        cell.detailTextLabel?.text = aExpense.amount?.stringFormat
+        cell.amountLabel?.text = aExpense.amount?.stringFormat
         let sectionImage = UIImage(named: aExpense.subcategory ?? "")
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
-        cell.imageView?.image = templateImage
+        cell.photoImageView?.image = templateImage
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         return cell
     }
