@@ -11,7 +11,7 @@
 		0237CF38262A069A00E1E53B /* CustomSizePresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0237CF37262A069A00E1E53B /* CustomSizePresentationController.swift */; };
 		024C709D2628AA2000209AEA /* DateFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024C709C2628AA2000209AEA /* DateFilterViewController.swift */; };
 		025BD4AC262DD3D700054826 /* GroomingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025BD4AB262DD3D700054826 /* GroomingViewController.swift */; };
-		0263B28725F821B2008E120C /* Expense+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28625F821B2008E120C /* Expense+Extensions.swift */; };
+		0263B28725F821B2008E120C /* Healthcare+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28625F821B2008E120C /* Healthcare+Extensions.swift */; };
 		0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28825FD6AAC008E120C /* HealthCell.swift */; };
 		0277383825EEC5DC00510FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0277383725EEC5DC00510FF4 /* Assets.xcassets */; };
 		0277383A25EEC80B00510FF4 /* HealthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0277383925EEC80B00510FF4 /* HealthViewController.swift */; };
@@ -84,7 +84,8 @@
 		0237CF37262A069A00E1E53B /* CustomSizePresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSizePresentationController.swift; sourceTree = "<group>"; };
 		024C709C2628AA2000209AEA /* DateFilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFilterViewController.swift; sourceTree = "<group>"; };
 		025BD4AB262DD3D700054826 /* GroomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomingViewController.swift; sourceTree = "<group>"; };
-		0263B28625F821B2008E120C /* Expense+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expense+Extensions.swift"; sourceTree = "<group>"; };
+		025BD4AD262F407900054826 /* MyPetPlanner-2021-04-20-healthcare.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MyPetPlanner-2021-04-20-healthcare.xcdatamodel"; sourceTree = "<group>"; };
+		0263B28625F821B2008E120C /* Healthcare+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Healthcare+Extensions.swift"; sourceTree = "<group>"; };
 		0263B28825FD6AAC008E120C /* HealthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCell.swift; sourceTree = "<group>"; };
 		0277383725EEC5DC00510FF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0277383925EEC80B00510FF4 /* HealthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthViewController.swift; sourceTree = "<group>"; };
@@ -179,7 +180,7 @@
 		0263B28525F82163008E120C /* Managed Object Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				0263B28625F821B2008E120C /* Expense+Extensions.swift */,
+				0263B28625F821B2008E120C /* Healthcare+Extensions.swift */,
 			);
 			path = "Managed Object Extensions";
 			sourceTree = "<group>";
@@ -608,7 +609,7 @@
 			files = (
 				02F66F482613E38100B99D6A /* TrailingSwipeActions.swift in Sources */,
 				025BD4AC262DD3D700054826 /* GroomingViewController.swift in Sources */,
-				0263B28725F821B2008E120C /* Expense+Extensions.swift in Sources */,
+				0263B28725F821B2008E120C /* Healthcare+Extensions.swift in Sources */,
 				02F66F2B260C1DC000B99D6A /* SaveActivityIndicator.swift in Sources */,
 				02F66F072603CCE500B99D6A /* HealthSectionCell.swift in Sources */,
 				0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */,
@@ -984,10 +985,11 @@
 		02DD19E225D6F8DE00236A74 /* MyPetPlanner.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				025BD4AD262F407900054826 /* MyPetPlanner-2021-04-20-healthcare.xcdatamodel */,
 				02F66F63261E41F100B99D6A /* MyPetPlanner-2021-04-07-inheritance.xcdatamodel */,
 				02DD19E325D6F8DE00236A74 /* MyPetPlanner.xcdatamodel */,
 			);
-			currentVersion = 02F66F63261E41F100B99D6A /* MyPetPlanner-2021-04-07-inheritance.xcdatamodel */;
+			currentVersion = 025BD4AD262F407900054826 /* MyPetPlanner-2021-04-20-healthcare.xcdatamodel */;
 			path = MyPetPlanner.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

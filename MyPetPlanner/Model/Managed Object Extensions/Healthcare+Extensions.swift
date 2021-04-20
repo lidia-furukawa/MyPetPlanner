@@ -1,22 +1,22 @@
 //
-//  Pet+Extensions.swift
+//  Healthcare+Extensions.swift
 //  MyPetPlanner
 //
-//  Created by Lidia on 09/03/21.
+//  Created by Lidia on 20/04/21.
 //  Copyright © 2021 LidiaF. All rights reserved.
 //
 
 import Foundation
 import CoreData
 
-extension Expense {
+extension Healthcare {
     public override func awakeFromInsert() {
         super.awakeFromInsert()
         
     }
     
     static func fetchAllCategoriesData(for pet: Pet, fromDate: Date, toDate: Date, context: NSManagedObjectContext, completion: @escaping ([(totalAmount: Double, category: String)]) -> ()) {
-        let keypathExp = NSExpression(forKeyPath: "amount")
+        let keypathExp = NSExpression(forKeyPath: "expenseAmount")
         let expression = NSExpression(forFunction: "sum:", arguments: [keypathExp])
         
         let sumDesc = NSExpressionDescription()
@@ -24,12 +24,12 @@ extension Expense {
         sumDesc.name = "sum"
         sumDesc.expressionResultType = .decimalAttributeType
         
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Expense")
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Healthcare")
         let petPredicate = NSPredicate(format: "pet == %@", pet)
-        let datePredicate = NSPredicate(format: "(date >= %@) AND (date <= %@)", fromDate as CVarArg, toDate as CVarArg)
+        let datePredicate = NSPredicate(format: "(expenseDate >= %@) AND (expenseDate <= %@)", fromDate as CVarArg, toDate as CVarArg)
         request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [petPredicate, datePredicate])
         
-        let sortDescriptor = NSSortDescriptor(key: "amount", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "expenseAmount", ascending: true)
         request.sortDescriptors = [sortDescriptor]
         
         request.returnsObjectsAsFaults = false

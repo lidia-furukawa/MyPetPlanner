@@ -92,8 +92,8 @@ class GroomingViewController: UIViewController {
         groomingTextField.text = grooming?.groomerInfo
         frequencyTextField.text = String(grooming?.frequency ?? 0)
         frequencyControl.getSegmentedControlSelectedIndex(from: grooming?.frequencyUnit)
-        priceTextField.text = grooming?.amount?.stringFormat ?? ""
-        expensesDateTextField.text = grooming?.date?.stringFormat ?? Date().stringFormat
+        priceTextField.text = grooming?.expenseAmount?.stringFormat ?? ""
+        expensesDateTextField.text = grooming?.expenseDate?.stringFormat ?? Date().stringFormat
         startDateTextField.text = grooming?.startDate?.stringFormat ?? Date().stringFormat
         endDateTextField.text = grooming?.endDate?.stringFormat ?? Date().stringFormat
         if grooming?.eventIdentifier != nil {
@@ -129,9 +129,9 @@ class GroomingViewController: UIViewController {
         }
         grooming.frequencyUnit = frequencyControl.selectedSegmentTitle
         if let priceText = Double(priceTextField.text ?? "") {
-            grooming.amount = NSDecimalNumber(value: priceText)
+            grooming.expenseAmount = NSDecimalNumber(value: priceText)
         }
-        grooming.date = expensesDateTextField.text?.dateFormat
+        grooming.expenseDate = expensesDateTextField.text?.dateFormat
         grooming.startDate = startDateTextField.text?.dateFormat
         grooming.endDate = endDateTextField.text?.dateFormat
         

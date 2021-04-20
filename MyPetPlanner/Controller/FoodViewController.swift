@@ -102,8 +102,8 @@ class FoodViewController: UIViewController {
         endDateTextField.text = food?.endDate?.stringFormat ?? Date().stringFormat
         bagWeightTextField.text = String(food?.bagWeight ?? 0)
         bagWeightUnitControl.getSegmentedControlSelectedIndex(from: food?.bagWeightUnit)
-        bagPriceTextField.text = food?.amount?.stringFormat ?? ""
-        expensesDateTextField.text = food?.date?.stringFormat ?? Date().stringFormat
+        bagPriceTextField.text = food?.expenseAmount?.stringFormat ?? ""
+        expensesDateTextField.text = food?.expenseDate?.stringFormat ?? Date().stringFormat
         if food?.eventIdentifier != nil {
             calendarSwitch.isOn = true
         }
@@ -147,9 +147,9 @@ class FoodViewController: UIViewController {
         }
         food.bagWeightUnit = bagWeightUnitControl.selectedSegmentTitle
         if let bagPriceText = Double(bagPriceTextField.text ?? "") {
-            food.amount = NSDecimalNumber(value: bagPriceText)
+            food.expenseAmount = NSDecimalNumber(value: bagPriceText)
         }
-        food.date = expensesDateTextField.text?.dateFormat
+        food.expenseDate = expensesDateTextField.text?.dateFormat
                 
         try? dataController.viewContext.save()
         
