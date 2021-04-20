@@ -5,6 +5,7 @@
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="subcategory" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="pet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pet" inverseName="expenses" inverseEntity="Pet" syncable="YES"/>
     </entity>
     <entity name="Food" representedClassName="Food" parentEntity="Expense" syncable="YES" codeGenerationType="class">
         <attribute name="bagWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
@@ -18,7 +19,6 @@
         <attribute name="quantityPerMealOrDay" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="quantityUnit" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="pet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pet" inverseName="foods" inverseEntity="Pet" syncable="YES"/>
     </entity>
     <entity name="Grooming" representedClassName="Grooming" parentEntity="Expense" syncable="YES" codeGenerationType="class">
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -27,7 +27,6 @@
         <attribute name="frequencyUnit" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="groomerInfo" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <relationship name="pet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pet" inverseName="groomings" inverseEntity="Pet" syncable="YES"/>
     </entity>
     <entity name="Pet" representedClassName="Pet" syncable="YES" codeGenerationType="class">
         <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -40,13 +39,12 @@
         <attribute name="photo" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="weight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <relationship name="foods" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Food" inverseName="pet" inverseEntity="Food" syncable="YES"/>
-        <relationship name="groomings" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Grooming" inverseName="pet" inverseEntity="Grooming" syncable="YES"/>
+        <relationship name="expenses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Expense" inverseName="pet" inverseEntity="Expense" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Expense" positionX="-46.87890625" positionY="2162.64453125" width="128" height="105"/>
-        <element name="Food" positionX="-210.16796875" positionY="2193.04296875" width="128" height="225"/>
-        <element name="Pet" positionX="-418.046875" positionY="2274.51171875" width="128" height="223"/>
-        <element name="Grooming" positionX="-52.671875" positionY="2363.94140625" width="128" height="148"/>
+        <element name="Expense" positionX="-46.87890625" positionY="2162.64453125" width="128" height="118"/>
+        <element name="Food" positionX="-218.21875" positionY="2212.94140625" width="128" height="208"/>
+        <element name="Pet" positionX="-418.046875" positionY="2274.51171875" width="128" height="208"/>
+        <element name="Grooming" positionX="-52.671875" positionY="2363.94140625" width="128" height="133"/>
     </elements>
 </model>
