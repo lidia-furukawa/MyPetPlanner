@@ -34,6 +34,9 @@ class HealthSectionViewController: UIViewController {
         case "Food":
             let frc: NSFetchedResultsController<Food> = setupFetchedResultsController(keyPath, sectionNameKeyPath)!
             return frc as! NSFetchedResultsController<NSManagedObject>
+        case "Grooming":
+            let frc: NSFetchedResultsController<Grooming> = setupFetchedResultsController(keyPath, sectionNameKeyPath)!
+            return frc as! NSFetchedResultsController<NSManagedObject>
         default:
             return fatalError() as! NSFetchedResultsController<NSManagedObject>
         }
@@ -82,6 +85,8 @@ class HealthSectionViewController: UIViewController {
         switch selectedObjectSectionName {
         case "Food":
             performSegue(withIdentifier: UIStoryboardSegue.Identifiers.createNewFood, sender: nil)
+        case "Grooming":
+            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.createNewGrooming, sender: nil)
         default:
             fatalError("Unindentified Segue")
         }
@@ -107,6 +112,17 @@ class HealthSectionViewController: UIViewController {
             vc.pet = pet
             vc.food = fetchedResultsController.object(at: selectedIndexPath) as? Food
             vc.dataController = dataController
+        case UIStoryboardSegue.Identifiers.createNewGrooming:
+            let vc = segue.destination as! GroomingViewController
+            vc.selectedObjectName = selectedObjectName
+            vc.pet = pet
+            vc.dataController = dataController
+        case UIStoryboardSegue.Identifiers.editGrooming:
+            let vc = segue.destination as! GroomingViewController
+            vc.selectedObjectName = selectedObjectName
+            vc.pet = pet
+            vc.grooming = fetchedResultsController.object(at: selectedIndexPath) as? Grooming
+            vc.dataController = dataController
         default:
             fatalError("Unindentified Segue")
         }
@@ -119,7 +135,14 @@ class HealthSectionViewController: UIViewController {
 extension HealthSectionViewController: TrailingSwipeActions {
     func setEditAction(at indexPath: IndexPath) {
         selectedIndexPath = indexPath
-        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editFood, sender: nil)
+        switch selectedObjectSectionName {
+        case "Food":
+            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editFood, sender: nil)
+        case "Grooming":
+            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editGrooming, sender: nil)
+        default:
+            fatalError("Unindentified Segue")
+        }
     }
     
     func setDeleteAction(at indexPath: IndexPath) {
@@ -144,7 +167,7 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.backgroundColor
+        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = .backgroundColor
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -162,6 +185,13 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
             cell.sectionInfoLabel?.text = aFood.brand
             cell.startDateLabel.text = aFood.startDate!.stringFormat
             cell.endDateLabel.text = aFood.endDate!.stringFormat
+        case "Grooming":
+            let frc = fetchedResultsController as! NSFetchedResultsController<Grooming>
+            let aGrooming = frc.object(at: indexPath)
+            cell.sectionNameLabel?.text = aGrooming.subcategory
+            cell.sectionInfoLabel?.text = aGrooming.groomerInfo
+            cell.startDateLabel.text = aGrooming.startDate!.stringFormat
+            cell.endDateLabel.text = aGrooming.endDate!.stringFormat
         default:
           fatalError()
         }

@@ -12,8 +12,12 @@ extension UIStoryboardSegue {
     enum Identifiers {
         static let createNewPet = "createNewPet"
         static let editPet = "editPet"
+        static let showSection = "showSection"
         static let createNewFood = "createNewFood"
         static let editFood = "editFood"
-        static let foodSection = "Food"
+//        static let foodSection = "Food"
+        static let createNewGrooming = "createNewGrooming"
+        static let editGrooming = "editGrooming"
+//        static let groomingSection = "Grooming"
     }
 }

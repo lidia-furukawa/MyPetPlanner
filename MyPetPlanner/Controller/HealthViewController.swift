@@ -22,6 +22,8 @@ class HealthViewController: UIViewController {
     
     var selectedObjectName = String()
     
+    var selectedSectionName = String()
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         subscribeToPetNotification()
@@ -55,16 +57,9 @@ class HealthViewController: UIViewController {
         vc.dataController = dataController
         vc.pet = pet
         vc.selectedObjectName = selectedObjectName
-        vc.selectedObjectSectionName = segue.identifier ?? "Error"
-        
-        switch segue.identifier {
-        case "Food":
-            vc.keyPath = "subcategory"
-            vc.sectionNameKeyPath = "subcategory"
-        default:
-            fatalError("Unindentified Segue")
-        }
-
+        vc.selectedObjectSectionName = selectedSectionName
+        vc.keyPath = "subcategory"
+        vc.sectionNameKeyPath = "subcategory"
     }
 }
 
@@ -120,9 +115,10 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedObjectName = healthSections[indexPath.section].rows[indexPath.row].text
-        let selectedCellSection = healthSections[indexPath.section].title
+        selectedSectionName = healthSections[indexPath.section].title
+        
         if pet != nil {
-            performSegue(withIdentifier: selectedCellSection, sender: nil)
+            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.showSection, sender: nil)
         } else {
             let errorAlert = AlertInformation(
                 title: "No Pet Selected",
