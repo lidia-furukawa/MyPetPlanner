@@ -3,7 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>NSRemindersUsageDescription</key>
-	<string>This app requires reminder access to add your pet reminders.</string>
+	<string>This app requires reminders access to add your pet events.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app requires contacts access to add your pet events.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>This app requires location access to add your pet events.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app requires location when in use access to add your pet events.</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>This app requires calendar access to add your pet events.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
