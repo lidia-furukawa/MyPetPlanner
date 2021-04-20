@@ -25,6 +25,11 @@
         <attribute name="subcategory" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="pet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pet" inverseName="healthcare" inverseEntity="Pet" syncable="YES"/>
     </entity>
+    <entity name="ParasiteControl" representedClassName="ParasiteControl" parentEntity="Healthcare" syncable="YES" codeGenerationType="class">
+        <attribute name="frequency" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="frequencyUnit" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="treatment" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="Pet" representedClassName="Pet" syncable="YES" codeGenerationType="class">
         <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="breed" optional="YES" attributeType="String" syncable="YES"/>
@@ -40,8 +45,9 @@
     </entity>
     <elements>
         <element name="Healthcare" positionX="-123.69140625" positionY="2190.6015625" width="128" height="163"/>
-        <element name="Food" positionX="-214.75390625" positionY="2391.21484375" width="128" height="163"/>
-        <element name="Grooming" positionX="-61.92578125" positionY="2392.6015625" width="128" height="88"/>
+        <element name="Food" positionX="-228.78125" positionY="2396.78125" width="128" height="163"/>
+        <element name="Grooming" positionX="-88.875" positionY="2397.734375" width="128" height="88"/>
         <element name="Pet" positionX="-337.2734375" positionY="2145.53125" width="128" height="208"/>
+        <element name="ParasiteControl" positionX="48.94140625" positionY="2396.78515625" width="128" height="88"/>
     </elements>
 </model>

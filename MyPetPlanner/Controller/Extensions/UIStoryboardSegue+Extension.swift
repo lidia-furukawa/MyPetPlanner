@@ -15,9 +15,9 @@ extension UIStoryboardSegue {
         static let showSection = "showSection"
         static let createNewFood = "createNewFood"
         static let editFood = "editFood"
-//        static let foodSection = "Food"
         static let createNewGrooming = "createNewGrooming"
         static let editGrooming = "editGrooming"
-//        static let groomingSection = "Grooming"
+        static let createNewParasiteControl = "createNewParasiteControl"
+        static let editParasiteControl = "editParasiteControl"
     }
 }

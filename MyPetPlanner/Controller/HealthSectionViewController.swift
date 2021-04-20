@@ -37,6 +37,9 @@ class HealthSectionViewController: UIViewController {
         case "Grooming":
             let frc: NSFetchedResultsController<Grooming> = setupFetchedResultsController(keyPath, sectionNameKeyPath)!
             return frc as! NSFetchedResultsController<NSManagedObject>
+        case "Parasite Control":
+            let frc: NSFetchedResultsController<ParasiteControl> = setupFetchedResultsController(keyPath, sectionNameKeyPath)!
+            return frc as! NSFetchedResultsController<NSManagedObject>
         default:
             return fatalError() as! NSFetchedResultsController<NSManagedObject>
         }
@@ -87,6 +90,8 @@ class HealthSectionViewController: UIViewController {
             performSegue(withIdentifier: UIStoryboardSegue.Identifiers.createNewFood, sender: nil)
         case "Grooming":
             performSegue(withIdentifier: UIStoryboardSegue.Identifiers.createNewGrooming, sender: nil)
+        case "Parasite Control":
+            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.createNewParasiteControl, sender: nil)
         default:
             fatalError("Unindentified Segue")
         }
@@ -123,6 +128,17 @@ class HealthSectionViewController: UIViewController {
             vc.pet = pet
             vc.grooming = fetchedResultsController.object(at: selectedIndexPath) as? Grooming
             vc.dataController = dataController
+        case UIStoryboardSegue.Identifiers.createNewParasiteControl:
+            let vc = segue.destination as! ParasiteControlViewController
+            vc.selectedObjectName = selectedObjectName
+            vc.pet = pet
+            vc.dataController = dataController
+        case UIStoryboardSegue.Identifiers.editParasiteControl:
+            let vc = segue.destination as! ParasiteControlViewController
+            vc.selectedObjectName = selectedObjectName
+            vc.pet = pet
+            vc.parasiteControl = fetchedResultsController.object(at: selectedIndexPath) as? ParasiteControl
+            vc.dataController = dataController
         default:
             fatalError("Unindentified Segue")
         }
@@ -140,8 +156,10 @@ extension HealthSectionViewController: TrailingSwipeActions {
             performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editFood, sender: nil)
         case "Grooming":
             performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editGrooming, sender: nil)
+        case "Parasite Control":
+            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editParasiteControl, sender: nil)
         default:
-            fatalError("Unindentified Segue")
+            fatalError("Unidentified Segue")
         }
     }
     
@@ -192,8 +210,15 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
             cell.sectionInfoLabel?.text = aGrooming.groomerInfo
             cell.startDateLabel.text = aGrooming.startDate!.stringFormat
             cell.endDateLabel.text = aGrooming.endDate!.stringFormat
+        case "Parasite Control":
+            let frc = fetchedResultsController as! NSFetchedResultsController<ParasiteControl>
+            let aParasiteControl = frc.object(at: indexPath)
+            cell.sectionNameLabel?.text = aParasiteControl.subcategory
+            cell.sectionInfoLabel?.text = aParasiteControl.treatment
+            cell.startDateLabel.text = aParasiteControl.startDate!.stringFormat
+            cell.endDateLabel.text = aParasiteControl.endDate!.stringFormat
         default:
-          fatalError()
+          fatalError("Unidentified Section")
         }
         
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
