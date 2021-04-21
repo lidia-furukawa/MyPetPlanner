@@ -12,6 +12,7 @@
 		024C709D2628AA2000209AEA /* DateFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024C709C2628AA2000209AEA /* DateFilterViewController.swift */; };
 		025BD4AC262DD3D700054826 /* GroomingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025BD4AB262DD3D700054826 /* GroomingViewController.swift */; };
 		025BD4AF262F587800054826 /* ParasiteControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025BD4AE262F587700054826 /* ParasiteControlViewController.swift */; };
+		025BD4B1262F8F4B00054826 /* SectionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025BD4B0262F8F4B00054826 /* SectionDetailViewController.swift */; };
 		0263B28725F821B2008E120C /* Healthcare+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28625F821B2008E120C /* Healthcare+Extensions.swift */; };
 		0263B28925FD6AAC008E120C /* HealthCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263B28825FD6AAC008E120C /* HealthCell.swift */; };
 		0277383825EEC5DC00510FF4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0277383725EEC5DC00510FF4 /* Assets.xcassets */; };
@@ -87,6 +88,7 @@
 		025BD4AB262DD3D700054826 /* GroomingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroomingViewController.swift; sourceTree = "<group>"; };
 		025BD4AD262F407900054826 /* MyPetPlanner-2021-04-20-healthcare.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MyPetPlanner-2021-04-20-healthcare.xcdatamodel"; sourceTree = "<group>"; };
 		025BD4AE262F587700054826 /* ParasiteControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParasiteControlViewController.swift; sourceTree = "<group>"; };
+		025BD4B0262F8F4B00054826 /* SectionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionDetailViewController.swift; sourceTree = "<group>"; };
 		0263B28625F821B2008E120C /* Healthcare+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Healthcare+Extensions.swift"; sourceTree = "<group>"; };
 		0263B28825FD6AAC008E120C /* HealthCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthCell.swift; sourceTree = "<group>"; };
 		0277383725EEC5DC00510FF4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 				0277384B25F0F37A00510FF4 /* PetViewController.swift */,
 				0277383925EEC80B00510FF4 /* HealthViewController.swift */,
 				02F66F0225FFF50F00B99D6A /* HealthSectionViewController.swift */,
+				025BD4B0262F8F4B00054826 /* SectionDetailViewController.swift */,
 				02F66F042602531900B99D6A /* FoodViewController.swift */,
 				025BD4AB262DD3D700054826 /* GroomingViewController.swift */,
 				025BD4AE262F587700054826 /* ParasiteControlViewController.swift */,
@@ -631,6 +634,7 @@
 				0277384425F0002200510FF4 /* BreedsListResponse.swift in Sources */,
 				02F66F27260BA23A00B99D6A /* UIViewController+Extension.swift in Sources */,
 				02F66F5E261B8D9700B99D6A /* Date+Extension.swift in Sources */,
+				025BD4B1262F8F4B00054826 /* SectionDetailViewController.swift in Sources */,
 				02AB3223261F829500E3BF8F /* PetNotification.swift in Sources */,
 				02DD19DE25D6F8DE00236A74 /* MyPetsViewController.swift in Sources */,
 				0277384225EFFF5200510FF4 /* DogAPIClient.swift in Sources */,

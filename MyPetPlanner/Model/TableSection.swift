@@ -46,7 +46,7 @@ extension TableSection {
         TableRow(sectionHeader: "Parasite Control", text: "Internal", image: "Internal"),
         TableRow(sectionHeader: "Parasite Control", text: "External", image: "External"),
         TableRow(sectionHeader: "Veterinary Care", text: "Appointment", image: "Appointment"),
-        TableRow(sectionHeader: "Veterinary Care", text: "Vaccine", image: "Vaccines"),
+        TableRow(sectionHeader: "Veterinary Care", text: "Vaccine", image: "Vaccine"),
         TableRow(sectionHeader: "Veterinary Care", text: "Medication", image: "Medication")
     ]
 }
