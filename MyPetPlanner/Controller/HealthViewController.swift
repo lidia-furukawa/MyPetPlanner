@@ -58,8 +58,6 @@ class HealthViewController: UIViewController {
         vc.pet = pet
         vc.selectedObjectName = selectedObjectName
         vc.selectedObjectSectionName = selectedSectionName
-        vc.keyPath = "subcategory"
-        vc.sectionNameKeyPath = "subcategory"
     }
 }
 

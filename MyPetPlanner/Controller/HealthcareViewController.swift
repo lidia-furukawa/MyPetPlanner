@@ -1,5 +1,5 @@
 //
-//  ParasiteControlViewController.swift
+//  HealthcareViewController.swift
 //  MyPetPlanner
 //
 //  Created by Lidia on 20/04/21.
@@ -11,15 +11,16 @@ import CoreData
 import EventKit
 import EventKitUI
 
-class ParasiteControlViewController: UIViewController {
-
+class HealthcareViewController: UIViewController {
+    
     @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var navigationBar: UINavigationBar!
     @IBOutlet var cancelButton: UIBarButtonItem!
     @IBOutlet var saveButton: UIBarButtonItem!
-    @IBOutlet var parasiteControlImageView: UIImageView!
-    @IBOutlet var parasiteControlSubcategoryLabel: UILabel!
-    @IBOutlet var treatmentTextField: UITextField!
+    @IBOutlet var sectionImageView: UIImageView!
+    @IBOutlet var sectionSubcategoryLabel: UILabel!
+    @IBOutlet var sectionTextField: UITextField!
+    @IBOutlet var sectionLabel: UILabel!
     @IBOutlet var frequencyTextField: UITextField!
     @IBOutlet var frequencyStepper: UIStepper!
     @IBOutlet var frequencyControl: UISegmentedControl!
@@ -32,30 +33,34 @@ class ParasiteControlViewController: UIViewController {
     @IBOutlet var endDateTextField: UITextField!
     @IBOutlet var calendarSwitch: UISwitch!
     @IBOutlet var textFields: [UITextField]!
+
+    @IBOutlet var quantityStackView: UIStackView!
+    @IBOutlet var bagStackView: UIStackView!
+    @IBOutlet var startDateStackView: UIStackView!
+    @IBOutlet var endDateStackView: UIStackView!
     
     var dataController: DataController!
     
-    /// The pet whose parasiteControl is being displayed/edited
+    /// The pet whose healthcare is being created/edited
     var pet: Pet?
-    
-    /// The parasiteControl either passed by `HealthSectionViewController` or constructed when adding a new parasiteControl
-    var parasiteControl: ParasiteControl?
-    
+    var healthcare: Healthcare?
     var activeTextField = UITextField()
     var selectedObjectName = String()
+    var selectedObjectSectionName = String()
+    let localSubcategoryData = TableSection.localHealthSectionData
     var eventStore = EKEventStore()
     let calendarKey = "MyPetPlanner"
     var event: EKEvent?
-    var eventIdentifier = String()
+    var eventIdentifier: String?
     
     var viewTitle: String {
-        return parasiteControl == nil ? "Add New Parasite Control" : "Edit Parasite Control"
+        return healthcare == nil ? "Add New \(selectedObjectSectionName)" : "Edit \(selectedObjectSectionName)"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
-        reloadParasiteControlAttributes()
+        reloadAttributes()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,9 +79,26 @@ class ParasiteControlViewController: UIViewController {
         calendarLabel.configureTitle()
         expensesLabel.configureTitle()
         saveButton.isEnabled = false
+        
         for textField in textFields {
             textField.delegate = self
         }
+        
+        expensesSwitch.isOn ? showExpenseDateRange(true) : showExpenseDateRange(false)
+        
+        switch selectedObjectSectionName {
+        case "Food":
+            frequencyControl.setTitle("Day", forSegmentAt: 0)
+            frequencyControl.setTitle("Week", forSegmentAt: 1)
+        default:
+            quantityStackView.isHidden = true
+            bagStackView.isHidden = true
+        }
+    }
+    
+    func showExpenseDateRange(_ isVisible: Bool) {
+        startDateStackView.isHidden = !isVisible
+        endDateStackView.isHidden = !isVisible
     }
     
     /// Enable save button if any text field is changed
@@ -86,61 +108,72 @@ class ParasiteControlViewController: UIViewController {
         }
     }
     
-    func reloadParasiteControlAttributes() {
-        parasiteControlImageView.image = UIImage(named: selectedObjectName)
-        parasiteControlSubcategoryLabel.text = selectedObjectName
-        treatmentTextField.text = parasiteControl?.treatment
-        frequencyTextField.text = String(parasiteControl?.frequency ?? 0)
-        frequencyControl.getSegmentedControlSelectedIndex(from: parasiteControl?.frequencyUnit)
-        priceTextField.text = parasiteControl?.expenseAmount?.stringFormat ?? ""
-        expensesDateTextField.text = parasiteControl?.expenseDate?.stringFormat ?? Date().stringFormat
-        startDateTextField.text = parasiteControl?.startDate?.stringFormat ?? Date().stringFormat
-        endDateTextField.text = parasiteControl?.endDate?.stringFormat ?? Date().stringFormat
-        if parasiteControl?.eventIdentifier != nil {
+    func reloadAttributes() {
+        sectionImageView.image = UIImage(named: selectedObjectName)
+        sectionSubcategoryLabel.text = selectedObjectName
+        let subsection = localSubcategoryData.filter {
+            (data: TableRow) -> Bool in
+            data.text == selectedObjectName
+            }.first!
+        sectionLabel.text = subsection.requiredInformation
+        sectionTextField.placeholder = subsection.informationPlaceholder
+        
+        sectionTextField.text = healthcare?.information
+        frequencyTextField.text = String(healthcare?.frequency ?? 0)
+        frequencyControl.getSegmentedControlSelectedIndex(from: healthcare?.frequencyUnit)
+        priceTextField.text = healthcare?.expenseAmount?.stringFormat ?? ""
+        expensesDateTextField.text = healthcare?.expenseDate?.stringFormat ?? Date().stringFormat
+        startDateTextField.text = healthcare?.startDate?.stringFormat ?? Date().stringFormat
+        endDateTextField.text = healthcare?.endDate?.stringFormat ?? Date().stringFormat
+        if healthcare?.eventIdentifier != nil {
             calendarSwitch.isOn = true
         }
-    }
-    
-    func addNewParasiteControl() -> ParasiteControl {
-        let newParasiteControl = ParasiteControl(context: dataController.viewContext)
-        newParasiteControl.pet = pet
-        return newParasiteControl
     }
     
     @objc func handleDatePicker(_ sender: UIDatePicker) {
         activeTextField.text = sender.date.stringFormat
     }
     
-    @IBAction func saveButton(_ sender: UIButton) {
+    func addNewHealthcare() -> Healthcare {
+        let newHealthcare = Healthcare(context: dataController.viewContext)
+        newHealthcare.pet = pet
+        return newHealthcare
+    }
+    
+    @IBAction func saveButton(_ sender: UIBarButtonItem) {
         presentActivityIndicator(true, forButton: sender)
         
-        let parasiteControl: ParasiteControl
-        if let parasiteControlToEdit = self.parasiteControl {
-            parasiteControl = parasiteControlToEdit
+        let healthcare: Healthcare
+        if let healthcareToEdit = self.healthcare {
+            healthcare = healthcareToEdit
         } else {
-            parasiteControl = addNewParasiteControl()
+            healthcare = addNewHealthcare()
         }
         
-        parasiteControl.category = "ParasiteControl"
-        parasiteControl.subcategory = selectedObjectName
-        parasiteControl.treatment = treatmentTextField.text
+        healthcare.category = selectedObjectSectionName
+        healthcare.subcategory = selectedObjectName
+        healthcare.information = sectionTextField.text
         if let frequencyText = frequencyTextField.text {
-            parasiteControl.frequency = Int16(frequencyText)!
+            healthcare.frequency = Int16(frequencyText)!
         }
-        parasiteControl.frequencyUnit = frequencyControl.selectedSegmentTitle
+        healthcare.frequencyUnit = frequencyControl.selectedSegmentTitle
         if let priceText = Double(priceTextField.text ?? "") {
-            parasiteControl.expenseAmount = NSDecimalNumber(value: priceText)
+            healthcare.expenseAmount = NSDecimalNumber(value: priceText)
         }
-        parasiteControl.expenseDate = expensesDateTextField.text?.dateFormat
-        parasiteControl.startDate = startDateTextField.text?.dateFormat
-        parasiteControl.endDate = endDateTextField.text?.dateFormat
+        healthcare.expenseDate = expensesDateTextField.text?.dateFormat
+        healthcare.startDate = startDateTextField.text?.dateFormat
+        healthcare.endDate = endDateTextField.text?.dateFormat
+        healthcare.eventIdentifier = eventIdentifier
         
         try? dataController.viewContext.save()
         
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func cancelButton(_ sender: Any) {
+    @IBAction func cancelButton(_ sender: UIBarButtonItem) {
+        if let eventIdentifier = eventIdentifier {
+            deleteEventFromStore(withIdentifier: eventIdentifier)
+        }
         dismiss(animated: true, completion: nil)
     }
     
@@ -150,9 +183,11 @@ class ParasiteControlViewController: UIViewController {
     
     @IBAction func calculateFutureExpenses(_ sender: UISwitch) {
         if expensesSwitch.isOn {
-            
+            showExpenseDateRange(true)
+
         } else {
-            
+            showExpenseDateRange(false)
+
         }
     }
     
@@ -165,7 +200,7 @@ class ParasiteControlViewController: UIViewController {
     }
     
     func removeEvent() {
-        guard let eventIdentifier = parasiteControl?.eventIdentifier else { return }
+        guard let eventIdentifier = healthcare?.eventIdentifier else { return }
         let removeAlert = AlertInformation(
             title: "Are you sure you want to remove this event?",
             message: "This action cannot be undone",
@@ -174,19 +209,22 @@ class ParasiteControlViewController: UIViewController {
                     self.calendarSwitch.isOn = true
                 }),
                 Action(buttonTitle: "Delete", buttonStyle: .destructive, handler: {
-                    if let event = self.eventStore.event(withIdentifier: eventIdentifier) {
-                        self.parasiteControl?.eventIdentifier = nil
-                        do {
-                            try self.eventStore.remove(event, span: .futureEvents)
-                            try self.dataController.viewContext.save()
-                        } catch {
-                            fatalError("Remove event error")
-                        }
-                    }
+                    self.setEventIdentifier(nil)
+                    self.deleteEventFromStore(withIdentifier: eventIdentifier)
                 })
             ]
         )
         presentAlertDialog(with: removeAlert)
+    }
+    
+    func deleteEventFromStore(withIdentifier identifier: String) {
+        if let event = self.eventStore.event(withIdentifier: identifier) {
+            do {
+                try self.eventStore.remove(event, span: .futureEvents)
+            } catch {
+                fatalError("Delete event error")
+            }
+        }
     }
     
     func createEvent() {
@@ -195,16 +233,14 @@ class ParasiteControlViewController: UIViewController {
         eventViewController.eventStore = eventStore
         event = EKEvent(eventStore: eventStore)
         event?.calendar = EKCalendar.loadCalendar(type: .event, from: eventStore, with: calendarKey)
-        event?.title = parasiteControlSubcategoryLabel.text
-        event?.startDate = parasiteControl?.startDate
-        event?.endDate = parasiteControl?.endDate
-        event?.notes = "Give \(pet?.name ?? "#")'s \(parasiteControlSubcategoryLabel.text ?? "#") Parasite Control"
+        event?.title = sectionSubcategoryLabel.text
+        event?.notes = "\(pet?.name ?? "#")'s \(selectedObjectSectionName): \(sectionSubcategoryLabel.text ?? "#")"
         eventViewController.event = event
         present(eventViewController, animated: true, completion: nil)
     }
     
-    func setEventIdentifier(_ identifier: String) {
-        parasiteControl?.eventIdentifier = identifier
+    func setEventIdentifier(_ identifier: String?) {
+        healthcare?.eventIdentifier = identifier
         try? dataController.viewContext.save()
     }
 }
@@ -212,7 +248,7 @@ class ParasiteControlViewController: UIViewController {
 // -----------------------------------------------------------------------------
 // MARK: - EventStoreAuthorization
 
-extension ParasiteControlViewController: CalendarAuthorization {
+extension HealthcareViewController: CalendarAuthorization {
     func accessGranted() {
         createEvent()
     }
@@ -221,7 +257,7 @@ extension ParasiteControlViewController: CalendarAuthorization {
 // -----------------------------------------------------------------------------
 // MARK: - EKEventEditViewDelegate
 
-extension ParasiteControlViewController: EKEventEditViewDelegate {
+extension HealthcareViewController: EKEventEditViewDelegate {
     func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         switch action {
         case .canceled:
@@ -230,7 +266,7 @@ extension ParasiteControlViewController: EKEventEditViewDelegate {
             })
         case .saved:
             controller.dismiss(animated: true, completion: {
-                self.setEventIdentifier(controller.event?.eventIdentifier ?? "")
+                self.eventIdentifier = controller.event?.eventIdentifier
             })
         default:
             fatalError("Invalid action")
@@ -241,22 +277,22 @@ extension ParasiteControlViewController: EKEventEditViewDelegate {
 // -----------------------------------------------------------------------------
 // MARK: - KeyboardNotifications
 
-extension ParasiteControlViewController: KeyboardNotifications { }
+extension HealthcareViewController: KeyboardNotifications { }
 
 // -----------------------------------------------------------------------------
 // MARK: - SaveActivityIndicator
 
-extension ParasiteControlViewController: SaveActivityIndicator { }
+extension HealthcareViewController: SaveActivityIndicator { }
 
 // -----------------------------------------------------------------------------
 // MARK: - UITextFieldDelegate
 
-extension ParasiteControlViewController: UITextFieldDelegate {
+extension HealthcareViewController: UITextFieldDelegate {
     
     /// Make the next textField the first responder when the user taps the return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
-        case treatmentTextField:
+        case sectionTextField:
             frequencyTextField.becomeFirstResponder()
         case frequencyTextField:
             priceTextField.becomeFirstResponder()
@@ -276,13 +312,13 @@ extension ParasiteControlViewController: UITextFieldDelegate {
         switch textField {
         case expensesDateTextField:
             activeTextField = expensesDateTextField
-            expensesDateTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: parasiteControl?.startDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            expensesDateTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: healthcare?.startDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
         case startDateTextField:
             activeTextField = startDateTextField
-            startDateTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: parasiteControl?.startDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            startDateTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: healthcare?.startDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
         case endDateTextField:
             activeTextField = endDateTextField
-            endDateTextField.inputView = .customizedDatePickerView(setMinimumDate: parasiteControl?.startDate, setDate: parasiteControl?.endDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            endDateTextField.inputView = .customizedDatePickerView(setMinimumDate: healthcare?.startDate, setDate: healthcare?.endDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
         case frequencyTextField, priceTextField:
             activeTextField = textField
             textField.text = ""
@@ -315,3 +351,4 @@ extension ParasiteControlViewController: UITextFieldDelegate {
         return true
     }
 }
+

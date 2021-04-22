@@ -133,7 +133,7 @@ class PetViewController: UIViewController {
         presentActionSheetDialog(with: imagePickerActions)
     }
     
-    @IBAction func saveButton(_ sender: UIButton) {
+    @IBAction func saveButton(_ sender: UIBarButtonItem) {
         presentActivityIndicator(true, forButton: sender)
         
         let pet: Pet

@@ -14,131 +14,82 @@ class HealthSectionViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var dataController: DataController!
+    var fetchedResultsController: NSFetchedResultsController<NSManagedObject>!
     
     /// The pet whose health section is being displayed
     var pet: Pet?
-    
-    /// The health object whose section is being displayed
     var selectedObjectName = String()
-    
     var selectedObjectSectionName = String()
-    
-    var keyPath = String()
-    
-    var sectionNameKeyPath = String()
-    
     var selectedIndexPath = IndexPath()
-    
-    lazy var fetchedResultsController: NSFetchedResultsController<NSManagedObject> = {
-        switch selectedObjectSectionName {
-        case "Food":
-            let frc: NSFetchedResultsController<Food> = setupFetchedResultsController(keyPath, sectionNameKeyPath)!
-            return frc as! NSFetchedResultsController<NSManagedObject>
-        case "Grooming":
-            let frc: NSFetchedResultsController<Grooming> = setupFetchedResultsController(keyPath, sectionNameKeyPath)!
-            return frc as! NSFetchedResultsController<NSManagedObject>
-        case "Parasite Control":
-            let frc: NSFetchedResultsController<ParasiteControl> = setupFetchedResultsController(keyPath, sectionNameKeyPath)!
-            return frc as! NSFetchedResultsController<NSManagedObject>
-        default:
-            return fatalError() as! NSFetchedResultsController<NSManagedObject>
-        }
-    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initializeView()
+        setupFetchedResultsController("Healthcare")
+        initView()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupFetchedResultsController("Healthcare")
+        tableView.reloadData()
+    }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        fetchedResultsController = nil
         self.navigationController?.popViewController(animated: false)
     }
     
-    fileprivate func initializeView() {
+    func initView() {
         tableView.tableFooterView = UIView()
         navigationItem.title = selectedObjectName
         setupRightBarButton()
     }
     
     fileprivate func setupRightBarButton() {
-        let addObjectButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addObjectButton(_:)))
-        navigationItem.rightBarButtonItem = addObjectButton
+        let addHealthcareButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addHealthcareButton(_:)))
+        navigationItem.rightBarButtonItem = addHealthcareButton
     }
 
-    /// Generic FetchedResultsController builder
-    func setupFetchedResultsController<T: NSManagedObject>(_ keyPath: String, _ sectionNameKeyPath: String) -> NSFetchedResultsController<T>? {
-        let fetchRequest = T.fetchRequest() as! NSFetchRequest<T>
-        let predicate = NSPredicate(format: "pet == %@", pet ?? "")
-        fetchRequest.predicate = predicate
-        let sortDescriptor = NSSortDescriptor(key: keyPath, ascending: true)
+    func setupFetchedResultsController(_ entity: String) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+        let petPredicate = NSPredicate(format: "pet == %@", pet ?? "")
+        let subcategoryPredicate = NSPredicate(format: "subcategory == %@", selectedObjectName)
+        fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [petPredicate, subcategoryPredicate])
+        let sortDescriptor = NSSortDescriptor(key: "subcategory", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        let fetchedResultsController = NSFetchedResultsController<T>(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: sectionNameKeyPath, cacheName: nil)
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil) as? NSFetchedResultsController<NSManagedObject>
         
         do {
             try fetchedResultsController.performFetch()
         } catch {
             fatalError("The fetch could not be performed: \(error.localizedDescription)")
         }
-        return fetchedResultsController
     }
     
-    @objc func addObjectButton(_ sender: UIBarButtonItem) {
-        switch selectedObjectSectionName {
-        case "Food":
-            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.createNewFood, sender: nil)
-        case "Grooming":
-            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.createNewGrooming, sender: nil)
-        case "Parasite Control":
-            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.createNewParasiteControl, sender: nil)
-        default:
-            fatalError("Unindentified Segue")
-        }
+    @objc func addHealthcareButton(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.createNewHealthcare, sender: nil)
     }
     
-    /// Delete a section object at the specified index path
-    func deleteSectionObject(at indexPath: IndexPath) {
-        let sectionObjectToDelete = fetchedResultsController.object(at: indexPath)
-        dataController.viewContext.delete(sectionObjectToDelete)
+    /// Delete an object at the specified index path
+    func deleteObject(at indexPath: IndexPath) {
+        let objectToDelete = fetchedResultsController.object(at: indexPath)
+        dataController.viewContext.delete(objectToDelete)
         try? dataController.viewContext.save()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let vc = segue.destination as! HealthcareViewController
+        vc.selectedObjectSectionName = selectedObjectSectionName
+        vc.selectedObjectName = selectedObjectName
+        vc.pet = pet
+        vc.dataController = dataController
+        
         switch segue.identifier {
-        case UIStoryboardSegue.Identifiers.createNewFood:
-            let vc = segue.destination as! FoodViewController
-            vc.selectedObjectName = selectedObjectName
-            vc.pet = pet
-            vc.dataController = dataController
-        case UIStoryboardSegue.Identifiers.editFood:
-            let vc = segue.destination as! FoodViewController
-            vc.selectedObjectName = selectedObjectName
-            vc.pet = pet
-            vc.food = fetchedResultsController.object(at: selectedIndexPath) as? Food
-            vc.dataController = dataController
-        case UIStoryboardSegue.Identifiers.createNewGrooming:
-            let vc = segue.destination as! GroomingViewController
-            vc.selectedObjectName = selectedObjectName
-            vc.pet = pet
-            vc.dataController = dataController
-        case UIStoryboardSegue.Identifiers.editGrooming:
-            let vc = segue.destination as! GroomingViewController
-            vc.selectedObjectName = selectedObjectName
-            vc.pet = pet
-            vc.grooming = fetchedResultsController.object(at: selectedIndexPath) as? Grooming
-            vc.dataController = dataController
-        case UIStoryboardSegue.Identifiers.createNewParasiteControl:
-            let vc = segue.destination as! ParasiteControlViewController
-            vc.selectedObjectName = selectedObjectName
-            vc.pet = pet
-            vc.dataController = dataController
-        case UIStoryboardSegue.Identifiers.editParasiteControl:
-            let vc = segue.destination as! ParasiteControlViewController
-            vc.selectedObjectName = selectedObjectName
-            vc.pet = pet
-            vc.parasiteControl = fetchedResultsController.object(at: selectedIndexPath) as? ParasiteControl
-            vc.dataController = dataController
+        case UIStoryboardSegue.Identifiers.createNewHealthcare:
+            vc.healthcare = nil
+        case UIStoryboardSegue.Identifiers.editHealthcare:
+            vc.healthcare = fetchedResultsController.object(at: selectedIndexPath) as? Healthcare
         default:
             fatalError("Unindentified Segue")
         }
@@ -151,20 +102,11 @@ class HealthSectionViewController: UIViewController {
 extension HealthSectionViewController: TrailingSwipeActions {
     func setEditAction(at indexPath: IndexPath) {
         selectedIndexPath = indexPath
-        switch selectedObjectSectionName {
-        case "Food":
-            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editFood, sender: nil)
-        case "Grooming":
-            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editGrooming, sender: nil)
-        case "Parasite Control":
-            performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editParasiteControl, sender: nil)
-        default:
-            fatalError("Unidentified Segue")
-        }
+        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editHealthcare, sender: nil)
     }
     
     func setDeleteAction(at indexPath: IndexPath) {
-        deleteSectionObject(at: indexPath)
+        deleteObject(at: indexPath)
     }
 }
 
@@ -192,40 +134,18 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
         let reuseIdentifier = "HealthSectionCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! HealthSectionCell
         
+        let aHealthcare = fetchedResultsController.object(at: indexPath) as! Healthcare
+
         // Configure the cell
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
-
-        switch selectedObjectSectionName {
-        case "Food":
-            let frc = fetchedResultsController as! NSFetchedResultsController<Food>
-            let aFood = frc.object(at: indexPath)
-            cell.sectionNameLabel?.text = aFood.subcategory
-            cell.sectionInfoLabel?.text = aFood.brand
-            cell.startDateLabel.text = aFood.startDate!.stringFormat
-            cell.endDateLabel.text = aFood.endDate!.stringFormat
-        case "Grooming":
-            let frc = fetchedResultsController as! NSFetchedResultsController<Grooming>
-            let aGrooming = frc.object(at: indexPath)
-            cell.sectionNameLabel?.text = aGrooming.subcategory
-            cell.sectionInfoLabel?.text = aGrooming.groomerInfo
-            cell.startDateLabel.text = aGrooming.startDate!.stringFormat
-            cell.endDateLabel.text = aGrooming.endDate!.stringFormat
-        case "Parasite Control":
-            let frc = fetchedResultsController as! NSFetchedResultsController<ParasiteControl>
-            let aParasiteControl = frc.object(at: indexPath)
-            cell.sectionNameLabel?.text = aParasiteControl.subcategory
-            cell.sectionInfoLabel?.text = aParasiteControl.treatment
-            cell.startDateLabel.text = aParasiteControl.startDate!.stringFormat
-            cell.endDateLabel.text = aParasiteControl.endDate!.stringFormat
-        default:
-          fatalError("Unidentified Section")
-        }
-        
+        cell.sectionNameLabel?.text = aHealthcare.subcategory
+        cell.sectionInfoLabel?.text = aHealthcare.information
+        cell.startDateLabel.text = aHealthcare.startDate!.stringFormat
+        cell.endDateLabel.text = aHealthcare.endDate!.stringFormat
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         let sectionImage = UIImage(named: cell.sectionNameLabel.text!)
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
         cell.photoImageView.image = templateImage
-        
         return cell
     }
     

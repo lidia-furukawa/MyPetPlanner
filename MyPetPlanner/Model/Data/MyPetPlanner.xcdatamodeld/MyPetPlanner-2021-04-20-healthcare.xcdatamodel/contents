@@ -1,34 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="14492.1" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Food" representedClassName="Food" parentEntity="Healthcare" syncable="YES" codeGenerationType="class">
-        <attribute name="bagWeight" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="bagWeightUnit" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="brand" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="meals" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="photo" optional="YES" attributeType="Binary" syncable="YES"/>
-        <attribute name="quantity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="quantityPerMealOrDay" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="quantityUnit" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
-    <entity name="Grooming" representedClassName="Grooming" parentEntity="Healthcare" syncable="YES" codeGenerationType="class">
-        <attribute name="frequency" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="frequencyUnit" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="groomerInfo" optional="YES" attributeType="String" syncable="YES"/>
-    </entity>
     <entity name="Healthcare" representedClassName="Healthcare" syncable="YES" codeGenerationType="class">
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="eventIdentifier" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="expenseAmount" optional="YES" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="expenseDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="frequency" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="frequencyUnit" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="information" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="subcategory" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="pet" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pet" inverseName="healthcare" inverseEntity="Pet" syncable="YES"/>
-    </entity>
-    <entity name="ParasiteControl" representedClassName="ParasiteControl" parentEntity="Healthcare" syncable="YES" codeGenerationType="class">
-        <attribute name="frequency" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="frequencyUnit" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="treatment" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Pet" representedClassName="Pet" syncable="YES" codeGenerationType="class">
         <attribute name="birthday" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
@@ -44,10 +27,7 @@
         <relationship name="healthcare" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Healthcare" inverseName="pet" inverseEntity="Healthcare" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Healthcare" positionX="-123.69140625" positionY="2190.6015625" width="128" height="163"/>
-        <element name="Food" positionX="-228.78125" positionY="2396.78125" width="128" height="163"/>
-        <element name="Grooming" positionX="-88.875" positionY="2397.734375" width="128" height="88"/>
+        <element name="Healthcare" positionX="-142.61328125" positionY="2145.88671875" width="128" height="208"/>
         <element name="Pet" positionX="-337.2734375" positionY="2145.53125" width="128" height="208"/>
-        <element name="ParasiteControl" positionX="48.94140625" positionY="2396.78515625" width="128" height="88"/>
     </elements>
 </model>

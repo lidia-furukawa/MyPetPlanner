@@ -12,4 +12,6 @@ struct TableRow {
     var sectionHeader: String
     var text: String
     var image: String
+    var requiredInformation: String
+    var informationPlaceholder: String
 }

@@ -36,17 +36,17 @@ extension TableSection {
     }
 
     static var localHealthSectionData: [TableRow] = [
-        TableRow(sectionHeader: "Food", text: "Kibble or Dry Food", image: "Kibble or Dry Food"),
-        TableRow(sectionHeader: "Food", text: "Fresh or Raw Food", image: "Fresh or Raw Food"),
-        TableRow(sectionHeader: "Grooming", text: "Bathing", image: "Bathing"),
-        TableRow(sectionHeader: "Grooming", text: "Fur", image: "Fur"),
-        TableRow(sectionHeader: "Grooming", text: "Teeth", image: "Teeth"),
-        TableRow(sectionHeader: "Grooming", text: "Nails", image: "Nails"),
-        TableRow(sectionHeader: "Grooming", text: "Ears", image: "Ears"),
-        TableRow(sectionHeader: "Parasite Control", text: "Internal", image: "Internal"),
-        TableRow(sectionHeader: "Parasite Control", text: "External", image: "External"),
-        TableRow(sectionHeader: "Veterinary Care", text: "Appointment", image: "Appointment"),
-        TableRow(sectionHeader: "Veterinary Care", text: "Vaccine", image: "Vaccine"),
-        TableRow(sectionHeader: "Veterinary Care", text: "Medication", image: "Medication")
+        TableRow(sectionHeader: "Food", text: "Kibble or Dry Food", image: "Kibble or Dry Food", requiredInformation: "Brand:", informationPlaceholder: "Brand's Name"),
+        TableRow(sectionHeader: "Food", text: "Fresh or Raw Food", image: "Fresh or Raw Food", requiredInformation: "Brand:", informationPlaceholder: "Brand's Name"),
+        TableRow(sectionHeader: "Grooming", text: "Bathing", image: "Bathing", requiredInformation: "Groomer:", informationPlaceholder: "Groomer's Name/Place"),
+        TableRow(sectionHeader: "Grooming", text: "Fur", image: "Fur", requiredInformation: "Groomer:", informationPlaceholder: "Groomer's Name/Place"),
+        TableRow(sectionHeader: "Grooming", text: "Teeth", image: "Teeth", requiredInformation: "Groomer:", informationPlaceholder: "Groomer's Name/Place"),
+        TableRow(sectionHeader: "Grooming", text: "Nails", image: "Nails", requiredInformation: "Groomer:", informationPlaceholder: "Groomer's Name/Place"),
+        TableRow(sectionHeader: "Grooming", text: "Ears", image: "Ears", requiredInformation: "Groomer:", informationPlaceholder: "Groomer's Name/Place"),
+        TableRow(sectionHeader: "Parasite Control", text: "Internal", image: "Internal", requiredInformation: "Treatment:", informationPlaceholder: "e.g. Heartworm Prevention"),
+        TableRow(sectionHeader: "Parasite Control", text: "External", image: "External", requiredInformation: "Treatment:", informationPlaceholder: "e.g. Flea-Tick Spray"),
+        TableRow(sectionHeader: "Veterinary Care", text: "Appointment", image: "Appointment", requiredInformation: "Reason:", informationPlaceholder: "e.g. Routine Checkup"),
+        TableRow(sectionHeader: "Veterinary Care", text: "Vaccine", image: "Vaccine", requiredInformation: "Name/Type:", informationPlaceholder: "e.g. Rabies"),
+        TableRow(sectionHeader: "Veterinary Care", text: "Medication", image: "Medication", requiredInformation: "Name/Type:", informationPlaceholder: "e.g. Anti-Inflammatory")
     ]
 }

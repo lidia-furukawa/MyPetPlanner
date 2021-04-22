@@ -8,11 +8,11 @@
 import UIKit
 
 protocol SaveActivityIndicator {
-    func presentActivityIndicator(_ isSaving: Bool, forButton button: UIButton)
+    func presentActivityIndicator(_ isSaving: Bool, forButton button: UIBarButtonItem)
 }
 
 extension SaveActivityIndicator where Self: UIViewController {
-    func presentActivityIndicator(_ isSaving: Bool, forButton button: UIButton) {
+    func presentActivityIndicator(_ isSaving: Bool, forButton button: UIBarButtonItem) {
         let savingView = UIView()
         savingView.frame = view.bounds
         savingView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
