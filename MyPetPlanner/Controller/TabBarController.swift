@@ -15,7 +15,7 @@ class TabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.delegate = self
         setupChildViewControllers()
     }
     
@@ -45,6 +45,15 @@ class TabBarController: UITabBarController {
             default:
                 break
             }
+        }
+    }
+}
+
+extension TabBarController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController,
+                          didSelect viewController: UIViewController) {
+        if let vc = viewController as? UINavigationController {
+            vc.popViewController(animated: false)
         }
     }
 }
