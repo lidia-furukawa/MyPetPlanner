@@ -10,9 +10,24 @@ import Foundation
 
 extension String {
     
-    var dateFormat: Date? {
+    var dateFormat: Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM-dd-yyyy"
-        return dateFormatter.date(from: self)
+        return dateFormatter.date(from: self)!
+    }
+    
+    var calendarComponentFormat: Calendar.Component {
+        switch self {
+        case "Day":
+            return .day
+        case "Week":
+            return .weekOfMonth
+        case "Month":
+            return .month
+        case "Year":
+            return .year
+        default:
+            fatalError("Unidentified Date Component")
+        }
     }
 }

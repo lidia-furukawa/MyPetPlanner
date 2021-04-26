@@ -14,7 +14,7 @@ class HealthSectionViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var dataController: DataController!
-    var fetchedResultsController: NSFetchedResultsController<NSManagedObject>!
+    var fetchedResultsController: NSFetchedResultsController<Healthcare>!
     
     /// The pet whose health section is being displayed
     var pet: Pet?
@@ -24,19 +24,19 @@ class HealthSectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupFetchedResultsController("Healthcare")
+        setupFetchedResultsController()
         initView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupFetchedResultsController("Healthcare")
+        setupFetchedResultsController()
         tableView.reloadData()
     }
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         fetchedResultsController = nil
-        self.navigationController?.popViewController(animated: false)
     }
     
     func initView() {
@@ -50,15 +50,15 @@ class HealthSectionViewController: UIViewController {
         navigationItem.rightBarButtonItem = addHealthcareButton
     }
 
-    func setupFetchedResultsController(_ entity: String) {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+    func setupFetchedResultsController() {
+        let fetchRequest: NSFetchRequest<Healthcare> = Healthcare.fetchRequest()
         let petPredicate = NSPredicate(format: "pet == %@", pet ?? "")
         let subcategoryPredicate = NSPredicate(format: "subcategory == %@", selectedObjectName)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [petPredicate, subcategoryPredicate])
         let sortDescriptor = NSSortDescriptor(key: "subcategory", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil) as? NSFetchedResultsController<NSManagedObject>
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
         do {
             try fetchedResultsController.performFetch()
@@ -89,7 +89,7 @@ class HealthSectionViewController: UIViewController {
         case UIStoryboardSegue.Identifiers.createNewHealthcare:
             vc.healthcare = nil
         case UIStoryboardSegue.Identifiers.editHealthcare:
-            vc.healthcare = fetchedResultsController.object(at: selectedIndexPath) as? Healthcare
+            vc.healthcare = fetchedResultsController.object(at: selectedIndexPath)
         default:
             fatalError("Unindentified Segue")
         }
@@ -134,7 +134,7 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
         let reuseIdentifier = "HealthSectionCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! HealthSectionCell
         
-        let aHealthcare = fetchedResultsController.object(at: indexPath) as! Healthcare
+        let aHealthcare = fetchedResultsController.object(at: indexPath)
 
         // Configure the cell
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)

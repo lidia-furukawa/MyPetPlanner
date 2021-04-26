@@ -16,11 +16,12 @@ extension UISegmentedControl {
     }
     
     func getSegmentedControlSelectedIndex(from attribute: String?) {
-        switch attribute {
-        case self.titleForSegment(at: 0):
-            self.selectedSegmentIndex = 0
-        default:
-            self.selectedSegmentIndex = 1
+        var i = 0
+        while i < self.numberOfSegments {
+            if attribute == self.titleForSegment(at: i) {
+                self.selectedSegmentIndex = i
+            }
+            i += 1
         }
     }
 }

@@ -24,6 +24,9 @@
 		02AB321F261F5E3000E3BF8F /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AB321E261F5E3000E3BF8F /* TabBarController.swift */; };
 		02AB3221261F7A3A00E3BF8F /* Notification.Name+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AB3220261F7A3A00E3BF8F /* Notification.Name+Extension.swift */; };
 		02AB3223261F829500E3BF8F /* PetNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AB3222261F829500E3BF8F /* PetNotification.swift */; };
+		02C7BC3226333B900060D739 /* DateComponents+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C7BC3126333B900060D739 /* DateComponents+Extension.swift */; };
+		02C7BC34263349B00060D739 /* Expense+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C7BC33263349B00060D739 /* Expense+Extensions.swift */; };
+		02C7BC362637058F0060D739 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C7BC352637058F0060D739 /* Calendar+Extension.swift */; };
 		02D30DB125F27AAA007589BE /* CatAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB025F27AAA007589BE /* CatAPIClient.swift */; };
 		02D30DB325F27B5A007589BE /* CatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB225F27B5A007589BE /* CatResponse.swift */; };
 		02D30DB725F6EB4A007589BE /* PetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB625F6EB4A007589BE /* PetCell.swift */; };
@@ -97,6 +100,10 @@
 		02AB321E261F5E3000E3BF8F /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		02AB3220261F7A3A00E3BF8F /* Notification.Name+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Extension.swift"; sourceTree = "<group>"; };
 		02AB3222261F829500E3BF8F /* PetNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetNotification.swift; sourceTree = "<group>"; };
+		02C7BC30263234FC0060D739 /* MyPetPlanner-2021-04-22-expenses.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MyPetPlanner-2021-04-22-expenses.xcdatamodel"; sourceTree = "<group>"; };
+		02C7BC3126333B900060D739 /* DateComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateComponents+Extension.swift"; sourceTree = "<group>"; };
+		02C7BC33263349B00060D739 /* Expense+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expense+Extensions.swift"; sourceTree = "<group>"; };
+		02C7BC352637058F0060D739 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		02D30DB025F27AAA007589BE /* CatAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAPIClient.swift; sourceTree = "<group>"; };
 		02D30DB225F27B5A007589BE /* CatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatResponse.swift; sourceTree = "<group>"; };
 		02D30DB625F6EB4A007589BE /* PetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCell.swift; sourceTree = "<group>"; };
@@ -179,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				0263B28625F821B2008E120C /* Healthcare+Extensions.swift */,
+				02C7BC33263349B00060D739 /* Expense+Extensions.swift */,
 			);
 			path = "Managed Object Extensions";
 			sourceTree = "<group>";
@@ -313,6 +321,8 @@
 				02AB3220261F7A3A00E3BF8F /* Notification.Name+Extension.swift */,
 				02F66F3F2612557200B99D6A /* EKCalendar+Extension.swift */,
 				02F66F5D261B8D9700B99D6A /* Date+Extension.swift */,
+				02C7BC352637058F0060D739 /* Calendar+Extension.swift */,
+				02C7BC3126333B900060D739 /* DateComponents+Extension.swift */,
 				02F66F5F261BA60F00B99D6A /* String+Extension.swift */,
 				02F66F5B261B5B4C00B99D6A /* NSDecimalNumber+Extension.swift */,
 			);
@@ -620,9 +630,11 @@
 				0277384025EED78800510FF4 /* ExpensesViewController.swift in Sources */,
 				02F66F37260E547600B99D6A /* KeyboardNotifications.swift in Sources */,
 				0277384425F0002200510FF4 /* BreedsListResponse.swift in Sources */,
+				02C7BC3226333B900060D739 /* DateComponents+Extension.swift in Sources */,
 				02F66F27260BA23A00B99D6A /* UIViewController+Extension.swift in Sources */,
 				02F66F5E261B8D9700B99D6A /* Date+Extension.swift in Sources */,
 				025BD4B1262F8F4B00054826 /* HealthcareViewController.swift in Sources */,
+				02C7BC34263349B00060D739 /* Expense+Extensions.swift in Sources */,
 				02AB3223261F829500E3BF8F /* PetNotification.swift in Sources */,
 				02DD19DE25D6F8DE00236A74 /* MyPetsViewController.swift in Sources */,
 				0277384225EFFF5200510FF4 /* DogAPIClient.swift in Sources */,
@@ -644,6 +656,7 @@
 				02D30DB725F6EB4A007589BE /* PetCell.swift in Sources */,
 				02F66F522615037C00B99D6A /* UIStoryboardSegue+Extension.swift in Sources */,
 				020F5B8426211896001B1268 /* ExpensesCell.swift in Sources */,
+				02C7BC362637058F0060D739 /* Calendar+Extension.swift in Sources */,
 				02F66F3D261132EB00B99D6A /* TableRow.swift in Sources */,
 				02D30DB125F27AAA007589BE /* CatAPIClient.swift in Sources */,
 				02F66F4D2614EF1D00B99D6A /* Alert.swift in Sources */,
@@ -981,11 +994,12 @@
 		02DD19E225D6F8DE00236A74 /* MyPetPlanner.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				02C7BC30263234FC0060D739 /* MyPetPlanner-2021-04-22-expenses.xcdatamodel */,
 				025BD4AD262F407900054826 /* MyPetPlanner-2021-04-20-healthcare.xcdatamodel */,
 				02F66F63261E41F100B99D6A /* MyPetPlanner-2021-04-07-inheritance.xcdatamodel */,
 				02DD19E325D6F8DE00236A74 /* MyPetPlanner.xcdatamodel */,
 			);
-			currentVersion = 025BD4AD262F407900054826 /* MyPetPlanner-2021-04-20-healthcare.xcdatamodel */;
+			currentVersion = 02C7BC30263234FC0060D739 /* MyPetPlanner-2021-04-22-expenses.xcdatamodel */;
 			path = MyPetPlanner.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

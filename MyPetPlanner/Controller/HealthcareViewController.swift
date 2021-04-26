@@ -25,7 +25,7 @@ class HealthcareViewController: UIViewController {
     @IBOutlet var frequencyStepper: UIStepper!
     @IBOutlet var frequencyControl: UISegmentedControl!
     @IBOutlet var expensesLabel: UILabel!
-    @IBOutlet var priceTextField: UITextField!
+    @IBOutlet var costTextField: UITextField!
     @IBOutlet var expensesDateTextField: UITextField!
     @IBOutlet var expensesSwitch: UISwitch!
     @IBOutlet var calendarLabel: UILabel!
@@ -52,13 +52,17 @@ class HealthcareViewController: UIViewController {
     let calendarKey = "MyPetPlanner"
     var event: EKEvent?
     var eventIdentifier: String?
-    
+    var savedExpenses = Bool()
+
     var viewTitle: String {
         return healthcare == nil ? "Add New \(selectedObjectSectionName)" : "Edit \(selectedObjectSectionName)"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        Expense.fetchAllExpenses(for: healthcare, context: dataController.viewContext) { expenses in
+            self.savedExpenses = !expenses.isEmpty
+        }
         initView()
         reloadAttributes()
     }
@@ -83,22 +87,19 @@ class HealthcareViewController: UIViewController {
         for textField in textFields {
             textField.delegate = self
         }
-        
-        expensesSwitch.isOn ? showExpenseDateRange(true) : showExpenseDateRange(false)
-        
-        switch selectedObjectSectionName {
-        case "Food":
-            frequencyControl.setTitle("Day", forSegmentAt: 0)
-            frequencyControl.setTitle("Week", forSegmentAt: 1)
-        default:
-            quantityStackView.isHidden = true
-            bagStackView.isHidden = true
-        }
+        selectedObjectSectionName == "Food" ? showFoodSpecificFields(true) : showFoodSpecificFields(false)
+        expensesSwitch.isOn = savedExpenses
+        showExpensesDatesFields(savedExpenses)
     }
     
-    func showExpenseDateRange(_ isVisible: Bool) {
+    func showExpensesDatesFields(_ isVisible: Bool) {
         startDateStackView.isHidden = !isVisible
         endDateStackView.isHidden = !isVisible
+    }
+    
+    func showFoodSpecificFields(_ isVisible: Bool) {
+        quantityStackView.isHidden  = !isVisible
+        bagStackView.isHidden = !isVisible
     }
     
     /// Enable save button if any text field is changed
@@ -117,11 +118,10 @@ class HealthcareViewController: UIViewController {
             }.first!
         sectionLabel.text = subsection.requiredInformation
         sectionTextField.placeholder = subsection.informationPlaceholder
-        
         sectionTextField.text = healthcare?.information
-        frequencyTextField.text = String(healthcare?.frequency ?? 0)
+        frequencyTextField.text = String(healthcare?.frequency ?? 1)
         frequencyControl.getSegmentedControlSelectedIndex(from: healthcare?.frequencyUnit)
-        priceTextField.text = healthcare?.expenseAmount?.stringFormat ?? ""
+        costTextField.text = healthcare?.expenseAmount?.stringFormat ?? ""
         expensesDateTextField.text = healthcare?.expenseDate?.stringFormat ?? Date().stringFormat
         startDateTextField.text = healthcare?.startDate?.stringFormat ?? Date().stringFormat
         endDateTextField.text = healthcare?.endDate?.stringFormat ?? Date().stringFormat
@@ -140,6 +140,40 @@ class HealthcareViewController: UIViewController {
         return newHealthcare
     }
     
+    func addNewExpense(to healthcare: Healthcare, date: Date) {
+        let expense = Expense(context: dataController.viewContext)
+        expense.pet = pet
+        expense.healthcare = healthcare
+        expense.category = selectedObjectSectionName
+        expense.subcategory = selectedObjectName
+        if let costText = Double(costTextField.text ?? "") {
+            expense.amount = NSDecimalNumber(value: costText)
+        }
+        expense.date = date
+    }
+    
+    func deleteExpenses() {
+        guard let healthcare = healthcare else { return }
+        Expense.deleteAllExpenses(for: healthcare, context: dataController.viewContext)
+    }
+    
+    func removeExpenses() {
+        let removeExpenses = AlertInformation(
+            title: "Are you sure you want to remove all the calculated expenses?",
+            message: "This action cannot be undone",
+            actions: [
+                Action(buttonTitle: "Cancel", buttonStyle: .cancel, handler: {
+                    self.expensesSwitch.isOn = true
+                }),
+                Action(buttonTitle: "Delete", buttonStyle: .destructive, handler: {
+                    self.showExpensesDatesFields(false)
+                    self.deleteExpenses()
+                })
+            ]
+        )
+        presentAlertDialog(with: removeExpenses)
+    }
+    
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
         presentActivityIndicator(true, forButton: sender)
         
@@ -156,17 +190,31 @@ class HealthcareViewController: UIViewController {
         if let frequencyText = frequencyTextField.text {
             healthcare.frequency = Int16(frequencyText)!
         }
-        healthcare.frequencyUnit = frequencyControl.selectedSegmentTitle
-        if let priceText = Double(priceTextField.text ?? "") {
+        let frequencyUnit = frequencyControl.selectedSegmentTitle!
+        healthcare.frequencyUnit = frequencyUnit
+        if let priceText = Double(costTextField.text ?? "") {
             healthcare.expenseAmount = NSDecimalNumber(value: priceText)
         }
         healthcare.expenseDate = expensesDateTextField.text?.dateFormat
-        healthcare.startDate = startDateTextField.text?.dateFormat
-        healthcare.endDate = endDateTextField.text?.dateFormat
+        let startDate = startDateTextField.text!.dateFormat
+        healthcare.startDate = startDate
+        let endDate = endDateTextField.text!.dateFormat
+        healthcare.endDate = endDate
         healthcare.eventIdentifier = eventIdentifier
+
+        if !savedExpenses {
+            let numberOfExpenses = Calendar.current.countNumberOfComponents(between: startDate, and: endDate, in: frequencyUnit)
+            print("number of expenses: \(numberOfExpenses)")
+            
+            var i = 0
+            while i < numberOfExpenses {
+                let expenseDate = startDate.calculateNextDate(after: i, unit: frequencyUnit)
+                addNewExpense(to: healthcare, date: expenseDate)
+                i += 1
+            }
+        }
         
         try? dataController.viewContext.save()
-        
         dismiss(animated: true, completion: nil)
     }
     
@@ -183,11 +231,9 @@ class HealthcareViewController: UIViewController {
     
     @IBAction func calculateFutureExpenses(_ sender: UISwitch) {
         if expensesSwitch.isOn {
-            showExpenseDateRange(true)
-
+            showExpensesDatesFields(true)
         } else {
-            showExpenseDateRange(false)
-
+            removeExpenses()
         }
     }
     
@@ -295,8 +341,8 @@ extension HealthcareViewController: UITextFieldDelegate {
         case sectionTextField:
             frequencyTextField.becomeFirstResponder()
         case frequencyTextField:
-            priceTextField.becomeFirstResponder()
-        case priceTextField:
+            costTextField.becomeFirstResponder()
+        case costTextField:
             expensesDateTextField.becomeFirstResponder()
         case expensesDateTextField:
             startDateTextField.becomeFirstResponder()
@@ -319,7 +365,7 @@ extension HealthcareViewController: UITextFieldDelegate {
         case endDateTextField:
             activeTextField = endDateTextField
             endDateTextField.inputView = .customizedDatePickerView(setMinimumDate: healthcare?.startDate, setDate: healthcare?.endDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
-        case frequencyTextField, priceTextField:
+        case frequencyTextField, costTextField:
             activeTextField = textField
             textField.text = ""
         default:
@@ -333,7 +379,7 @@ extension HealthcareViewController: UITextFieldDelegate {
         let newText = oldText.replacingCharacters(in: range, with: string)
         
         switch textField {
-        case priceTextField:
+        case costTextField:
             let textArray = newText.components(separatedBy: ".")
             
             //Limit textfield entry to 2 decimals place

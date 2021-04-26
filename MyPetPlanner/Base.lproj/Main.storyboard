@@ -1105,7 +1105,7 @@
                                                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
                                                                     </textField>
-                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Hw7-6B-7oz">
+                                                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Hw7-6B-7oz">
                                                                         <rect key="frame" x="93.5" y="0.5" width="94" height="29"/>
                                                                         <connections>
                                                                             <action selector="frequencyStepper:" destination="B2m-u3-WyV" eventType="valueChanged" id="WCO-yu-6Wz"/>
@@ -1147,30 +1147,21 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1Qt-qO-hGw">
                                                         <rect key="frame" x="0.0" y="240.5" width="374" height="28"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Unit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H24-Yp-9xC">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Every:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aF5-BE-zeS">
                                                                 <rect key="frame" x="0.0" y="4" width="187" height="20.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="NNn-dW-ajZ">
-                                                                <rect key="frame" x="187" y="0.0" width="187" height="28"/>
-                                                                <subviews>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Per:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aF5-BE-zeS">
-                                                                        <rect key="frame" x="0.0" y="4" width="93.5" height="20.5"/>
-                                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                        <nil key="textColor"/>
-                                                                        <nil key="highlightedColor"/>
-                                                                    </label>
-                                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="VKX-Pq-pKi">
-                                                                        <rect key="frame" x="93.5" y="0.0" width="93.5" height="29"/>
-                                                                        <segments>
-                                                                            <segment title="Month"/>
-                                                                            <segment title="Year"/>
-                                                                        </segments>
-                                                                    </segmentedControl>
-                                                                </subviews>
-                                                            </stackView>
+                                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="VKX-Pq-pKi">
+                                                                <rect key="frame" x="187" y="0.0" width="187" height="29"/>
+                                                                <segments>
+                                                                    <segment title="Day"/>
+                                                                    <segment title="Week"/>
+                                                                    <segment title="Month"/>
+                                                                    <segment title="Year"/>
+                                                                </segments>
+                                                            </segmentedControl>
                                                         </subviews>
                                                     </stackView>
                                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expenses" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KS2-wj-uLO">
@@ -1211,7 +1202,7 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="E02-kg-muo">
                                                         <rect key="frame" x="0.0" y="349" width="374" height="30"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vUo-W4-Lmh">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cost:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vUo-W4-Lmh">
                                                                 <rect key="frame" x="0.0" y="5" width="187" height="20.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
@@ -1355,6 +1346,7 @@
                         <outlet property="calendarLabel" destination="UsQ-ft-RNu" id="7VJ-Ja-I7q"/>
                         <outlet property="calendarSwitch" destination="Akf-jY-ImK" id="bWW-dU-nQT"/>
                         <outlet property="cancelButton" destination="KVz-WW-SSQ" id="hrt-90-TfD"/>
+                        <outlet property="costTextField" destination="gbX-ho-e4M" id="sJE-UF-Qv2"/>
                         <outlet property="endDateStackView" destination="BSu-6k-hHH" id="0BS-vA-gey"/>
                         <outlet property="endDateTextField" destination="ooG-Ic-gHQ" id="veY-Hg-Wev"/>
                         <outlet property="expensesDateTextField" destination="PKd-ji-d4o" id="2rA-pw-CPz"/>
@@ -1364,7 +1356,6 @@
                         <outlet property="frequencyStepper" destination="Hw7-6B-7oz" id="bcK-Pd-aq8"/>
                         <outlet property="frequencyTextField" destination="6Pm-pp-CEc" id="HyU-6E-s2j"/>
                         <outlet property="navigationBar" destination="nbr-b8-YYZ" id="cEo-j0-Etn"/>
-                        <outlet property="priceTextField" destination="gbX-ho-e4M" id="m0r-dt-5yq"/>
                         <outlet property="quantityStackView" destination="hNP-nR-iQv" id="Chm-T4-bNO"/>
                         <outlet property="saveButton" destination="vgo-Vl-Xxg" id="3sP-DS-h3e"/>
                         <outlet property="scrollView" destination="tQS-O2-Mzf" id="es6-Sz-gHJ"/>
@@ -1378,6 +1369,10 @@
                         <outletCollection property="textFields" destination="6Pm-pp-CEc" collectionClass="NSMutableArray" id="kmv-Md-71h"/>
                         <outletCollection property="textFields" destination="gbX-ho-e4M" collectionClass="NSMutableArray" id="wme-3A-b3B"/>
                         <outletCollection property="textFields" destination="PKd-ji-d4o" collectionClass="NSMutableArray" id="BH0-pD-bOl"/>
+                        <outletCollection property="textFields" destination="ByB-2G-pQo" collectionClass="NSMutableArray" id="uz2-qR-GId"/>
+                        <outletCollection property="textFields" destination="ooG-Ic-gHQ" collectionClass="NSMutableArray" id="eb4-HS-Rbw"/>
+                        <outletCollection property="textFields" destination="a8x-kQ-lQH" collectionClass="NSMutableArray" id="EK8-GQ-dbd"/>
+                        <outletCollection property="textFields" destination="oJT-uv-CeP" collectionClass="NSMutableArray" id="5dD-pJ-d9n"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ej-ZP-5P1" userLabel="First Responder" sceneMemberID="firstResponder"/>
