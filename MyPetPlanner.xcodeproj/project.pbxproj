@@ -26,6 +26,7 @@
 		02C7BC3226333B900060D739 /* DateComponents+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C7BC3126333B900060D739 /* DateComponents+Extension.swift */; };
 		02C7BC34263349B00060D739 /* Expense+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C7BC33263349B00060D739 /* Expense+Extensions.swift */; };
 		02C7BC362637058F0060D739 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C7BC352637058F0060D739 /* Calendar+Extension.swift */; };
+		02C7BC38263778340060D739 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C7BC37263778340060D739 /* Double+Extension.swift */; };
 		02D30DB125F27AAA007589BE /* CatAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB025F27AAA007589BE /* CatAPIClient.swift */; };
 		02D30DB325F27B5A007589BE /* CatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB225F27B5A007589BE /* CatResponse.swift */; };
 		02D30DB725F6EB4A007589BE /* PetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB625F6EB4A007589BE /* PetCell.swift */; };
@@ -101,6 +102,7 @@
 		02C7BC3126333B900060D739 /* DateComponents+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateComponents+Extension.swift"; sourceTree = "<group>"; };
 		02C7BC33263349B00060D739 /* Expense+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expense+Extensions.swift"; sourceTree = "<group>"; };
 		02C7BC352637058F0060D739 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
+		02C7BC37263778340060D739 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
 		02D30DB025F27AAA007589BE /* CatAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAPIClient.swift; sourceTree = "<group>"; };
 		02D30DB225F27B5A007589BE /* CatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatResponse.swift; sourceTree = "<group>"; };
 		02D30DB625F6EB4A007589BE /* PetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCell.swift; sourceTree = "<group>"; };
@@ -319,6 +321,7 @@
 				02C7BC3126333B900060D739 /* DateComponents+Extension.swift */,
 				02F66F5F261BA60F00B99D6A /* String+Extension.swift */,
 				02F66F5B261B5B4C00B99D6A /* NSDecimalNumber+Extension.swift */,
+				02C7BC37263778340060D739 /* Double+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -637,6 +640,7 @@
 				02F66F402612557200B99D6A /* EKCalendar+Extension.swift in Sources */,
 				0277384A25F03DCF00510FF4 /* DataController.swift in Sources */,
 				02DD19E425D6F8DE00236A74 /* MyPetPlanner.xcdatamodeld in Sources */,
+				02C7BC38263778340060D739 /* Double+Extension.swift in Sources */,
 				0277384C25F0F37A00510FF4 /* PetViewController.swift in Sources */,
 				02AB321F261F5E3000E3BF8F /* TabBarController.swift in Sources */,
 				02D30DB325F27B5A007589BE /* CatResponse.swift in Sources */,

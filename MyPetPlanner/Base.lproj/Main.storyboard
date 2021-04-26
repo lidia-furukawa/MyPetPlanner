@@ -633,27 +633,33 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ead-Uk-pQ5">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Expenses" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJu-19-I7i">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Expenses" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJu-19-I7i">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hQY-re-QLI">
+                                                <rect key="frame" x="0.0" y="30.5" width="414" height="0.0"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KIW-9S-VyJ" customClass="PieChartView" customModule="Charts">
-                                                <rect key="frame" x="0.0" y="20.5" width="414" height="300"/>
+                                                <rect key="frame" x="0.0" y="30.5" width="414" height="300"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="300" id="pJF-cq-Fvv"/>
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Breakdown" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yh9-uM-g87">
-                                                <rect key="frame" x="0.0" y="320.5" width="414" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="330.5" width="414" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iLF-rj-fwh">
-                                                <rect key="frame" x="0.0" y="341" width="414" height="555"/>
+                                                <rect key="frame" x="0.0" y="351" width="414" height="545"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ExpensesCell" id="hyc-4R-SJX" customClass="ExpensesCell" customModule="MyPetPlanner" customModuleProvider="target">
@@ -728,15 +734,18 @@
                                             <constraint firstItem="iLF-rj-fwh" firstAttribute="leading" secondItem="ead-Uk-pQ5" secondAttribute="leading" id="80p-NM-McH"/>
                                             <constraint firstItem="yh9-uM-g87" firstAttribute="leading" secondItem="ead-Uk-pQ5" secondAttribute="leading" id="DFI-Zf-Ji4"/>
                                             <constraint firstAttribute="bottom" secondItem="iLF-rj-fwh" secondAttribute="bottom" id="GvM-3W-UG2"/>
+                                            <constraint firstItem="hQY-re-QLI" firstAttribute="top" secondItem="bJu-19-I7i" secondAttribute="bottom" constant="10" id="KdS-gp-z9f"/>
                                             <constraint firstAttribute="trailing" secondItem="KIW-9S-VyJ" secondAttribute="trailing" id="Ken-GB-xde"/>
                                             <constraint firstAttribute="trailing" secondItem="yh9-uM-g87" secondAttribute="trailing" id="XsH-Mt-i4J"/>
+                                            <constraint firstItem="hQY-re-QLI" firstAttribute="leading" secondItem="ead-Uk-pQ5" secondAttribute="leading" id="Y9D-Na-SNy"/>
                                             <constraint firstItem="bJu-19-I7i" firstAttribute="top" secondItem="ead-Uk-pQ5" secondAttribute="top" id="bXc-em-wQj"/>
+                                            <constraint firstAttribute="trailing" secondItem="hQY-re-QLI" secondAttribute="trailing" id="mKs-LY-FLM"/>
                                             <constraint firstItem="yh9-uM-g87" firstAttribute="top" secondItem="KIW-9S-VyJ" secondAttribute="bottom" id="ntD-ne-5qr"/>
                                             <constraint firstItem="iLF-rj-fwh" firstAttribute="top" secondItem="yh9-uM-g87" secondAttribute="bottom" id="oY6-Kl-xl0"/>
                                             <constraint firstItem="bJu-19-I7i" firstAttribute="leading" secondItem="ead-Uk-pQ5" secondAttribute="leading" id="pTT-0w-Ib6"/>
                                             <constraint firstItem="KIW-9S-VyJ" firstAttribute="leading" secondItem="ead-Uk-pQ5" secondAttribute="leading" id="tXB-DJ-CIA"/>
                                             <constraint firstAttribute="trailing" secondItem="bJu-19-I7i" secondAttribute="trailing" id="u8E-bl-S7W"/>
-                                            <constraint firstItem="KIW-9S-VyJ" firstAttribute="top" secondItem="bJu-19-I7i" secondAttribute="bottom" id="udl-co-8Lq"/>
+                                            <constraint firstItem="KIW-9S-VyJ" firstAttribute="top" secondItem="hQY-re-QLI" secondAttribute="bottom" id="udl-co-8Lq"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -778,6 +787,7 @@
                         <outlet property="expensesLabel" destination="bJu-19-I7i" id="IST-ux-i5d"/>
                         <outlet property="pieChartView" destination="KIW-9S-VyJ" id="2RL-Wb-7kZ"/>
                         <outlet property="tableView" destination="iLF-rj-fwh" id="9gF-k1-gfs"/>
+                        <outlet property="totalExpensesLabel" destination="hQY-re-QLI" id="vcP-Jd-gHg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6L3-dO-6fv" userLabel="First Responder" sceneMemberID="firstResponder"/>

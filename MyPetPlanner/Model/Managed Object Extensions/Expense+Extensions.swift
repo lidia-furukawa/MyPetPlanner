@@ -69,14 +69,6 @@ extension Expense {
         let sortDescriptor = NSSortDescriptor(key: "amount", ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
-//        context.perform {
-//            do {
-//                let result = try fetchRequest.execute()
-//                completion(result)
-//            } catch let error as NSError {
-//                fatalError("The fetch could not be performed: \(error.localizedDescription)")
-//            }
-//        }
         do {
             let result = try context.fetch(fetchRequest)
             completion(result)

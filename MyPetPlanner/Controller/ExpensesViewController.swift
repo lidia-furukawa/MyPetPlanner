@@ -16,14 +16,13 @@ class ExpensesViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var expensesLabel: UILabel!
     @IBOutlet weak var breakdownLabel: UILabel!
+    @IBOutlet weak var totalExpensesLabel: UILabel!
     
     /// The pet posted by `MyPetsViewController` when a pet cell's selected
     var pet: Pet?
     var dataController: DataController!
     var fetchedResultsController: NSFetchedResultsController<Expense>!
     var sortKeyPath = "category"
-    var expensesLabels: [String]?
-    var expensesValues: [Double]?
     var totalExpensesSum: Double?
     var startDate = Date()
     var endDate = Date()
@@ -91,13 +90,15 @@ class ExpensesViewController: UIViewController {
         Expense.fetchAllDataBy(attribute, for: pet, fromDate: startDate, toDate: endDate, context: dataController.viewContext) { results in
             guard !results.isEmpty else {
                 self.customizeChart(labels: [], values: [])
+                self.totalExpensesLabel.text = ""
                 return
             }
-            self.expensesLabels = results.map { $0.attribute }
-            self.expensesValues = results.map { $0.totalAmount }
+            let expensesLabels = results.map { $0.attribute }
+            let expensesValues = results.map { $0.totalAmount }
             self.totalExpensesSum = results.map { $0.totalAmount }.reduce(0, +)
             
-            self.customizeChart(labels: self.expensesLabels ?? [], values: self.expensesValues ?? [])
+            self.customizeChart(labels: expensesLabels, values: expensesValues)
+            self.totalExpensesLabel.text = self.totalExpensesSum?.stringFormat
         }
     }
     
@@ -126,7 +127,6 @@ class ExpensesViewController: UIViewController {
     }
     
     func customizeChart(labels: [String], values: [Double]) {
-        
         // Set ChartDataEntry
         var dataEntries: [ChartDataEntry] = []
         for i in 0..<labels.count {
