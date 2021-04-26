@@ -20,7 +20,7 @@ class ExpensesViewController: UIViewController {
     /// The pet posted by `MyPetsViewController` when a pet cell's selected
     var pet: Pet?
     var dataController: DataController!
-    var fetchedResultsController: NSFetchedResultsController<Healthcare>!
+    var fetchedResultsController: NSFetchedResultsController<Expense>!
     var sortKeyPath = "category"
     var expensesLabels: [String]?
     var expensesValues: [Double]?
@@ -70,8 +70,8 @@ class ExpensesViewController: UIViewController {
     
     func loadLastDates() {
         if let lastStartDate = UserDefaults.standard.string(forKey: UserDefaults.Keys.startDateKey), let lastEndDate = UserDefaults.standard.string(forKey: UserDefaults.Keys.endDateKey) {
-            startDate = lastStartDate.dateFormat ?? Date()
-            endDate = lastEndDate.dateFormat ?? Date()
+            startDate = lastStartDate.dateFormat
+            endDate = lastEndDate.dateFormat
         }
     }
     
@@ -79,47 +79,26 @@ class ExpensesViewController: UIViewController {
         loadLastKeyPath()
         loadLastDates()
         setupFetchedResultsController(sortKeyPath)
+        sortChartBy(sortKeyPath)
 
-        switch sortKeyPath {
-        case "subcategory":
-            sortChartBySubcategory()
-        case "category":
-            sortChartByCategory()
-        default:
-            fatalError("Unrecognized key path")
-        }
-        
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
     }
     
-    func sortChartByCategory() {
+    func sortChartBy(_ attribute: String) {
         guard let pet = pet else { return }
-        Healthcare.fetchAllCategoriesData(for: pet, fromDate: startDate, toDate: endDate, context: dataController.viewContext) { results in
+        Expense.fetchAllDataBy(attribute, for: pet, fromDate: startDate, toDate: endDate, context: dataController.viewContext) { results in
             guard !results.isEmpty else {
                 self.customizeChart(labels: [], values: [])
                 return
             }
-            let expensesLabels = results.map { $0.category }
-            let expensesValues = results.map { $0.totalAmount }
+            self.expensesLabels = results.map { $0.attribute }
+            self.expensesValues = results.map { $0.totalAmount }
             self.totalExpensesSum = results.map { $0.totalAmount }.reduce(0, +)
             
-            self.customizeChart(labels: expensesLabels, values: expensesValues)
+            self.customizeChart(labels: self.expensesLabels ?? [], values: self.expensesValues ?? [])
         }
-    }
-
-    func sortChartBySubcategory() {
-        guard let objects = fetchedResultsController.fetchedObjects else { return }
-        guard !objects.isEmpty else {
-            customizeChart(labels: [], values: [])
-            return
-        }
-        let expensesLabels = objects.map { $0.subcategory ?? "" }
-        let expensesValues = objects.map { $0.expenseAmount?.doubleValue ?? 0 }
-        totalExpensesSum = objects.map { $0.expenseAmount?.doubleValue ?? 0 }.reduce(0, +)
-        
-        customizeChart(labels: expensesLabels, values: expensesValues)
     }
     
     func saveSortKeyPath(_ keyPath: String) {
@@ -128,13 +107,14 @@ class ExpensesViewController: UIViewController {
     }
     
     func setupFetchedResultsController(_ keyPath: String) {
-        let fetchRequest: NSFetchRequest<Healthcare> = Healthcare.fetchRequest()
+        let fetchRequest: NSFetchRequest<Expense> = Expense.fetchRequest()
         let petPredicate = NSPredicate(format: "pet == %@", pet ?? "")
-        let datePredicate = NSPredicate(format: "(expenseDate >= %@) AND (expenseDate <= %@)", startDate as CVarArg, endDate as CVarArg)
+        let datePredicate = NSPredicate(format: "(date >= %@) AND (date <= %@)", startDate as CVarArg, endDate as CVarArg)
         fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [petPredicate, datePredicate])
-        
+
         let sortDescriptor = NSSortDescriptor(key: keyPath, ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        let dateSortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor, dateSortDescriptor]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
@@ -223,21 +203,20 @@ extension ExpensesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let reuseIdentifier = "ExpensesCell"
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ExpensesCell
-        
+
         let aExpense = fetchedResultsController.object(at: indexPath)
-        
+
         // Configure the cell
         switch sortKeyPath {
         case "subcategory":
             cell.sectionLabel?.text = aExpense.subcategory
-            cell.subsectionLabel?.text = aExpense.expenseDate?.stringFormat
         case "category":
             cell.sectionLabel?.text = aExpense.category
-            cell.subsectionLabel?.text = aExpense.expenseDate?.stringFormat
         default:
             fatalError("Unrecognized key path")
         }
-        cell.amountLabel?.text = aExpense.expenseAmount?.stringFormat
+        cell.amountLabel?.text = aExpense.amount?.stringFormat
+        cell.subsectionLabel?.text = "Date: \(aExpense.date?.stringFormat ?? "")"
         let sectionImage = UIImage(named: aExpense.subcategory ?? "")
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
         cell.photoImageView?.image = templateImage
