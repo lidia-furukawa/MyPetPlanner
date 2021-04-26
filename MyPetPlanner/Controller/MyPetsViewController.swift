@@ -14,39 +14,31 @@ class MyPetsViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     
     var dataController: DataController!
-    
     var fetchedResultsController: NSFetchedResultsController<Pet>!
-    
     var selectedIndexPath = IndexPath()
-    
     var keyPath = "type"
-    
     var sectionNameKeyPath = "type"
-
     var selectedPet: Pet?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         loadLastKeyPaths()
         setupFetchedResultsController(keyPath, sectionNameKeyPath)
         initView()
     }
 
-    fileprivate func initView() {
+    func initView() {
         tableView.tableFooterView = UIView()
         tableView.sectionIndexBackgroundColor = UIColor.white
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         refreshData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
         fetchedResultsController = nil
     }
     
@@ -81,13 +73,11 @@ class MyPetsViewController: UIViewController {
     func loadLastSelectedPet() {
         if let indexPathData = UserDefaults.standard.data(forKey: UserDefaults.Keys.selectedIndexPath) {
             if let indexPath = try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(indexPathData) as? IndexPath {
-                print("There is a selected pet")
                 selectedIndexPath = indexPath
                 selectPet(at: selectedIndexPath)
             }
         } else {
             guard let selectedPet = selectedPet else { return }
-            print("Indexpath changed. Get the selected pet's new indexpath")
             selectedIndexPath = fetchedResultsController.indexPath(forObject: selectedPet)!
             saveSelectedIndexPath(selectedIndexPath)
             selectPet(at: selectedIndexPath)
@@ -175,6 +165,9 @@ class MyPetsViewController: UIViewController {
             fatalError("Unindentified Segue")
         }
     }
+    
+    @IBAction func unwindToMyPets(_ unwindSegue: UIStoryboardSegue) {
+    }
 }
 
 // -----------------------------------------------------------------------------
@@ -248,7 +241,7 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.backgroundColor
+        (view as! UITableViewHeaderFooterView).contentView.backgroundColor = .backgroundColor
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

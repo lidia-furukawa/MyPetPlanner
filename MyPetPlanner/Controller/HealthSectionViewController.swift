@@ -45,7 +45,7 @@ class HealthSectionViewController: UIViewController {
         setupRightBarButton()
     }
     
-    fileprivate func setupRightBarButton() {
+    func setupRightBarButton() {
         let addHealthcareButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addHealthcareButton(_:)))
         navigationItem.rightBarButtonItem = addHealthcareButton
     }
@@ -94,6 +94,9 @@ class HealthSectionViewController: UIViewController {
             fatalError("Unindentified Segue")
         }
     }
+    
+    @IBAction func unwindToHealthSection(_ unwindSegue: UIStoryboardSegue) {
+    }
 }
 
 // -----------------------------------------------------------------------------
@@ -130,23 +133,28 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
         (view as! UITableViewHeaderFooterView).contentView.backgroundColor = .backgroundColor
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessoryType = .disclosureIndicator
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let reuseIdentifier = "HealthSectionCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! HealthSectionCell
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HealthSectionCell")!
+
         let aHealthcare = fetchedResultsController.object(at: indexPath)
 
         // Configure the cell
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
-        cell.sectionNameLabel?.text = aHealthcare.subcategory
-        cell.sectionInfoLabel?.text = aHealthcare.information
-        cell.startDateLabel.text = aHealthcare.startDate!.stringFormat
-        cell.endDateLabel.text = aHealthcare.endDate!.stringFormat
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
-        let sectionImage = UIImage(named: cell.sectionNameLabel.text!)
+        cell.textLabel?.text = aHealthcare.information ?? "Not specified"
+        cell.detailTextLabel?.text = "Date: \(aHealthcare.expenseDate!.stringFormat)"
+        let sectionImage = UIImage(named: selectedObjectName)
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
-        cell.photoImageView.image = templateImage
+        cell.imageView?.image = templateImage
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        selectedIndexPath = indexPath
+        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editHealthcare, sender: nil)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

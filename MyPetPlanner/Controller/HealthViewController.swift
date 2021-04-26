@@ -17,11 +17,8 @@ class HealthViewController: UIViewController {
     
     /// The pet posted by `MyPetsViewController` when a pet cell's selected
     var pet: Pet?
-
     let healthSections = HealthcareCategory.healthSections
-    
     var selectedObjectName = String()
-    
     var selectedSectionName = String()
 
     required init?(coder aDecoder: NSCoder) {
@@ -96,18 +93,17 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let reuseIdentifier = "HealthCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! HealthCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "HealthCell")!
         
         // Configure the cell
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         let section = healthSections[indexPath.section]
         let row = section.subcategories[indexPath.row]
-        cell.titleLabel?.text = row.subcategory
+        cell.textLabel?.text = row.subcategory
         
         let sectionImage = UIImage(named: row.image)
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
-        cell.photoImageView.image = templateImage
+        cell.imageView?.image = templateImage
         return cell
     }
     

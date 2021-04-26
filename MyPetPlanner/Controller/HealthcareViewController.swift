@@ -69,12 +69,14 @@ class HealthcareViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
         subscribeToKeyboardNotifications()
         subscribeToTextFieldsNotifications()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
         unsubscribeFromNotifications()
     }
     
@@ -204,7 +206,6 @@ class HealthcareViewController: UIViewController {
 
         if !savedExpenses {
             let numberOfExpenses = Calendar.current.countNumberOfComponents(between: startDate, and: endDate, in: frequencyUnit)
-            print("number of expenses: \(numberOfExpenses)")
             
             var i = 0
             while i < numberOfExpenses {
@@ -215,14 +216,14 @@ class HealthcareViewController: UIViewController {
         }
         
         try? dataController.viewContext.save()
-        dismiss(animated: true, completion: nil)
+        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.unwindToHealthSection, sender: nil)
     }
     
     @IBAction func cancelButton(_ sender: UIBarButtonItem) {
         if let eventIdentifier = eventIdentifier {
             deleteEventFromStore(withIdentifier: eventIdentifier)
         }
-        dismiss(animated: true, completion: nil)
+        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.unwindToHealthSection, sender: nil)
     }
     
     @IBAction func frequencyStepper(_ sender: UIStepper) {

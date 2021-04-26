@@ -15,5 +15,7 @@ extension UIStoryboardSegue {
         static let showSection = "showSection"
         static let createNewHealthcare = "createNewHealthcare"
         static let editHealthcare = "editHealthcare"
+        static let unwindToMyPets = "unwindToMyPets"
+        static let unwindToHealthSection = "unwindToHealthSection"
     }
 }

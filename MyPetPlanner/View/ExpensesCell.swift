@@ -6,7 +6,6 @@
 //  Copyright © 2021 LidiaF. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class ExpensesCell: UITableViewCell {

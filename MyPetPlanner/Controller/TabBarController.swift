@@ -53,7 +53,7 @@ extension TabBarController: UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController,
                           didSelect viewController: UIViewController) {
         if let vc = viewController as? UINavigationController {
-            vc.popViewController(animated: false)
+            vc.popToRootViewController(animated: false)
         }
     }
 }

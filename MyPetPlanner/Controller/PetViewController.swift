@@ -30,16 +30,12 @@ class PetViewController: UIViewController {
     @IBOutlet weak var navigationBar: UINavigationBar!
     
     var activeTextField = UITextField()
-    
     var dataController: DataController!
 
     /// The pet whose info is being displayed/edited
     var pet: Pet?
-    
     let pickerView = UIPickerView()
-    
     var dogBreeds: [String] = []
-
     var catBreeds: [String] = []
     
     var viewTitle: String {
@@ -48,7 +44,6 @@ class PetViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         initView()
         DogAPIClient.getBreedsList(completion: handleDogBreedsListResponse(breeds:error:))
         CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
@@ -57,14 +52,14 @@ class PetViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        navigationController?.setNavigationBarHidden(true, animated: animated)
         subscribeToKeyboardNotifications()
         subscribeToTextFieldsNotifications()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
         unsubscribeFromNotifications()
     }
 
@@ -164,11 +159,11 @@ class PetViewController: UIViewController {
         }
 
         try? dataController.viewContext.save()
-        dismiss(animated: true, completion: nil)
+        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.unwindToMyPets, sender: nil)
     }
     
     @IBAction func cancelButton(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.unwindToMyPets, sender: nil)
     }
     
     /// Enable save button if any segmented control is changed
