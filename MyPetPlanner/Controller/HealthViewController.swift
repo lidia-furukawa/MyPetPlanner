@@ -18,7 +18,7 @@ class HealthViewController: UIViewController {
     /// The pet posted by `MyPetsViewController` when a pet cell's selected
     var pet: Pet?
 
-    let healthSections = TableSection.healthSections
+    let healthSections = HealthcareCategory.healthSections
     
     var selectedObjectName = String()
     
@@ -80,7 +80,7 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return healthSections[section].rows.count
+        return healthSections[section].subcategories.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -102,8 +102,8 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
         // Configure the cell
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         let section = healthSections[indexPath.section]
-        let row = section.rows[indexPath.row]
-        cell.titleLabel?.text = row.text
+        let row = section.subcategories[indexPath.row]
+        cell.titleLabel?.text = row.subcategory
         
         let sectionImage = UIImage(named: row.image)
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
@@ -112,7 +112,7 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedObjectName = healthSections[indexPath.section].rows[indexPath.row].text
+        selectedObjectName = healthSections[indexPath.section].subcategories[indexPath.row].subcategory
         selectedSectionName = healthSections[indexPath.section].title
         
         if pet != nil {

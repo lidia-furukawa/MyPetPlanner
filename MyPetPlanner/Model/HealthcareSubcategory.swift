@@ -1,5 +1,5 @@
 //
-//  TableRow.swift
+//  HealthcareSubcategory.swift
 //  MyPetPlanner
 //
 //  Created by Lidia on 28/03/21.
@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct TableRow {
-    var sectionHeader: String
-    var text: String
+struct HealthcareSubcategory {
+    var category: String
+    var subcategory: String
     var image: String
     var requiredInformation: String
     var informationPlaceholder: String

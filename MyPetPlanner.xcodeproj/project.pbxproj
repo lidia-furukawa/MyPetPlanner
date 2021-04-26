@@ -44,8 +44,8 @@
 		02F66F29260BB79500B99D6A /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F28260BB79500B99D6A /* UILabel+Extension.swift */; };
 		02F66F2B260C1DC000B99D6A /* SaveActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F2A260C1DC000B99D6A /* SaveActivityIndicator.swift */; };
 		02F66F37260E547600B99D6A /* KeyboardNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F36260E547600B99D6A /* KeyboardNotifications.swift */; };
-		02F66F3B260E8E9F00B99D6A /* TableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3A260E8E9F00B99D6A /* TableSection.swift */; };
-		02F66F3D261132EB00B99D6A /* TableRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3C261132EB00B99D6A /* TableRow.swift */; };
+		02F66F3B260E8E9F00B99D6A /* HealthcareCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3A260E8E9F00B99D6A /* HealthcareCategory.swift */; };
+		02F66F3D261132EB00B99D6A /* HealthcareSubcategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3C261132EB00B99D6A /* HealthcareSubcategory.swift */; };
 		02F66F402612557200B99D6A /* EKCalendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3F2612557200B99D6A /* EKCalendar+Extension.swift */; };
 		02F66F422613984B00B99D6A /* CalendarAuthorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F412613984B00B99D6A /* CalendarAuthorization.swift */; };
 		02F66F482613E38100B99D6A /* TrailingSwipeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F472613E38100B99D6A /* TrailingSwipeActions.swift */; };
@@ -127,8 +127,8 @@
 		02F66F28260BB79500B99D6A /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
 		02F66F2A260C1DC000B99D6A /* SaveActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveActivityIndicator.swift; sourceTree = "<group>"; };
 		02F66F36260E547600B99D6A /* KeyboardNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNotifications.swift; sourceTree = "<group>"; };
-		02F66F3A260E8E9F00B99D6A /* TableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSection.swift; sourceTree = "<group>"; };
-		02F66F3C261132EB00B99D6A /* TableRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableRow.swift; sourceTree = "<group>"; };
+		02F66F3A260E8E9F00B99D6A /* HealthcareCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthcareCategory.swift; sourceTree = "<group>"; };
+		02F66F3C261132EB00B99D6A /* HealthcareSubcategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthcareSubcategory.swift; sourceTree = "<group>"; };
 		02F66F3F2612557200B99D6A /* EKCalendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EKCalendar+Extension.swift"; sourceTree = "<group>"; };
 		02F66F412613984B00B99D6A /* CalendarAuthorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarAuthorization.swift; sourceTree = "<group>"; };
 		02F66F472613E38100B99D6A /* TrailingSwipeActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailingSwipeActions.swift; sourceTree = "<group>"; };
@@ -226,8 +226,8 @@
 			isa = PBXGroup;
 			children = (
 				0277384925F03DCF00510FF4 /* DataController.swift */,
-				02F66F3C261132EB00B99D6A /* TableRow.swift */,
-				02F66F3A260E8E9F00B99D6A /* TableSection.swift */,
+				02F66F3C261132EB00B99D6A /* HealthcareSubcategory.swift */,
+				02F66F3A260E8E9F00B99D6A /* HealthcareCategory.swift */,
 				0277383425EEB15400510FF4 /* API */,
 				0277383325EEB10E00510FF4 /* Data */,
 				0263B28525F82163008E120C /* Managed Object Extensions */,
@@ -638,7 +638,7 @@
 				02AB3223261F829500E3BF8F /* PetNotification.swift in Sources */,
 				02DD19DE25D6F8DE00236A74 /* MyPetsViewController.swift in Sources */,
 				0277384225EFFF5200510FF4 /* DogAPIClient.swift in Sources */,
-				02F66F3B260E8E9F00B99D6A /* TableSection.swift in Sources */,
+				02F66F3B260E8E9F00B99D6A /* HealthcareCategory.swift in Sources */,
 				0237CF38262A069A00E1E53B /* CustomSizePresentationController.swift in Sources */,
 				02AB3221261F7A3A00E3BF8F /* Notification.Name+Extension.swift in Sources */,
 				02F66F60261BA60F00B99D6A /* String+Extension.swift in Sources */,
@@ -657,7 +657,7 @@
 				02F66F522615037C00B99D6A /* UIStoryboardSegue+Extension.swift in Sources */,
 				020F5B8426211896001B1268 /* ExpensesCell.swift in Sources */,
 				02C7BC362637058F0060D739 /* Calendar+Extension.swift in Sources */,
-				02F66F3D261132EB00B99D6A /* TableRow.swift in Sources */,
+				02F66F3D261132EB00B99D6A /* HealthcareSubcategory.swift in Sources */,
 				02D30DB125F27AAA007589BE /* CatAPIClient.swift in Sources */,
 				02F66F4D2614EF1D00B99D6A /* Alert.swift in Sources */,
 				02DD19DC25D6F8DE00236A74 /* AppDelegate.swift in Sources */,

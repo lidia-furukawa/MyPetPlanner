@@ -47,7 +47,7 @@ class HealthcareViewController: UIViewController {
     var activeTextField = UITextField()
     var selectedObjectName = String()
     var selectedObjectSectionName = String()
-    let localSubcategoryData = TableSection.localHealthSectionData
+    let localSubcategoryData = HealthcareCategory.localHealthcareSubcategoryData
     var eventStore = EKEventStore()
     let calendarKey = "MyPetPlanner"
     var event: EKEvent?
@@ -112,12 +112,12 @@ class HealthcareViewController: UIViewController {
     func reloadAttributes() {
         sectionImageView.image = UIImage(named: selectedObjectName)
         sectionSubcategoryLabel.text = selectedObjectName
-        let subsection = localSubcategoryData.filter {
-            (data: TableRow) -> Bool in
-            data.text == selectedObjectName
+        let subcategory = localSubcategoryData.filter {
+            (data: HealthcareSubcategory) -> Bool in
+            data.subcategory == selectedObjectName
             }.first!
-        sectionLabel.text = subsection.requiredInformation
-        sectionTextField.placeholder = subsection.informationPlaceholder
+        sectionLabel.text = subcategory.requiredInformation
+        sectionTextField.placeholder = subcategory.informationPlaceholder
         sectionTextField.text = healthcare?.information
         frequencyTextField.text = String(healthcare?.frequency ?? 1)
         frequencyControl.getSegmentedControlSelectedIndex(from: healthcare?.frequencyUnit)
