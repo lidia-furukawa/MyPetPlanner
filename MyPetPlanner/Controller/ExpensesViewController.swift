@@ -98,7 +98,7 @@ class ExpensesViewController: UIViewController {
             self.totalExpensesSum = results.map { $0.totalAmount }.reduce(0, +)
             
             self.customizeChart(labels: expensesLabels, values: expensesValues)
-            self.totalExpensesLabel.text = self.totalExpensesSum?.stringFormat
+            self.totalExpensesLabel.text = self.totalExpensesSum?.stringCurrencyFormat
         }
     }
     

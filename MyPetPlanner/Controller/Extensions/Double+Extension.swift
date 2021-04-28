@@ -12,6 +12,14 @@ extension Double {
     
     var stringFormat: String? {
         let numberFormatter = NumberFormatter()
+        numberFormatter.generatesDecimalNumbers = true
+        numberFormatter.maximumFractionDigits = 2
+        numberFormatter.numberStyle = .decimal
+        return numberFormatter.string(from: NSNumber(value: self))
+    }
+    
+    var stringCurrencyFormat: String? {
+        let numberFormatter = NumberFormatter()
         numberFormatter.locale = .current
         numberFormatter.numberStyle = .currency
         return numberFormatter.string(from: self as NSNumber)

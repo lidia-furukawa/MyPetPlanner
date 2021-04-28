@@ -145,7 +145,7 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
         // Configure the cell
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         cell.textLabel?.text = aHealthcare.information ?? "Not specified"
-        cell.detailTextLabel?.text = "Date: \(aHealthcare.expenseDate!.stringFormat)"
+        cell.detailTextLabel?.text = "Date: \(aHealthcare.startDate!.stringFormat)"
         let sectionImage = UIImage(named: selectedObjectName)
         let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
         cell.imageView?.image = templateImage
