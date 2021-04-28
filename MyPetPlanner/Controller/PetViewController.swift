@@ -35,6 +35,7 @@ class PetViewController: UIViewController {
     /// The pet whose info is being displayed/edited
     var pet: Pet?
     let pickerView = UIPickerView()
+    let imagePicker = UIImagePickerController()
     var dogBreeds: [String] = []
     var catBreeds: [String] = []
     
@@ -74,6 +75,7 @@ class PetViewController: UIViewController {
         }
         pickerView.dataSource = self
         pickerView.delegate = self
+        imagePicker.delegate = self
     }
     
     /// Enable save button if any text field is changed
@@ -291,8 +293,6 @@ extension PetViewController: UIImagePickerControllerDelegate, UINavigationContro
     
     func openImagePickerWith(sourceType: UIImagePickerController.SourceType) {
         if UIImagePickerController.isSourceTypeAvailable(sourceType) {
-            let imagePicker = UIImagePickerController()
-            imagePicker.delegate = self
             imagePicker.sourceType = sourceType
             present(imagePicker, animated: true, completion: nil)
         } else {
