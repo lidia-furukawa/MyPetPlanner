@@ -14,6 +14,7 @@ class CalendarViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
+    let eventViewController = EKEventEditViewController()
     var eventStore = EKEventStore()
     let calendarKey = "MyPetPlanner"
     var events: [EKEvent]?
@@ -40,6 +41,8 @@ class CalendarViewController: UIViewController {
 
     func initView() {
         navigationItem.title = "My Pets Events"
+        eventViewController.editViewDelegate = self
+        eventViewController.eventStore = eventStore
         setupLeftBarButton()
         setupRightBarButton()
         tableView.tableFooterView = UIView()
@@ -56,9 +59,6 @@ class CalendarViewController: UIViewController {
     }
     
     @objc func addEventButton(_ sender: UIBarButtonItem) {
-        let eventViewController = EKEventEditViewController()
-        eventViewController.editViewDelegate = self
-        eventViewController.eventStore = eventStore
         let event = EKEvent(eventStore: eventStore)
         event.calendar = EKCalendar.loadCalendar(type: .event, from: eventStore, with: calendarKey)
         eventViewController.event = event
@@ -96,6 +96,18 @@ class CalendarViewController: UIViewController {
             }
         } else {
             print("No events to show")
+        }
+    }
+    
+    func deleteEvent(at indexPath: IndexPath) {
+        if let event = events?[indexPath.row] {
+            do {
+                try eventStore.remove(event, span: .futureEvents)
+                events?.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            } catch {
+                fatalError("Error deleting the event")
+            }
         }
     }
 }
@@ -146,24 +158,13 @@ extension CalendarViewController {
 extension CalendarViewController: TrailingSwipeActions {
     func setEditAction(at indexPath: IndexPath) {
         if let event = events?[indexPath.row] {
-            let eventViewController = EKEventEditViewController()
-            eventViewController.editViewDelegate = self
-            eventViewController.eventStore = eventStore
             eventViewController.event = event
             present(eventViewController, animated: true, completion: nil)
         }
     }
     
     func setDeleteAction(at indexPath: IndexPath) {
-        if let event = events?[indexPath.row] {
-            do {
-                try eventStore.remove(event, span: .futureEvents)
-                self.events?.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .fade)
-            } catch {
-                fatalError("Error deleting the event")
-            }
-        }
+        deleteEvent(at: indexPath)
     }
 }
 

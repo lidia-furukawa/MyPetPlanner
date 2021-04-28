@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import EventKit
 
 class MyPetsViewController: UIViewController {
 
@@ -19,6 +20,7 @@ class MyPetsViewController: UIViewController {
     var keyPath = "type"
     var sectionNameKeyPath = "type"
     var selectedPet: Pet?
+    var eventStore = EKEventStore()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +45,7 @@ class MyPetsViewController: UIViewController {
     }
     
     func setupFetchedResultsController(_ keyPath: String, _ sectionNameKeyPath: String) {
-        let fetchRequest:NSFetchRequest<Pet> = Pet.fetchRequest()
+        let fetchRequest: NSFetchRequest<Pet> = Pet.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: keyPath, ascending: true)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -208,11 +210,27 @@ extension MyPetsViewController: TrailingSwipeActions {
     }
     
     func setDeleteAction(at indexPath: IndexPath) {
+        Healthcare.fetchAllEventIdentifiers(for: selectedPet, context: dataController.viewContext) { eventIdentifiers in
+            guard !eventIdentifiers.isEmpty else { return }
+            for eventIdentifier in eventIdentifiers {
+                self.deleteEventFromStore(withIdentifier: eventIdentifier)
+            }
+        }
         deletePet(at: indexPath)
         UserDefaults.standard.set(nil, forKey: UserDefaults.Keys.selectedIndexPath)
         selectedPet = nil
         configureNavigationTitle(selectedPet)
         postPetNotification(selectedPet)
+    }
+    
+    func deleteEventFromStore(withIdentifier identifier: String) {
+        if let event = eventStore.event(withIdentifier: identifier) {
+            do {
+                try eventStore.remove(event, span: .futureEvents)
+            } catch {
+                fatalError("Delete event error")
+            }
+        }
     }
 }
 

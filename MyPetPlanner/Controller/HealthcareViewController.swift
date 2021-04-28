@@ -120,6 +120,7 @@ class HealthcareViewController: UIViewController {
         if healthcare?.eventIdentifier != nil {
             calendarSwitch.isOn = true
         }
+        showFoodSpecificFields(false)
         expensesSwitch.isOn = savedExpenses
         endDateStackView.isHidden = !savedExpenses
         if selectedObjectSectionName == "Food" {
@@ -288,9 +289,9 @@ class HealthcareViewController: UIViewController {
     }
     
     func deleteEventFromStore(withIdentifier identifier: String) {
-        if let event = self.eventStore.event(withIdentifier: identifier) {
+        if let event = eventStore.event(withIdentifier: identifier) {
             do {
-                try self.eventStore.remove(event, span: .futureEvents)
+                try eventStore.remove(event, span: .futureEvents)
             } catch {
                 fatalError("Delete event error")
             }
