@@ -10,6 +10,24 @@ import Foundation
 
 extension Calendar {
     
+    /// Calculate age in years or months
+    public func calculateAgeIn(_ component: Calendar.Component, from birthday: Date) -> Int {
+        let age = dateComponents([component], from: birthday, to: Date())
+        switch component {
+        case .year:
+            return age.year ?? 0
+        case .month:
+            return age.month ?? 0
+        default:
+            fatalError("Age component should be in .year or .month")
+        }
+    }
+    
+    public func calculateAgeResidualMonths(from birthday: Date) -> Int {
+        let residualMonths = calculateAgeIn(.month, from: birthday) % 12
+        return residualMonths
+    }
+    
     /// Count the number of calendar component units (days, weeks, months or years) between two dates
     func countNumberOfComponents(between startDate: Date, and endDate: Date, in stringUnit: String) -> Int {
         let fromDate = startOfDay(for: startDate)

@@ -178,28 +178,6 @@ class MyPetsViewController: UIViewController {
 extension MyPetsViewController: ActionSheetDialog { }
 
 // -----------------------------------------------------------------------------
-// MARK: - Age Calculator
-
-extension MyPetsViewController {
-    public func calculateAgeIn(component: Calendar.Component, from birthday: Date) -> Int {
-        let age = Calendar.current.dateComponents([component], from: birthday, to: Date())
-        switch component {
-        case .year:
-            return age.year ?? 0
-        case .month:
-            return age.month ?? 0
-        default:
-            fatalError("Age component should be in .year or .month")
-        }
-    }
-    
-    public func calculateAgeResidualMonths(from birthday: Date) -> Int {
-        let residualMonths = calculateAgeIn(component: .month, from: birthday) % 12
-        return residualMonths
-    }
-}
-
-// -----------------------------------------------------------------------------
 // MARK: - TrailingSwipeActions
 
 extension MyPetsViewController: TrailingSwipeActions {
@@ -276,8 +254,8 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         cell.name?.text = aPet.name
         
-        let ageInYears = calculateAgeIn(component: .year, from: aPet.birthday!)
-        let residualMonths = calculateAgeResidualMonths(from: aPet.birthday!)
+        let ageInYears = Calendar.current.calculateAgeIn(.year, from: aPet.birthday!)
+        let residualMonths = Calendar.current.calculateAgeResidualMonths(from: aPet.birthday!)
         
         cell.information?.text = "\(aPet.type ?? ""), Age: \(ageInYears)yr \(residualMonths)mo, \(aPet.gender ?? "")"
         cell.textLabel?.text = aPet.name
