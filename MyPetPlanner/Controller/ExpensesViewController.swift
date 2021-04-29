@@ -218,8 +218,7 @@ extension ExpensesViewController: UITableViewDataSource, UITableViewDelegate {
         cell.amountLabel?.text = aExpense.amount?.stringFormat
         cell.subsectionLabel?.text = "Date: \(aExpense.date?.stringFormat ?? "")"
         let sectionImage = UIImage(named: aExpense.subcategory ?? "")
-        let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
-        cell.photoImageView?.image = templateImage
+        cell.photoImageView?.image = sectionImage?.templateImage
         cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         return cell
     }

@@ -206,8 +206,7 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
             let endDate = event.endDate.stringFormat
             cell.detailTextLabel?.text = "From: \(startDate) to: \(endDate)"
             let eventImage = UIImage(named: event.title)
-            let templateImage = eventImage?.withRenderingMode(.alwaysTemplate)
-            cell.imageView?.image = templateImage
+            cell.imageView?.image = eventImage?.templateImage
         } else {
             cell.textLabel?.text = "Unknown Event"
             cell.detailTextLabel?.text = "Unknown Dates"

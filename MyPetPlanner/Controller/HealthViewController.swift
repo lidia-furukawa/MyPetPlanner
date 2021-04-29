@@ -96,14 +96,11 @@ extension HealthViewController: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HealthCell")!
         
         // Configure the cell
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         let section = healthSections[indexPath.section]
         let row = section.subcategories[indexPath.row]
         cell.textLabel?.text = row.subcategory
-        
         let sectionImage = UIImage(named: row.image)
-        let templateImage = sectionImage?.withRenderingMode(.alwaysTemplate)
-        cell.imageView?.image = templateImage
+        cell.imageView?.image = sectionImage?.templateImage
         return cell
     }
     

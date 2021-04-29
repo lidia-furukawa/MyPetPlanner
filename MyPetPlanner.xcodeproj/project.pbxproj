@@ -27,6 +27,7 @@
 		02C7BC34263349B00060D739 /* Expense+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C7BC33263349B00060D739 /* Expense+Extensions.swift */; };
 		02C7BC362637058F0060D739 /* Calendar+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C7BC352637058F0060D739 /* Calendar+Extension.swift */; };
 		02C7BC38263778340060D739 /* Double+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C7BC37263778340060D739 /* Double+Extension.swift */; };
+		02C7BC3C263B0AF10060D739 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C7BC3B263B0AF10060D739 /* UIImage+Extension.swift */; };
 		02D30DB125F27AAA007589BE /* CatAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB025F27AAA007589BE /* CatAPIClient.swift */; };
 		02D30DB325F27B5A007589BE /* CatResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB225F27B5A007589BE /* CatResponse.swift */; };
 		02D30DB725F6EB4A007589BE /* PetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D30DB625F6EB4A007589BE /* PetCell.swift */; };
@@ -103,6 +104,7 @@
 		02C7BC33263349B00060D739 /* Expense+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Expense+Extensions.swift"; sourceTree = "<group>"; };
 		02C7BC352637058F0060D739 /* Calendar+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Extension.swift"; sourceTree = "<group>"; };
 		02C7BC37263778340060D739 /* Double+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extension.swift"; sourceTree = "<group>"; };
+		02C7BC3B263B0AF10060D739 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		02D30DB025F27AAA007589BE /* CatAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatAPIClient.swift; sourceTree = "<group>"; };
 		02D30DB225F27B5A007589BE /* CatResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatResponse.swift; sourceTree = "<group>"; };
 		02D30DB625F6EB4A007589BE /* PetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetCell.swift; sourceTree = "<group>"; };
@@ -311,6 +313,7 @@
 				02F66F26260BA23A00B99D6A /* UIViewController+Extension.swift */,
 				02F66F572616840A00B99D6A /* UIView+Extension.swift */,
 				02F66F28260BB79500B99D6A /* UILabel+Extension.swift */,
+				02C7BC3B263B0AF10060D739 /* UIImage+Extension.swift */,
 				02F66F59261B540800B99D6A /* UISegmentedControl+Extension.swift */,
 				02F66F512615037C00B99D6A /* UIStoryboardSegue+Extension.swift */,
 				02F66F4F2615015C00B99D6A /* UserDefaults+Extension.swift */,
@@ -643,6 +646,7 @@
 				02C7BC38263778340060D739 /* Double+Extension.swift in Sources */,
 				0277384C25F0F37A00510FF4 /* PetViewController.swift in Sources */,
 				02AB321F261F5E3000E3BF8F /* TabBarController.swift in Sources */,
+				02C7BC3C263B0AF10060D739 /* UIImage+Extension.swift in Sources */,
 				02D30DB325F27B5A007589BE /* CatResponse.swift in Sources */,
 				02F66F582616840A00B99D6A /* UIView+Extension.swift in Sources */,
 				02F66F502615015C00B99D6A /* UserDefaults+Extension.swift in Sources */,
