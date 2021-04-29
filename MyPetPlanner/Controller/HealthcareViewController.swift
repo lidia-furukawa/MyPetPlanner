@@ -147,9 +147,7 @@ class HealthcareViewController: UIViewController {
         expense.healthcare = healthcare
         expense.category = selectedObjectSectionName
         expense.subcategory = selectedObjectName
-        if let costText = Double(costTextField.text ?? "") {
-            expense.amount = NSDecimalNumber(value: costText)
-        }
+        expense.amount = NSDecimalNumber(value: costTextField.text?.doubleFormat ?? 0)
         expense.date = date
     }
     
@@ -160,8 +158,8 @@ class HealthcareViewController: UIViewController {
     
     func removeExpenses() {
         let removeExpenses = AlertInformation(
-            title: "Are you sure you want to remove all the calculated expenses?",
-            message: "This action cannot be undone",
+            title: "Are you sure you want to stop tracking expenses?",
+            message: "This action will delete the current tracked expenses and cannot be undone",
             actions: [
                 Action(buttonTitle: "Cancel", buttonStyle: .cancel, handler: {
                     self.expensesSwitch.isOn = true
@@ -176,10 +174,9 @@ class HealthcareViewController: UIViewController {
     }
     
     func daysBagWillLast() -> Int {
-        let dailyQuantity = Double(quantityTextField.text ?? "") ?? 0
-        let bag = Double(bagTextField.text ?? "") ?? 0
+        let dailyQuantity = quantityTextField.text?.doubleFormat ?? 0
+        let bag = bagTextField.text?.doubleFormat ?? 0
         var multiplier = Double()
-        
         switch bagControl.selectedSegmentTitle {
         case "lb":
             multiplier = 16
@@ -188,12 +185,9 @@ class HealthcareViewController: UIViewController {
         default:
             fatalError("Unidentified unit")
         }
-        
-        let daysBagWillLast = Int(bag * multiplier / dailyQuantity)
-        print(daysBagWillLast)
-        return daysBagWillLast
+        let daysBagWillLast = bag * multiplier / dailyQuantity
+        return daysBagWillLast.isNaN ? 1 : Int(daysBagWillLast)
     }
-    
     
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
         presentActivityIndicator(true, forButton: sender)
@@ -209,20 +203,19 @@ class HealthcareViewController: UIViewController {
         healthcare.subcategory = selectedObjectName
         healthcare.information = sectionTextField.text
         healthcare.frequencyUnit = frequencyControl.selectedSegmentTitle
-        if let costText = Double(costTextField.text ?? "") {
-            healthcare.cost = NSDecimalNumber(value: costText)
-        }
+        healthcare.cost = NSDecimalNumber(value: costTextField.text?.doubleFormat ?? 0)
         let startDate = startDateTextField.text!.dateFormat
         healthcare.startDate = startDate
         let endDate = endDateTextField.text!.dateFormat
         healthcare.endDate = endDate
         healthcare.eventIdentifier = eventIdentifier
-        healthcare.quantity = Double(quantityTextField.text ?? "") ?? 0
+        healthcare.quantity = quantityTextField.text?.doubleFormat ?? 0
         healthcare.quantityUnit = quantityControl.selectedSegmentTitle
         healthcare.bag = Double(bagTextField.text ?? "") ?? 0
         healthcare.bagUnit = bagControl.selectedSegmentTitle
 
-        if !savedExpenses {
+        // Save current and (if any) future expenses
+        if !savedExpenses && expensesSwitch.isOn {
             var frequencyUnit = String()
             var step = Int()
             if selectedObjectSectionName == "Food" {
@@ -240,7 +233,6 @@ class HealthcareViewController: UIViewController {
                 i += step
             }
         }
-        
         try? dataController.viewContext.save()
         performSegue(withIdentifier: UIStoryboardSegue.Identifiers.unwindToHealthSection, sender: nil)
     }
@@ -252,27 +244,43 @@ class HealthcareViewController: UIViewController {
         performSegue(withIdentifier: UIStoryboardSegue.Identifiers.unwindToHealthSection, sender: nil)
     }
     
-    @IBAction func calculateFutureExpenses(_ sender: UISwitch) {
+    @IBAction func quantityUnit(_ sender: UISegmentedControl) {
+        enableSaveButton(for: sender)
+        bagControl.selectedSegmentIndex = sender.selectedSegmentIndex
+    }
+    
+    @IBAction func bagUnit(_ sender: UISegmentedControl) {
+        enableSaveButton(for: sender)
+        quantityControl.selectedSegmentIndex = sender.selectedSegmentIndex
+    }
+
+    @IBAction func trackExpenses(_ sender: UISwitch) {
         if expensesSwitch.isOn {
+            enableSaveButton(for: sender)
             endDateStackView.isHidden = false
         } else {
             removeExpenses()
         }
     }
-    
     @IBAction func addCalendar(_ sender: UISwitch) {
         if calendarSwitch.isOn {
-            saveButton.isEnabled = true
+            enableSaveButton(for: sender)
             checkAuthorizationStatus(for: .event)
         } else {
             removeEvent()
         }
     }
     
+    func enableSaveButton(for control: UIControl) {
+        self.view.endEditing(true)
+        control.becomeFirstResponder()
+        saveButton.isEnabled = true
+    }
+
     func removeEvent() {
         guard let eventIdentifier = healthcare?.eventIdentifier else { return }
         let removeAlert = AlertInformation(
-            title: "Are you sure you want to remove this event?",
+            title: "Are you sure you want to delete this event?",
             message: "This action cannot be undone",
             actions: [
                 Action(buttonTitle: "Cancel", buttonStyle: .cancel, handler: {

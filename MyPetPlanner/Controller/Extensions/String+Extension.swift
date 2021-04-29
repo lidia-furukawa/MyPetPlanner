@@ -16,6 +16,11 @@ extension String {
         return dateFormatter.date(from: self)!
     }
     
+    var doubleFormat: Double? {
+        let numberFormatter = NumberFormatter()
+        return numberFormatter.number(from: self)?.doubleValue
+    }
+    
     var calendarComponentFormat: Calendar.Component {
         switch self {
         case "Day":

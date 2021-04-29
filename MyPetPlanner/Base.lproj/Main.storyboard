@@ -1043,6 +1043,9 @@
                                                                             <segment title="oz"/>
                                                                             <segment title="g"/>
                                                                         </segments>
+                                                                        <connections>
+                                                                            <action selector="quantityUnit:" destination="B2m-u3-WyV" eventType="valueChanged" id="rfY-0i-rzE"/>
+                                                                        </connections>
                                                                     </segmentedControl>
                                                                 </subviews>
                                                             </stackView>
@@ -1098,6 +1101,9 @@
                                                                             <segment title="lb"/>
                                                                             <segment title="kg" width="50"/>
                                                                         </segments>
+                                                                        <connections>
+                                                                            <action selector="bagUnit:" destination="B2m-u3-WyV" eventType="valueChanged" id="Bct-la-Cfo"/>
+                                                                        </connections>
                                                                     </segmentedControl>
                                                                 </subviews>
                                                             </stackView>
@@ -1140,8 +1146,8 @@
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="0PF-Nq-DBD">
                                                         <rect key="frame" x="0.0" y="379.5" width="374" height="31"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Calculate Future Expenses:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMk-HN-lmc">
-                                                                <rect key="frame" x="0.0" y="0.0" width="207.5" height="31"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Track Expenses:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NMk-HN-lmc">
+                                                                <rect key="frame" x="0.0" y="0.0" width="125" height="31"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
@@ -1149,7 +1155,7 @@
                                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="cyo-d4-fB1">
                                                                 <rect key="frame" x="325" y="0.0" width="51" height="31"/>
                                                                 <connections>
-                                                                    <action selector="calculateFutureExpenses:" destination="B2m-u3-WyV" eventType="valueChanged" id="fLS-XL-Cjh"/>
+                                                                    <action selector="trackExpenses:" destination="B2m-u3-WyV" eventType="valueChanged" id="Va3-9b-Wgr"/>
                                                                 </connections>
                                                             </switch>
                                                         </subviews>
