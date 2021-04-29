@@ -153,8 +153,7 @@ extension HealthSectionViewController: UITableViewDataSource, UITableViewDelegat
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedIndexPath = indexPath
-        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.editHealthcare, sender: nil)
+        setEditAction(at: indexPath)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

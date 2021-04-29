@@ -14,13 +14,25 @@ class CalendarViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
+    /// The pet posted by `MyPetsViewController` when a pet cell's selected
+    var pet: Pet?
+    var dataController: DataController!
+    var petEventIdentifiers: [String]?
     let eventViewController = EKEventEditViewController()
     var eventStore = EKEventStore()
     let calendarKey = "MyPetPlanner"
     var events: [EKEvent]?
-    var selectedEvent: EKEvent!
     var startDate: Date?
     var endDate: Date?
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        subscribeToPetNotification()
+    }
+    
+    deinit {
+        unsubscribeFromNotifications()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +41,16 @@ class CalendarViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationItem.title = "Pet: \(pet?.name ?? "None")"
         loadLastDates()
-        checkAuthorizationStatus(for: .event)
+        Healthcare.fetchAllEventIdentifiers(for: pet, context: dataController.viewContext) { eventIdentifiers in
+            guard !eventIdentifiers.isEmpty else {
+                self.petEventIdentifiers = nil
+                return
+            }
+            self.petEventIdentifiers = eventIdentifiers
+            self.checkAuthorizationStatus(for: .event)
+        }
         subscribeToEventStoreNotifications()
     }
     
@@ -40,29 +60,15 @@ class CalendarViewController: UIViewController {
     }
 
     func initView() {
-        navigationItem.title = "My Pets Events"
         eventViewController.editViewDelegate = self
         eventViewController.eventStore = eventStore
-        setupLeftBarButton()
         setupRightBarButton()
         tableView.tableFooterView = UIView()
-    }
-    
-    func setupLeftBarButton() {
-        let addEventButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addEventButton(_:)))
-        navigationItem.leftBarButtonItem = addEventButton
     }
     
     func setupRightBarButton() {
         let filterDateButton = UIBarButtonItem(image: UIImage(named: "date"), style: .plain, target: self, action: #selector(filterDateButton(_:)))
         navigationItem.rightBarButtonItem = filterDateButton
-    }
-    
-    @objc func addEventButton(_ sender: UIBarButtonItem) {
-        let event = EKEvent(eventStore: eventStore)
-        event.calendar = EKCalendar.loadCalendar(type: .event, from: eventStore, with: calendarKey)
-        eventViewController.event = event
-        present(eventViewController, animated: true, completion: nil)
     }
     
     @objc func filterDateButton(_ sender: UIBarButtonItem) {
@@ -84,18 +90,24 @@ class CalendarViewController: UIViewController {
     }
     
     func loadEvents() {
-        // Use an Event Store instance to create and properly configure an NSPredicate
+        guard let petEventIdentifiers = petEventIdentifiers else {
+            events = nil
+            return
+        }
         if let calendar = EKCalendar.loadCalendar(type: .event, from: eventStore, with: calendarKey) {
-            
+            // Create and properly configure an events predicate
             let eventsPredicate = eventStore.predicateForEvents(withStart: startDate ?? Date(), end: endDate ?? Date(), calendars: [calendar])
-            
-            // Use the NSPredicate to fetch events in the Event Store
-            events = eventStore.events(matching: eventsPredicate)
+            // Use the predicate to fetch events in the Event Store
+            let predicateEvents = eventStore.events(matching: eventsPredicate)
+            // Filter the fetched events using the pet's event identifiers
+            events = predicateEvents.filter({
+                petEventIdentifiers.contains($0.eventIdentifier)
+            })
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         } else {
-            print("No events to show")
+            print("No matching calendar")
         }
     }
     
@@ -111,6 +123,11 @@ class CalendarViewController: UIViewController {
         }
     }
 }
+
+// -----------------------------------------------------------------------------
+// MARK: - PetNotification
+
+extension CalendarViewController: PetNotification { }
 
 // -----------------------------------------------------------------------------
 // MARK: - EventStoreAuthorization
@@ -176,6 +193,10 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
         return events?.count ?? 0
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.accessoryType = .disclosureIndicator
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CalendarCell")!
         
@@ -184,7 +205,7 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
             let startDate = event.startDate.stringFormat
             let endDate = event.endDate.stringFormat
             cell.detailTextLabel?.text = "From: \(startDate) to: \(endDate)"
-            let eventImage = UIImage(named: event.title) ?? UIImage(named: "eventPlaceholder")
+            let eventImage = UIImage(named: event.title)
             let templateImage = eventImage?.withRenderingMode(.alwaysTemplate)
             cell.imageView?.image = templateImage
         } else {
@@ -192,6 +213,10 @@ extension CalendarViewController: UITableViewDataSource, UITableViewDelegate {
             cell.detailTextLabel?.text = "Unknown Dates"
         }
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        setEditAction(at: indexPath)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

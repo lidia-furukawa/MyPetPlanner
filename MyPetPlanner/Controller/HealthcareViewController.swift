@@ -117,12 +117,10 @@ class HealthcareViewController: UIViewController {
         costTextField.text = healthcare?.cost?.stringFormat ?? ""
         startDateTextField.text = healthcare?.startDate?.stringFormat ?? Date().stringFormat
         endDateTextField.text = healthcare?.endDate?.stringFormat ?? Date().stringFormat
-        if healthcare?.eventIdentifier != nil {
-            calendarSwitch.isOn = true
-        }
         showFoodSpecificFields(false)
         expensesSwitch.isOn = savedExpenses
         endDateStackView.isHidden = !savedExpenses
+        checkEventInStore(withIdentifier: healthcare?.eventIdentifier ?? "")
         if selectedObjectSectionName == "Food" {
             showFoodSpecificFields(true)
             frequencyStackView.isHidden = true
@@ -262,8 +260,9 @@ class HealthcareViewController: UIViewController {
         }
     }
     
-    @IBAction func addCalendarTapped(_ sender: UISwitch) {
+    @IBAction func addCalendar(_ sender: UISwitch) {
         if calendarSwitch.isOn {
+            saveButton.isEnabled = true
             checkAuthorizationStatus(for: .event)
         } else {
             removeEvent()
@@ -308,6 +307,14 @@ class HealthcareViewController: UIViewController {
         event?.notes = "\(pet?.name ?? "#")'s \(selectedObjectSectionName): \(sectionSubcategoryLabel.text ?? "#")"
         eventViewController.event = event
         present(eventViewController, animated: true, completion: nil)
+    }
+    
+    func checkEventInStore(withIdentifier identifier: String) {
+        if eventStore.event(withIdentifier: identifier) != nil {
+            calendarSwitch.isOn = true
+        } else {
+            calendarSwitch.isOn = false
+        }
     }
     
     func setEventIdentifier(_ identifier: String?) {

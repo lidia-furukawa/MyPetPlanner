@@ -40,6 +40,8 @@ class TabBarController: UITabBarController {
                 viewController.dataController = dataController
             case let viewController as HealthViewController:
                 viewController.dataController = dataController
+            case let viewController as CalendarViewController:
+                viewController.dataController = dataController
             case let viewController as ExpensesViewController:
                 viewController.dataController = dataController
             default:

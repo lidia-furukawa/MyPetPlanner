@@ -11,7 +11,7 @@ import EventKit
 extension EKCalendar {
     
     public static func loadCalendar(type: EKEntityType, from eventStore: EKEventStore, with calendarKey: String) -> EKCalendar? {
-        // Access all available reminder calendars from the Event Store
+        // Access all available type calendars from the Event Store
         let allCalendars = eventStore.calendars(for: type)
         
         // Filter the available calendars to return the one that matches the retrieved identifier from UserDefaults
