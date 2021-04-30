@@ -102,8 +102,8 @@ class PetViewController: UIViewController {
         breedTextField.text = pet?.breed
         colorTextField.text = pet?.color
         genderControl.getSegmentedControlSelectedIndex(from: pet?.gender)
-        weightTextField.text = String(pet?.weight ?? 0)
-        heightTextField.text = String(pet?.height ?? 0)
+        weightTextField.text = pet?.weight.stringFormat
+        heightTextField.text = pet?.height.stringFormat
     }
     
     @objc func handleDatePicker(_ sender: UIDatePicker!) {
@@ -153,12 +153,8 @@ class PetViewController: UIViewController {
         }
         pet.breed = breedTextField.text
         pet.color = colorTextField.text
-        if let weightText = weightTextField.text {
-            pet.weight = Double(weightText)!
-        }
-        if let heightText = heightTextField.text {
-            pet.height = Double(heightText)!
-        }
+        pet.weight = weightTextField.text?.doubleFormat ?? 0
+        pet.height = heightTextField.text?.doubleFormat ?? 0
 
         try? dataController.viewContext.save()
         performSegue(withIdentifier: UIStoryboardSegue.Identifiers.unwindToMyPets, sender: nil)
@@ -201,22 +197,8 @@ extension PetViewController: ActionSheetDialog { }
 
 extension PetViewController: UITextFieldDelegate {
     
-    /// Make the next textField the first responder when the user taps the return key
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case nameTextField:
-            birthdayTextField.becomeFirstResponder()
-        case birthdayTextField:
-            breedTextField.becomeFirstResponder()
-        case breedTextField:
-            colorTextField.becomeFirstResponder()
-        case colorTextField:
-            weightTextField.becomeFirstResponder()
-        case weightTextField:
-            heightTextField.becomeFirstResponder()
-        default:
-            heightTextField.resignFirstResponder()
-        }
+        textField.resignFirstResponder()
         return true
     }
 
@@ -225,11 +207,17 @@ extension PetViewController: UITextFieldDelegate {
         case birthdayTextField:
             activeTextField = birthdayTextField
             birthdayTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: pet?.birthday ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
         case breedTextField:
             activeTextField = breedTextField
             pickerView.reloadAllComponents()
             pickerView.backgroundColor = .white
             breedTextField.inputView = pickerView
+            textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
+        case weightTextField,heightTextField:
+            activeTextField = textField
+            textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
+            textField.text = ""
         default:
             activeTextField = textField
         }
@@ -244,12 +232,12 @@ extension PetViewController: UITextFieldDelegate {
         case weightTextField, heightTextField:
             let textArray = newText.components(separatedBy: ".")
             
-            //Limit textfield entry to only one decimal place
+            //Limit textfield entry to 2 decimals place
             if textArray.count > 2 {
                 return false
             } else if textArray.count == 2 {
                 let lastString = textArray.last
-                if lastString!.count > 1 {
+                if lastString!.count > 2 {
                     return false
                 }
             }
