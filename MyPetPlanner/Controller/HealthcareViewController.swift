@@ -85,7 +85,6 @@ class HealthcareViewController: UIViewController {
         calendarLabel.configureTitle()
         expensesLabel.configureTitle()
         saveButton.isEnabled = false
-        
         for textField in textFields {
             textField.delegate = self
         }
@@ -216,14 +215,11 @@ class HealthcareViewController: UIViewController {
 
         // Save current and (if any) future expenses
         if !savedExpenses && expensesSwitch.isOn {
-            var frequencyUnit = String()
-            var step = Int()
+            var frequencyUnit = frequencyControl.selectedSegmentTitle!
+            var step = 1
             if selectedObjectSectionName == "Food" {
                 frequencyUnit = "Day"
                 step = daysBagWillLast()
-            } else {
-                frequencyUnit = frequencyControl.selectedSegmentTitle!
-                step = 1
             }
             let numberOfComponents = Calendar.current.countNumberOfComponents(between: startDate, and: endDate, in: frequencyUnit)
             var i = 0
@@ -375,16 +371,24 @@ extension HealthcareViewController: SaveActivityIndicator { }
 
 extension HealthcareViewController: UITextFieldDelegate {
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         switch textField {
         case startDateTextField:
             activeTextField = startDateTextField
             startDateTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: healthcare?.startDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
         case endDateTextField:
             activeTextField = endDateTextField
             endDateTextField.inputView = .customizedDatePickerView(setMinimumDate: healthcare?.startDate, setDate: healthcare?.endDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
         case quantityTextField, bagTextField, costTextField:
             activeTextField = textField
+            textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
             textField.text = ""
         default:
             activeTextField = textField
