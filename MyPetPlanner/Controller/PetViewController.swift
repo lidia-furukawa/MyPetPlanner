@@ -29,16 +29,17 @@ class PetViewController: UIViewController {
     @IBOutlet var textFields: [UITextField]!
     @IBOutlet weak var navigationBar: UINavigationBar!
     
-    var activeTextField = UITextField()
     var dataController: DataController!
 
     /// The pet whose info is being displayed/edited
     var pet: Pet?
     let pickerView = UIPickerView()
     let imagePicker = UIImagePickerController()
-    var dogBreeds: [String] = []
-    var catBreeds: [String] = []
-    
+    var activeTextField = UITextField()
+    var dogBreeds: [String]!
+    var catBreeds: [String]!
+    var alertHasBeenDisplayed = false
+
     var viewTitle: String {
         return pet == nil ? "Create New Pet" : "Edit Pet"
     }
@@ -46,8 +47,6 @@ class PetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initView()
-        DogAPIClient.getBreedsList(completion: handleDogBreedsListResponse(breeds:error:))
-        CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
         reloadPetAttributes()
     }
     
@@ -107,15 +106,18 @@ class PetViewController: UIViewController {
     }
     
     @objc func handleDatePicker(_ sender: UIDatePicker!) {
-        birthdayTextField.text = sender.date.stringFormat
+        activeTextField.text = sender.date.stringFormat
     }
     
-    func handleDogBreedsListResponse(breeds: [String], error: Error?) {
-        dogBreeds = breeds
-    }
-    
-    func handleCatResponse(cats: [CatResponse], error: Error?) {
-        catBreeds = cats.map { $0.name }
+    func showNetworkAlert() {
+        let networkFailureAlert = AlertInformation(
+            title: "Unable to Display Breeds List",
+            message: "Check your internet connection or manually enter the breed",
+            actions: [Action(buttonTitle: "OK", buttonStyle: .default, handler: {
+                self.activeTextField.becomeFirstResponder()
+            })]
+        )
+        presentAlertDialog(with: networkFailureAlert)
     }
     
     @IBAction func selectPhotoButton(_ sender: Any) {
@@ -203,35 +205,42 @@ extension PetViewController: UITextFieldDelegate {
     }
 
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeTextField = textField
+
         switch textField {
         case birthdayTextField:
             activeTextField = birthdayTextField
             birthdayTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: pet?.birthday ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
             textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
         case breedTextField:
-            activeTextField = breedTextField
-            pickerView.reloadAllComponents()
-            pickerView.backgroundColor = .white
-            breedTextField.inputView = pickerView
-            textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
+            if dogBreeds.isEmpty || catBreeds.isEmpty {
+                guard alertHasBeenDisplayed else {
+                    alertHasBeenDisplayed = true
+                    textField.resignFirstResponder()
+                    showNetworkAlert()
+                    return
+                }
+            } else {
+                pickerView.reloadAllComponents()
+                pickerView.backgroundColor = .white
+                breedTextField.inputView = pickerView
+                textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
+            }
         case weightTextField,heightTextField:
-            activeTextField = textField
             textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
             textField.text = ""
         default:
-            activeTextField = textField
+            break
         }
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
         let oldText = textField.text! as NSString
         let newText = oldText.replacingCharacters(in: range, with: string)
         
         switch textField {
         case weightTextField, heightTextField:
             let textArray = newText.components(separatedBy: ".")
-            
             //Limit textfield entry to 2 decimals place
             if textArray.count > 2 {
                 return false
@@ -286,7 +295,7 @@ extension PetViewController: UIImagePickerControllerDelegate, UINavigationContro
         } else {
             let optionNotAvailableAlert = AlertInformation(
                 title: "Warning",
-                message: "Option Not Available",
+                message: "\(sourceType.stringValue) Not Available",
                 actions: [Action(buttonTitle: "OK", buttonStyle: .default, handler: nil)]
             )
             presentAlertDialog(with: optionNotAvailableAlert)
@@ -304,5 +313,18 @@ extension PetViewController: UIImagePickerControllerDelegate, UINavigationContro
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension UIImagePickerController.SourceType {
+    var stringValue: String {
+        switch self {
+        case .photoLibrary:
+            return "Photo Library"
+        case .camera:
+            return "Camera"
+        default:
+            return "Unidentified Source Type"
+        }
     }
 }

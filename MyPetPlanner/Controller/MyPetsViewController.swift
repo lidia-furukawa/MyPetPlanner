@@ -21,6 +21,8 @@ class MyPetsViewController: UIViewController {
     var sectionNameKeyPath = "type"
     var selectedPet: Pet?
     var eventStore = EKEventStore()
+    var dogBreeds: [String]?
+    var catBreeds: [String]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +39,12 @@ class MyPetsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshData()
+        DogAPIClient.getBreedsList() { breeds, error in
+            self.dogBreeds = breeds
+        }
+        CatAPIClient.getCatsList() { cats, error in
+            self.catBreeds = cats.map { $0.name }
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -157,7 +165,9 @@ class MyPetsViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let vc = segue.destination as! PetViewController
         vc.dataController = dataController
-
+        vc.dogBreeds = dogBreeds
+        vc.catBreeds = catBreeds
+        
         switch segue.identifier {
         case UIStoryboardSegue.Identifiers.createNewPet:
             vc.pet = nil
@@ -251,21 +261,16 @@ extension MyPetsViewController: UITableViewDataSource, UITableViewDelegate {
         let aPet = fetchedResultsController.object(at: indexPath)
 
         // Configure the cell
-        cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         cell.name?.text = aPet.name
-        
         let ageInYears = Calendar.current.calculateAgeIn(.year, from: aPet.birthday!)
         let residualMonths = Calendar.current.calculateAgeResidualMonths(from: aPet.birthday!)
-        
         cell.information?.text = "\(aPet.type ?? ""), Age: \(ageInYears)yr \(residualMonths)mo, \(aPet.gender ?? "")"
-        cell.textLabel?.text = aPet.name
-        cell.textLabel?.isHidden = true
-        
         if let photoData = aPet.photo {
             let image = UIImage(data: photoData)
             cell.photo.image = image
             cell.photo.roundImage()
         }
+        cell.separatorInset = UIEdgeInsets(top: 0, left: 70, bottom: 0, right: 0)
         return cell
     }
     
