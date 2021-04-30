@@ -209,8 +209,7 @@ extension PetViewController: UITextFieldDelegate {
 
         switch textField {
         case birthdayTextField:
-            activeTextField = birthdayTextField
-            birthdayTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: pet?.birthday ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            birthdayTextField.inputView = .customizedDatePickerView(minimumDate: nil, maximumDate: nil, date: pet?.birthday ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
             textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
         case breedTextField:
             if dogBreeds.isEmpty || catBreeds.isEmpty {

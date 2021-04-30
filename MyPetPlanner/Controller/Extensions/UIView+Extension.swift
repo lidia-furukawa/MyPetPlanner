@@ -17,11 +17,12 @@ extension UIView {
         self.layer.cornerRadius = self.bounds.width/2
     }
     
-    static func customizedDatePickerView(setMinimumDate minimumDate: Date?, setDate date: Date, withTarget target: Any, action: Selector) -> UIDatePicker {
+    static func customizedDatePickerView(minimumDate: Date?, maximumDate: Date?, date: Date, withTarget target: Any, action: Selector) -> UIDatePicker {
         let datePickerView = UIDatePicker()
         datePickerView.datePickerMode = .date
         datePickerView.backgroundColor = .white
         datePickerView.minimumDate = minimumDate
+        datePickerView.maximumDate = maximumDate
         datePickerView.setDate(date, animated: false)
         datePickerView.addTarget(target, action: action, for: .valueChanged)
 

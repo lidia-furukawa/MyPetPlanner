@@ -65,13 +65,13 @@ class DateFilterViewController: UIViewController {
 extension DateFilterViewController: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeTextField = textField
+        
         switch textField {
         case startDateTextField:
-            activeTextField = startDateTextField
-            startDateTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: startDateTextField.text?.dateFormat ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            startDateTextField.inputView = .customizedDatePickerView(minimumDate: nil, maximumDate: endDateTextField.text!.dateFormat, date: startDateTextField.text!.dateFormat, withTarget: self, action: #selector(handleDatePicker(_:)))
         case endDateTextField:
-            activeTextField = endDateTextField
-            endDateTextField.inputView = .customizedDatePickerView(setMinimumDate: startDateTextField.text?.dateFormat ?? Date(), setDate: endDateTextField.text?.dateFormat ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            endDateTextField.inputView = .customizedDatePickerView(minimumDate: startDateTextField.text!.dateFormat, maximumDate: nil, date: endDateTextField.text!.dateFormat, withTarget: self, action: #selector(handleDatePicker(_:)))
         default:
             fatalError("Unidentified textfield")
         }

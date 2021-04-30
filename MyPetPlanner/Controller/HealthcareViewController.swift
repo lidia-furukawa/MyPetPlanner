@@ -115,7 +115,7 @@ class HealthcareViewController: UIViewController {
         frequencyControl.getSegmentedControlSelectedIndex(from: healthcare?.frequencyUnit)
         costTextField.text = healthcare?.cost?.stringFormat ?? ""
         startDateTextField.text = healthcare?.startDate?.stringFormat ?? Date().stringFormat
-        endDateTextField.text = healthcare?.endDate?.stringFormat ?? Date().stringFormat
+        endDateTextField.text = healthcare?.endDate?.stringFormat ?? startDateTextField.text
         showFoodSpecificFields(false)
         expensesSwitch.isOn = savedExpenses
         endDateStackView.isHidden = !savedExpenses
@@ -254,6 +254,7 @@ class HealthcareViewController: UIViewController {
         if expensesSwitch.isOn {
             enableSaveButton(for: sender)
             endDateStackView.isHidden = false
+            endDateTextField.text = startDateTextField.text
         } else {
             removeExpenses()
         }
@@ -377,21 +378,20 @@ extension HealthcareViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeTextField = textField
+
         switch textField {
         case startDateTextField:
-            activeTextField = startDateTextField
-            startDateTextField.inputView = .customizedDatePickerView(setMinimumDate: nil, setDate: healthcare?.startDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            startDateTextField.inputView = .customizedDatePickerView(minimumDate: nil, maximumDate: startDateTextField.text!.dateFormat, date: healthcare?.startDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
             textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
         case endDateTextField:
-            activeTextField = endDateTextField
-            endDateTextField.inputView = .customizedDatePickerView(setMinimumDate: healthcare?.startDate, setDate: healthcare?.endDate ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
+            endDateTextField.inputView = .customizedDatePickerView(minimumDate: startDateTextField.text!.dateFormat, maximumDate: nil, date: healthcare?.endDate ?? startDateTextField.text!.dateFormat, withTarget: self, action: #selector(handleDatePicker(_:)))
             textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
         case quantityTextField, bagTextField, costTextField:
-            activeTextField = textField
             textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
             textField.text = ""
         default:
-            activeTextField = textField
+            break
         }
     }
     
