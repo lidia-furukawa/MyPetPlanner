@@ -1,23 +1,25 @@
 # MyPetPlanner
 
-One to two paragraph statement about your product and what it does.
-MyPetPlanner is an app designed to 
+MyPetPlanner is an iOS daily planner app for your pet(s). It lets you keep track of your pet(s) routine care, such as feeding, grooming, parasites control and veterinary care.
+You can add calendar events to remind you of important pets' healthcare activities.
+You can also track and categorize expenses to help monitor and control your budget.
+MyPetPlanner helps keep your pet healthy and happy!
 
 ## Features
 - **My Pets Tab**:
    - Add a new pet (cat or dog).
-     - Add relevant pet information, such as its name, birthday, gender, breed, weight and height.
-     - Display a picker scrollable list with cat/dog breeds from networked APIs.
+     - Add relevant information, such as the pet's name, birthday, gender, breed, weight and height.
+     - Display a scrollable list with cat/dog breeds from networked APIs.
      - Select a pet picture from the device's photo library or take one with the camera.
    - Display the user's list of added pets.
-   - Tap to select a pet [x] and interact with other app's features.
+   - Tap to select a pet (the selected pet is persisted between runs).
    - Swipe to edit or delete a pet.
    - Sort the list of added pets by name (A-Z) or type (Cat-Dog). 
 - **Healthcare Tab**:
    - Display the healthcare categories (Food, Grooming, Parasite Control and Vet Care) in a list.
    - Add a healthcare subcategory for the selected pet.
      - Add relevant information, such as the care name, frequency, cost and expense date.
-     - Track expenses: automatically calculate future expenses from the expense date through a set final date.
+     - Track expenses: automatically calculate future expenses from the expense date until a set final date.
      - Add calendar event: create a local *MyPetPlanner* calendar in the device and add a event to it.
 - **Calendar Tab**:
    - Display the selected pet's calendar events (previously added in the Healthcare Tab) in a list.
@@ -34,20 +36,14 @@ MyPetPlanner is an app designed to
 - Xcode 10.3
 
 ## Installation
-###CocoaPods
-You can use CocoaPods to install Charts by adding it to your Podfile:
-```
-platform :ios, '9.0'
-use_frameworks!
-pod 'Charts', '~>3.3.0'
-```
+The app can run without any additional setup.
 
-## Dependencies
+## Sources/Dependencies
+**[Dog API](https://dog.ceo/dog-api/)**
+- Provide the list of dog breeds
 
+**[The Cat API](https://thecatapi.com/)**
+- Provide the list of cat breeds
 
-## Meta
-Lidia Furukawa – lidia.furukawa@gmail.com
-
-Distributed under the XYZ license. See [LICENSE]() for more information.
-
-https://github.com/lidia-furukawa
+**[Charts Library by Daniel Gindi](https://github.com/danielgindi/Charts)**
+- Pie Chart in the Expenses Tab.
