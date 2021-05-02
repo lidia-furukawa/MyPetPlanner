@@ -48,6 +48,10 @@ class PetViewController: UIViewController {
         super.viewDidLoad()
         initView()
         reloadPetAttributes()
+        if dogBreeds.isEmpty || catBreeds.isEmpty {
+            presentActivityIndicator(true)
+            DogAPIClient.getBreedsList(completion: handleDogBreedsListResponse(breeds:error:))
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -109,12 +113,32 @@ class PetViewController: UIViewController {
         activeTextField.text = sender.date.stringFormat
     }
     
+    func handleDogBreedsListResponse(breeds: [String], error: Error?) {
+        if error != nil {
+            showNetworkAlert()
+            print("dog error")
+        } else {
+            dogBreeds = breeds
+            CatAPIClient.getCatsList(completion: handleCatResponse(cats:error:))
+        }
+    }
+
+    func handleCatResponse(cats: [CatResponse], error: Error?) {
+        if error != nil {
+            showNetworkAlert()
+            print("cat error")
+        } else {
+            catBreeds = cats.map { $0.name }
+            presentActivityIndicator(false)
+        }
+    }
+        
     func showNetworkAlert() {
         let networkFailureAlert = AlertInformation(
-            title: "Unable to Display Breeds List",
+            title: "Unable to Download Breeds List",
             message: "Check your internet connection or manually enter the breed",
             actions: [Action(buttonTitle: "OK", buttonStyle: .default, handler: {
-                self.activeTextField.becomeFirstResponder()
+                self.presentActivityIndicator(false)
             })]
         )
         presentAlertDialog(with: networkFailureAlert)
@@ -132,9 +156,7 @@ class PetViewController: UIViewController {
         presentActionSheetDialog(with: imagePickerActions)
     }
     
-    @IBAction func saveButton(_ sender: UIBarButtonItem) {
-        presentActivityIndicator(true, forButton: sender)
-        
+    func savePetAttributes() {
         let pet: Pet
         if let petToEdit = self.pet {
             pet = petToEdit
@@ -159,7 +181,15 @@ class PetViewController: UIViewController {
         pet.height = heightTextField.text?.doubleFormat ?? 0
 
         try? dataController.viewContext.save()
-        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.unwindToMyPets, sender: nil)
+    }
+    
+    @IBAction func saveButton(_ sender: UIBarButtonItem) {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.presentActivityIndicator(true)
+        }) { _ in
+            self.savePetAttributes()
+            self.performSegue(withIdentifier: UIStoryboardSegue.Identifiers.unwindToMyPets, sender: nil)
+        }
     }
     
     @IBAction func cancelButton(_ sender: Any) {
@@ -180,9 +210,9 @@ class PetViewController: UIViewController {
 extension PetViewController: KeyboardNotifications { }
 
 // -----------------------------------------------------------------------------
-// MARK: - SaveActivityIndicator
+// MARK: - ActivityIndicator
 
-extension PetViewController: SaveActivityIndicator { }
+extension PetViewController: ActivityIndicator { }
 
 // -----------------------------------------------------------------------------
 // MARK: - SingleButtonAlertDialog
@@ -212,19 +242,11 @@ extension PetViewController: UITextFieldDelegate {
             birthdayTextField.inputView = .customizedDatePickerView(minimumDate: nil, maximumDate: nil, date: pet?.birthday ?? Date(), withTarget: self, action: #selector(handleDatePicker(_:)))
             textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
         case breedTextField:
-            if dogBreeds.isEmpty || catBreeds.isEmpty {
-                guard alertHasBeenDisplayed else {
-                    alertHasBeenDisplayed = true
-                    textField.resignFirstResponder()
-                    showNetworkAlert()
-                    return
-                }
-            } else {
-                pickerView.reloadAllComponents()
-                pickerView.backgroundColor = .white
-                breedTextField.inputView = pickerView
-                textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
-            }
+            guard !dogBreeds.isEmpty, !catBreeds.isEmpty else { return }
+            pickerView.reloadAllComponents()
+            pickerView.backgroundColor = .white
+            breedTextField.inputView = pickerView
+            textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
         case weightTextField,heightTextField:
             textField.addDoneButtonToKeyboard(action: #selector(self.resignFirstResponder))
             textField.text = ""

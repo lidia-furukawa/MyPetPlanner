@@ -43,7 +43,7 @@
 		02F66F0325FFF50F00B99D6A /* HealthSectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F0225FFF50F00B99D6A /* HealthSectionViewController.swift */; };
 		02F66F27260BA23A00B99D6A /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F26260BA23A00B99D6A /* UIViewController+Extension.swift */; };
 		02F66F29260BB79500B99D6A /* UILabel+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F28260BB79500B99D6A /* UILabel+Extension.swift */; };
-		02F66F2B260C1DC000B99D6A /* SaveActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F2A260C1DC000B99D6A /* SaveActivityIndicator.swift */; };
+		02F66F2B260C1DC000B99D6A /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F2A260C1DC000B99D6A /* ActivityIndicator.swift */; };
 		02F66F37260E547600B99D6A /* KeyboardNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F36260E547600B99D6A /* KeyboardNotifications.swift */; };
 		02F66F3B260E8E9F00B99D6A /* HealthcareCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3A260E8E9F00B99D6A /* HealthcareCategory.swift */; };
 		02F66F3D261132EB00B99D6A /* HealthcareSubcategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F66F3C261132EB00B99D6A /* HealthcareSubcategory.swift */; };
@@ -127,7 +127,7 @@
 		02F66F0225FFF50F00B99D6A /* HealthSectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthSectionViewController.swift; sourceTree = "<group>"; };
 		02F66F26260BA23A00B99D6A /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		02F66F28260BB79500B99D6A /* UILabel+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Extension.swift"; sourceTree = "<group>"; };
-		02F66F2A260C1DC000B99D6A /* SaveActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveActivityIndicator.swift; sourceTree = "<group>"; };
+		02F66F2A260C1DC000B99D6A /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		02F66F36260E547600B99D6A /* KeyboardNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardNotifications.swift; sourceTree = "<group>"; };
 		02F66F3A260E8E9F00B99D6A /* HealthcareCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthcareCategory.swift; sourceTree = "<group>"; };
 		02F66F3C261132EB00B99D6A /* HealthcareSubcategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthcareSubcategory.swift; sourceTree = "<group>"; };
@@ -335,7 +335,7 @@
 		02F66F492613E68800B99D6A /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				02F66F2A260C1DC000B99D6A /* SaveActivityIndicator.swift */,
+				02F66F2A260C1DC000B99D6A /* ActivityIndicator.swift */,
 				02F66F36260E547600B99D6A /* KeyboardNotifications.swift */,
 				02F66F412613984B00B99D6A /* CalendarAuthorization.swift */,
 				02F66F472613E38100B99D6A /* TrailingSwipeActions.swift */,
@@ -619,7 +619,7 @@
 			files = (
 				02F66F482613E38100B99D6A /* TrailingSwipeActions.swift in Sources */,
 				0263B28725F821B2008E120C /* Healthcare+Extensions.swift in Sources */,
-				02F66F2B260C1DC000B99D6A /* SaveActivityIndicator.swift in Sources */,
+				02F66F2B260C1DC000B99D6A /* ActivityIndicator.swift in Sources */,
 				024C709D2628AA2000209AEA /* DateFilterViewController.swift in Sources */,
 				02F66F5C261B5B4C00B99D6A /* NSDecimalNumber+Extension.swift in Sources */,
 				02F66F62261BB5EC00B99D6A /* Colors.swift in Sources */,

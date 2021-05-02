@@ -188,9 +188,7 @@ class HealthcareViewController: UIViewController {
         return daysBagWillLast.isNaN ? 1 : Int(daysBagWillLast)
     }
     
-    @IBAction func saveButton(_ sender: UIBarButtonItem) {
-        presentActivityIndicator(true, forButton: sender)
-        
+    func saveHealthcareAttributes() {
         let healthcare: Healthcare
         if let healthcareToEdit = self.healthcare {
             healthcare = healthcareToEdit
@@ -212,7 +210,7 @@ class HealthcareViewController: UIViewController {
         healthcare.quantityUnit = quantityControl.selectedSegmentTitle
         healthcare.bag = Double(bagTextField.text ?? "") ?? 0
         healthcare.bagUnit = bagControl.selectedSegmentTitle
-
+        
         // Save current and (if any) future expenses
         if !savedExpenses && expensesSwitch.isOn {
             var frequencyUnit = frequencyControl.selectedSegmentTitle!
@@ -230,7 +228,15 @@ class HealthcareViewController: UIViewController {
             }
         }
         try? dataController.viewContext.save()
-        performSegue(withIdentifier: UIStoryboardSegue.Identifiers.unwindToHealthSection, sender: nil)
+    }
+    
+    @IBAction func saveButton(_ sender: UIBarButtonItem) {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.presentActivityIndicator(true)
+        }) { _ in
+            self.saveHealthcareAttributes()
+            self.performSegue(withIdentifier: UIStoryboardSegue.Identifiers.unwindToHealthSection, sender: nil)
+        }
     }
     
     @IBAction func cancelButton(_ sender: UIBarButtonItem) {
@@ -363,9 +369,9 @@ extension HealthcareViewController: EKEventEditViewDelegate {
 extension HealthcareViewController: KeyboardNotifications { }
 
 // -----------------------------------------------------------------------------
-// MARK: - SaveActivityIndicator
+// MARK: - ActivityIndicator
 
-extension HealthcareViewController: SaveActivityIndicator { }
+extension HealthcareViewController: ActivityIndicator { }
 
 // -----------------------------------------------------------------------------
 // MARK: - UITextFieldDelegate

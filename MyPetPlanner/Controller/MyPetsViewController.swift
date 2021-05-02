@@ -21,8 +21,8 @@ class MyPetsViewController: UIViewController {
     var sectionNameKeyPath = "type"
     var selectedPet: Pet?
     var eventStore = EKEventStore()
-    var dogBreeds: [String]?
-    var catBreeds: [String]?
+    var dogBreeds: [String] = []
+    var catBreeds: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +39,6 @@ class MyPetsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshData()
-        DogAPIClient.getBreedsList() { breeds, error in
-            self.dogBreeds = breeds
-        }
-        CatAPIClient.getCatsList() { cats, error in
-            self.catBreeds = cats.map { $0.name }
-        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -179,6 +173,9 @@ class MyPetsViewController: UIViewController {
     }
     
     @IBAction func unwindToMyPets(_ unwindSegue: UIStoryboardSegue) {
+        guard let petViewController = unwindSegue.source as? PetViewController, let dogBreeds = petViewController.dogBreeds, let catBreeds = petViewController.catBreeds else { return }
+        self.dogBreeds = dogBreeds
+        self.catBreeds = catBreeds
     }
 }
 
