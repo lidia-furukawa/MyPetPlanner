@@ -1,5 +1,6 @@
 # MyPetPlanner
 
+This app was developed as Udacity's iOS Developer Nanodegree final project.
 MyPetPlanner is an iOS daily planner app for your pet(s). It lets you keep track of your pet(s) routine care, such as feeding, grooming, parasites control and veterinary care.
 You can add calendar events to remind you of important pets' healthcare activities.
 You can also track and categorize expenses to help monitor and control your budget.
